@@ -1,0 +1,10 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "features": {}
+{
+  "name": "Node.js",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node",
+  "updateContentCommand": "npm install -g npm@latest",
+  "postCreateCommand": "npm install"
+}
+}
