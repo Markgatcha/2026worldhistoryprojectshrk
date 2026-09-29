@@ -1,6 +1,6 @@
 {
-  "name": "Node.js 26.10",
+  "name": "Node.js 26.10 & pnpm 12.8.1",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:26",
-  "updateContentCommand": "nvm install 26.10 && nvm use 26.10 && npm install -g npm@latest",
-  "postCreateCommand": "npm install"
+  "updateContentCommand": "nvm install 26.10 && nvm use 26.10 && npm install -g npm@latest pnpm@12.8.1",
+  "postCreateCommand": "pnpm install"
 }
