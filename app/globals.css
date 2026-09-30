@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: var(--font-display), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-body), system-ui, -apple-system, sans-serif;
+
+  --color-ink: #081426;
+  --color-deep: #0d2240;
+  --color-sea: #155e8a;
+  --color-wave: #1e7fae;
+  --color-parchment: #f6f0dd;
+  --color-sand: #e9dfc4;
+  --color-gold: #c9a227;
+  --color-goldlight: #e8c766;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-parchment);
+  font-family: var(--font-body);
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-ink);
+}
