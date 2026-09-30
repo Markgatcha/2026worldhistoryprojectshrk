@@ -17,7 +17,7 @@ pnpm dev      # http://localhost:3000
 ```sh
 pnpm build    # production build (also runs in CI)
 pnpm start    # serve the production build
-pnpm lint     # eslint
+pnpm lint     # oxlint (fast, no config needed beyond .oxlintrc.json)
 ```
 
 ## Editing the pitch content

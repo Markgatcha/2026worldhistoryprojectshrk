@@ -1,4 +1,4 @@
-import CompassRose from "@/components/CompassRose";
+import CaravelShip from "@/components/CaravelShip";
 import SectionHeading from "@/components/SectionHeading";
 import { invention } from "@/content/invention";
 
@@ -36,7 +36,7 @@ export default function Home() {
             </div>
           </div>
           <div className="flex justify-center">
-            <CompassRose className="w-full max-w-md drop-shadow-[0_0_60px_rgba(201,162,39,0.25)]" />
+            <CaravelShip className="w-full max-w-md drop-shadow-[0_0_60px_rgba(201,162,39,0.25)]" />
           </div>
         </div>
         <div className="relative mx-auto mt-16 grid max-w-6xl grid-cols-1 gap-6 px-6 sm:grid-cols-3">
@@ -144,7 +144,7 @@ export default function Home() {
               {invention.theAsk.body}
             </p>
             <ul className="mx-auto mt-8 max-w-xl space-y-3 text-left">
-              {invention.theAsk.useOfFunds.map((u) => (
+              {invention.theAsk.funding.map((u) => (
                 <li key={u} className="flex gap-3 text-parchment/85">
                   <span className="font-bold text-gold">✓</span>
                   <span>{u}</span>
@@ -185,6 +185,7 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-6 text-center text-sm text-parchment/50">
           <p className="font-display text-lg text-goldlight">{invention.name}</p>
           <p className="mt-2">{invention.footer.note}</p>
+          <p className="mt-1 text-xs">{invention.footer.sources}</p>
         </div>
       </footer>
     </main>

@@ -1,117 +1,112 @@
 /**
- * PLACEHOLDER CONTENT
- * -------------------
- * This file holds every word on the site so the whole pitch can be swapped
- * in one place. It is currently written for THE MARINER'S COMPASS as a
- * stand-in. Tell Jarvis which invention your group actually picked
- * (compass, sextant, astrolabe, caravel, lateen sail, Chinese rudder,
- * cross-staff/quadrant, or Mercator projection) and he will rewrite this
- * file with real, researched pitch copy for it.
+ * All site copy lives here, so the whole pitch can be edited in one place.
+ * Currently written for THE CARAVEL — researched from the World History
+ * Encyclopedia and HISTORY.com caravel articles (see footer sources).
  */
 
 export const invention = {
-  name: "The Mariner's Compass",
-  tagline: "Never lose your way again.",
+  name: "The Caravel",
+  tagline: "The ship that learned to sail into the wind.",
   eyebrow: "Shark Tank · Exploration Inventions",
   heroPitch:
-    "Sharks, for a thousand years sailors have crossed oceans by guessing. We built the one instrument that turns the entire planet into a signpost — and we are asking you to help us put one on every ship on Earth.",
+    "Sharks, every ship in Europe has the same flaw: the wind decides where it goes. We built the vessel that takes that power back — fast enough to outrun storms, nimble enough to thread unmapped coasts, and able to sail home against the very wind that carried it out. The ocean is about to get a lot smaller.",
 
   stats: [
-    { value: "360°", label: "of certainty, in every direction" },
-    { value: "24/7", label: "works day and night, rain or shine" },
-    { value: "0", label: "stars required to find your way" },
+    { value: "20°", label: "how close she can point to the wind — unheard of" },
+    { value: "3.5:1", label: "sleek length-to-beam ratio, built for speed" },
+    { value: "1492", label: "the Niña and Pinta crossed an ocean in caravels" },
   ],
 
   problem: {
-    heading: "The problem: the ocean is a blank map",
-    body: "Before our invention, a captain who lost sight of land had exactly two options: the sun and the stars. Clouds, storms, or fog turned every voyage into a gamble — and the house usually won.",
+    heading: "The problem: the wind is a one-way street",
+    body: "Today's ships are prisoners of the wind. Square sails only pull when the wind is behind you — so every voyage out is easy, and every voyage home is a prayer.",
     cards: [
       {
-        title: "Dead reckoning is dead wrong",
-        body: "Guessing your position from speed and time drifts fast. A tiny error each day becomes hundreds of miles of error across an ocean.",
+        title: "You can sail out, but can you sail back?",
+        body: "Captains creeping down the African coast face winds that blow one way. Square-rigged barcas that fly south cannot beat back north — expeditions get stranded by the very weather that delivered them.",
       },
       {
-        title: "The sky keeps secrets",
-        body: "Celestial navigation needs a clear night and a trained navigator. One stormy week and the whole crew is sailing blind.",
+        title: "Fat hulls fear the shallows",
+        body: "Bulky ships draw deep water. Unmapped coasts, river mouths, and reefs — exactly where discoveries hide — are death traps for them. Exploration stops where the depth sounder panics.",
       },
       {
-        title: "Lost ships, lost fortunes",
-        body: "Every wrecked vessel is a lost cargo, a lost crew, and investors who never fund a second voyage. Exploration stalls.",
+        title: "Slow ships, starving crews",
+        body: "A wallowing ship takes months to cross water it could cross in weeks. Every extra week at sea is more scurvy, more rot, more wages — and investors who swear off funding the next voyage.",
       },
     ],
   },
 
   howItWorks: {
-    heading: "How it works: the Earth does the pointing",
-    body: "The planet itself is a giant magnet. Our compass simply listens to it.",
+    heading: "How it works: wings, not walls",
+    body: "Instead of hanging square sails like curtains to be pushed, the caravel rigs its sails like wings to generate lift — and reshapes everything below them to match.",
     steps: [
       {
-        title: "A needle that knows north",
-        body: "A sliver of iron, magnetized by lodestone, is balanced on a near-frictionless pivot so it can swing freely.",
+        title: "Lateen sails that bite the wind",
+        body: "Triangular sails hung at an angle on long yards work like wings. The caravel can point just 20 degrees off the wind and still drive forward — she tacks where square-riggers stall.",
       },
       {
-        title: "The card that speaks sailor",
-        body: "The needle sits under a compass card marked with the 32 winds — north, north-by-east, and every heading a helmsman needs.",
+        title: "A hull built like an arrow",
+        body: "A narrow frame with a 3.5-to-1 length-to-beam ratio and a shallow draft slips through water instead of shoving it. Fast in the open ocean, fearless in the shallows.",
       },
       {
-        title: "A housing built for storms",
-        body: "The whole assembly floats in a gimballed bowl that stays level while the ship rolls, so the reading never lies.",
+        title: "A rudder that actually steers",
+        body: "We moved the rudder to the rear centerline on a sternpost, replacing the old side-mounted steering oars. One helmsman, total control — even in a heavy sea.",
       },
       {
-        title: "Steer by the number",
-        body: "Pick a heading, keep the needle on it. Any sailor — not just the navigator — can hold a course through the night.",
+        title: "The best of both rigs",
+        body: "The caravela redonda flies square sails on the fore and main masts for raw open-ocean speed, with a lateen mizzen for coastal maneuvering. Two sail plans, one ship, zero compromises.",
       },
     ],
   },
 
   whyItWins: {
-    heading: "Why it wins: every voyage, de-risked",
-    body: "The sharks don't invest in instruments. They invest in outcomes. Here is what changes the day a compass comes aboard.",
+    heading: "Why it wins: every coast becomes reachable",
+    body: "The sharks don't invest in ships. They invest in what ships unlock. Here is the math that changes the day a caravel leaves Lisbon.",
     benefits: [
       {
-        title: "Sail in any weather",
-        body: "Clouds, fog, and moonless nights stop mattering. The magnetic field never hides.",
+        title: "Sail home against the wind",
+        body: "The volta do mar — the great circular return route — only works for a ship that can beat windward. The caravel turns one-way expeditions into round trips, which turns exploration into a business.",
       },
       {
-        title: "Faster crossings",
-        body: "Hold a straight course instead of zig-zagging by guesswork. Shorter voyages mean lower costs and fresher crews.",
+        title: "Map the coasts others can't reach",
+        body: "Shallow draft means river mouths, bays, and reef-strewn shores are hunting grounds, not hazards. Every mile of new coastline is a potential trading post.",
       },
       {
-        title: "Safer crews, happier investors",
-        body: "Fewer wrecks, fewer lost cargoes. Backing a voyage goes from a gamble to a calculation.",
+        title: "Fast crossings, living crews",
+        body: "Speed is safety: shorter voyages mean less scurvy, less spoilage, lower wages per mile. A small crew can do what used to take twice the sailors.",
       },
       {
-        title: "New routes, new markets",
-        body: "Captains can finally attempt open-ocean crossings instead of hugging coastlines. That is where the spices are.",
+        title: "Outmaneuver any storm",
+        body: "A nimble ship with a centerline rudder can claw off a lee shore that would wreck a wallowing barca. Fewer wrecks, fewer lost cargoes, calmer investors.",
       },
       {
-        title: "Democratizes navigation",
-        body: "You no longer need a master navigator on every ship. Any trained sailor can steer true.",
+        title: "Proven on the hardest routes",
+        body: "Bartolomeu Dias rounded the Cape of Good Hope in 1488. Columbus crossed the Atlantic in the Niña and Pinta in 1492. This isn't a prototype — it's a track record.",
       },
       {
-        title: "Compounds with every voyage",
-        body: "Reliable headings make maps reliable, which makes the next voyage even safer. It is a flywheel.",
+        title: "Unlocks the spice trade",
+        body: "Pepper, cinnamon, and cloves sell for a fortune in Europe. The caravel is the key to the sea road that reaches them — whoever controls the ships controls the market.",
       },
     ],
     comparison: {
       heading: "Old way vs. our way",
       rows: [
-        { old: "Navigate by stars — when visible", ours: "Navigate by the Earth's field — always on" },
-        { old: "One expert navigator per ship", ours: "Any sailor can hold a heading" },
-        { old: "Coast-hugging routes", ours: "Direct open-ocean crossings" },
+        { old: "Square sails — fast only with the wind behind you", ours: "Lateen sails — tack within 20° of the wind" },
+        { old: "Deep, tubby hulls stuck to known deep-water routes", ours: "Shallow draft — explore any coast, river, or reef" },
+        { old: "Side steering oars, sluggish in heavy seas", ours: "Sternpost rudder — precise control in any weather" },
       ],
     },
   },
 
   theAsk: {
     heading: "The ask",
-    amount: "10,000 gold doubloons",
+    amount: "50,000 gold cruzados",
     equity: "10% equity",
-    body: "We are not selling a needle in a bowl. We are selling the end of getting lost — the key that unlocks every trade route on the map.",
-    useOfFunds: [
-      "Equip 50 ships with compasses for the maiden trading fleet",
-      "Train navigators and publish the first printed sailing directions",
-      "Fund the expedition that proves the direct ocean route",
+    body: "We are not selling planks and canvas. We are selling the round trip — the ship that made the African coast, the Atlantic crossing, and the spice route possible. Every future fortune of the Age of Discovery sails in a hull like this one.",
+    funding: [
+      "Build a fleet of twelve caravels for the African coast expedition",
+      "Fund the voyage that proves the sea route to the spice markets",
+      "Establish the first trading posts on the newly mapped coast",
     ],
   },
 
@@ -128,5 +123,6 @@ export const invention = {
 
   footer: {
     note: "Built as a class project for the Exploration Inventions Shark Tank assignment.",
+    sources: "Sources: World History Encyclopedia (“Caravel”), HISTORY.com (“The Ships of Christopher Columbus”).",
   },
 };

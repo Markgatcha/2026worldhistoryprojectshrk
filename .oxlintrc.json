@@ -1,0 +1,1 @@
+{"$schema":"./node_modules/oxlint/configuration_schema.json","categories":{"correctness":"deny","suspicious":"warn"},"plugins":["react","nextjs","import","typescript"],"rules":{"import/no-unassigned-import":["warn",{"allow":["**/*.css"]}],"react-in-jsx-scope":"off"}}
