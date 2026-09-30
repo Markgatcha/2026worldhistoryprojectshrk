@@ -1,112 +1,121 @@
 /**
  * All site copy lives here, so the whole pitch can be edited in one place.
- * Currently written for THE CARAVEL — researched from the World History
- * Encyclopedia and HISTORY.com caravel articles (see footer sources).
+ *
+ * SOURCE RULE: every fact below comes ONLY from Mark's research paper
+ * ("The Caravel: The Ship That Made the Age of Exploration Possible",
+ * World History, 23 Sept 2026). No outside facts were added.
  */
 
 export const invention = {
   name: "The Caravel",
-  tagline: "The ship that learned to sail into the wind.",
+  tagline: "The ship that made the Age of Exploration possible.",
   eyebrow: "Shark Tank · Exploration Inventions",
   heroPitch:
-    "Sharks, every ship in Europe has the same flaw: the wind decides where it goes. We built the vessel that takes that power back — fast enough to outrun storms, nimble enough to thread unmapped coasts, and able to sail home against the very wind that carried it out. The ocean is about to get a lot smaller.",
+    "Sharks, this is your chance to get in on the ground floor of the biggest business opportunity in history: discovering the rest of the planet. Europe's sailors can't get past their own shoreline — we built the small, fast Portuguese ship that changes that. Invest in the caravel.",
 
   stats: [
-    { value: "20°", label: "how close she can point to the wind — unheard of" },
-    { value: "3.5:1", label: "sleek length-to-beam ratio, built for speed" },
-    { value: "1492", label: "the Niña and Pinta crossed an ocean in caravels" },
+    { value: "20°", label: "how close she can point to the wind and still move" },
+    { value: "1451", label: "around when Henry the Navigator's shipbuilders redesigned her" },
+    { value: "1488", label: "Dias rounded the Cape of Good Hope in a caravel" },
   ],
 
   problem: {
-    heading: "The problem: the wind is a one-way street",
-    body: "Today's ships are prisoners of the wind. Square sails only pull when the wind is behind you — so every voyage out is easy, and every voyage home is a prayer.",
+    heading: "The problem: stuck at the shoreline",
+    body: "Until the 1400s, Europeans were pretty much stuck with coastal navigation because their ships were not built for the open ocean — so the whole idea of exploring unknown oceans was pretty much impossible.",
     cards: [
       {
-        title: "You can sail out, but can you sail back?",
-        body: "Captains creeping down the African coast face winds that blow one way. Square-rigged barcas that fly south cannot beat back north — expeditions get stranded by the very weather that delivered them.",
+        title: "The old ships couldn't take it",
+        body: "Vessels like the barge and the barinel had one mast with a single square sail. They were fragile — strong winds, shoals, and strong ocean currents easily overwhelmed them on southward voyages.",
       },
       {
-        title: "Fat hulls fear the shallows",
-        body: "Bulky ships draw deep water. Unmapped coasts, river mouths, and reefs — exactly where discoveries hide — are death traps for them. Exploration stops where the depth sounder panics.",
+        title: "Nowhere to go but downwind",
+        body: "A single square sail only takes you where the wind pushes you. Older square-sailed ships could never point into the wind — once the wind turned against them, the voyage was over.",
       },
       {
-        title: "Slow ships, starving crews",
-        body: "A wallowing ship takes months to cross water it could cross in weeks. Every extra week at sea is more scurvy, more rot, more wages — and investors who swear off funding the next voyage.",
+        title: "Portugal had a dream and no ship",
+        body: "Portugal wanted to explore down the coast of West Africa, but they needed a ship that could actually survive the trip. Nobody had one — until Prince Henry the Navigator's shipbuilders got to work.",
       },
     ],
   },
 
   howItWorks: {
-    heading: "How it works: wings, not walls",
-    body: "Instead of hanging square sails like curtains to be pushed, the caravel rigs its sails like wings to generate lift — and reshapes everything below them to match.",
+    heading: "How it works: redesigned from the waterline up",
+    body: "Around 1451, under Prince Henry the Navigator's sponsorship, Portuguese shipbuilders took existing fishing boats and redesigned them into something brand new. Every part was designed to be fast and easy to steer.",
     steps: [
       {
-        title: "Lateen sails that bite the wind",
-        body: "Triangular sails hung at an angle on long yards work like wings. The caravel can point just 20 degrees off the wind and still drive forward — she tacks where square-riggers stall.",
+        title: "Lateen sails: wings, not curtains",
+        body: "Triangular sails hung at an angle to the deck — 'almost like wings.' A caravel can point her bow just 20 degrees off the wind and still move forward, sailing into the wind instead of only going where it pushes her.",
       },
       {
-        title: "A hull built like an arrow",
-        body: "A narrow frame with a 3.5-to-1 length-to-beam ratio and a shallow draft slips through water instead of shoving it. Fast in the open ocean, fearless in the shallows.",
+        title: "Carvel-built hull",
+        body: "The wooden planks are joined edge to edge instead of overlapping. That means less drag in the water — and less drag means more speed.",
       },
       {
-        title: "A rudder that actually steers",
-        body: "We moved the rudder to the rear centerline on a sternpost, replacing the old side-mounted steering oars. One helmsman, total control — even in a heavy sea.",
+        title: "Shallow keel",
+        body: "She draws little water, so she can sail up rivers and through shallow coastal waters that bigger ships could never reach.",
       },
       {
-        title: "The best of both rigs",
-        body: "The caravela redonda flies square sails on the fore and main masts for raw open-ocean speed, with a lateen mizzen for coastal maneuvering. Two sail plans, one ship, zero compromises.",
+        title: "Centerline rudder",
+        body: "The rudder was moved to the center of the back of the ship, giving sailors far better steering control than the side rudders on older ships.",
       },
     ],
+    footnote:
+      "Two flavors: the caravela latina flew all lateen sails and ruled the coastlines; the later caravela redonda put square sails on the front two masts for open-ocean speed and kept a lateen sail on the back mast for maneuverability — one of the best sailing ships of its time. Fun fact: the Niña started the 1492 voyage with lateen sails and switched to square sails at the Canary Islands, because the crew found them easier to handle on a long ocean crossing.",
   },
 
   whyItWins: {
-    heading: "Why it wins: every coast becomes reachable",
-    body: "The sharks don't invest in ships. They invest in what ships unlock. Here is the math that changes the day a caravel leaves Lisbon.",
+    heading: "Why it wins: because it works",
+    body: "The sharks don't invest in planks and canvas. They invest in results — and the caravel has the best results of any ship in history.",
     benefits: [
       {
-        title: "Sail home against the wind",
-        body: "The volta do mar — the great circular return route — only works for a ship that can beat windward. The caravel turns one-way expeditions into round trips, which turns exploration into a business.",
+        title: "Proven on the voyages that mattered",
+        body: "Caravels carried Diogo Cão and Bartolomeu Dias down the coast of Africa. Dias rounded the Cape of Good Hope in 1488, proving you could sail from Europe to Asia around Africa.",
       },
       {
-        title: "Map the coasts others can't reach",
-        body: "Shallow draft means river mouths, bays, and reef-strewn shores are hunting grounds, not hazards. Every mile of new coastline is a potential trading post.",
+        title: "Opened the road to India",
+        body: "Vasco da Gama used caravels on the voyage that opened the sea route to India — and the exploration done with caravels is what made the Portuguese and Spanish spice trade possible.",
       },
       {
-        title: "Fast crossings, living crews",
-        body: "Speed is safety: shorter voyages mean less scurvy, less spoilage, lower wages per mile. A small crew can do what used to take twice the sailors.",
+        title: "Cheaper to build, cheaper to crew",
+        body: "Being small is an advantage: she costs less to build than a huge ship and needs a smaller crew, so every expedition risks less money.",
       },
       {
-        title: "Outmaneuver any storm",
-        body: "A nimble ship with a centerline rudder can claw off a lee shore that would wreck a wallowing barca. Fewer wrecks, fewer lost cargoes, calmer investors.",
+        title: "Goes where no European ship could",
+        body: "Rivers, shallows, unmapped coasts — the caravel explores waters that would strand or wreck any bigger vessel.",
       },
       {
-        title: "Proven on the hardest routes",
-        body: "Bartolomeu Dias rounded the Cape of Good Hope in 1488. Columbus crossed the Atlantic in the Niña and Pinta in 1492. This isn't a prototype — it's a track record.",
+        title: "Sails into the wind",
+        body: "Beating windward means she isn't trapped by the weather that carried her out. Older ships simply could never do this.",
       },
       {
-        title: "Unlocks the spice trade",
-        body: "Pepper, cinnamon, and cloves sell for a fortune in Europe. The caravel is the key to the sea road that reaches them — whoever controls the ships controls the market.",
+        title: "'The best sailing vessel of its time'",
+        body: "That's the verdict of the sources — and with Columbus's Niña and Pinta crossing an ocean in 1492, the track record backs it up.",
       },
     ],
     comparison: {
       heading: "Old way vs. our way",
       rows: [
-        { old: "Square sails — fast only with the wind behind you", ours: "Lateen sails — tack within 20° of the wind" },
-        { old: "Deep, tubby hulls stuck to known deep-water routes", ours: "Shallow draft — explore any coast, river, or reef" },
-        { old: "Side steering oars, sluggish in heavy seas", ours: "Sternpost rudder — precise control in any weather" },
+        { old: "Barge and barinel — one square sail, overwhelmed by winds and currents", ours: "Lateen sails — beat 20° into the wind" },
+        { old: "Overlapping planks, heavy drag in the water", ours: "Carvel-built hull — planks edge to edge, less drag, more speed" },
+        { old: "Side rudders, clumsy steering", ours: "Centerline rudder — precise control" },
       ],
     },
+  },
+
+  honestCatch: {
+    heading: "The honest catch",
+    body: "To be honest, the caravel is not perfect, and the sharks will ask. Because she is so small, she can't carry much cargo or many crew members — those are her main drawbacks. Once the exploring is done and it's time to ship spices back and forth, the bigger carrack (nau) is more profitable for trade. But that doesn't take away from what the caravel did: she's the ship of discovery, not the ship of delivery — and without her, nobody finds those trade routes in the first place.",
   },
 
   theAsk: {
     heading: "The ask",
     amount: "50,000 gold cruzados",
     equity: "10% equity",
-    body: "We are not selling planks and canvas. We are selling the round trip — the ship that made the African coast, the Atlantic crossing, and the spice route possible. Every future fortune of the Age of Discovery sails in a hull like this one.",
+    body: "We are selling the ship of discovery. Fund the expeditions, and the trade routes — and the spice fortunes — follow.",
     funding: [
-      "Build a fleet of twelve caravels for the African coast expedition",
-      "Fund the voyage that proves the sea route to the spice markets",
-      "Establish the first trading posts on the newly mapped coast",
+      "Build a fleet of caravels — small means cheap to build and crew",
+      "Fund the expedition down the West African coast",
+      "Open the sea route to the spice markets of Asia",
     ],
   },
 
@@ -123,6 +132,7 @@ export const invention = {
 
   footer: {
     note: "Built as a class project for the Exploration Inventions Shark Tank assignment.",
-    sources: "Sources: World History Encyclopedia (“Caravel”), HISTORY.com (“The Ships of Christopher Columbus”).",
+    sources:
+      "Sources: “The Caravel” (Science, Civilization and Society) · “Caravel/History” (Rise of Nations Wiki) · “Caravels Definition for AP US History” (Fiveable) · “Overview of the Caravel Ship” (Scribd) · “The Portuguese Caravel” (Love Portugal) · “The Ships of Christopher Columbus” (History.com).",
   },
 };

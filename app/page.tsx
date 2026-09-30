@@ -87,6 +87,9 @@ export default function Home() {
               </li>
             ))}
           </ol>
+          <p className="mx-auto mt-10 max-w-4xl rounded-2xl border border-gold/20 bg-deep/60 p-6 text-sm leading-relaxed text-parchment/70">
+            {invention.howItWorks.footnote}
+          </p>
         </div>
       </section>
 
@@ -125,6 +128,15 @@ export default function Home() {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ---------- HONEST CATCH ---------- */}
+      <section className="scroll-mt-20 border-t border-gold/10 py-20">
+        <div className="mx-auto max-w-3xl px-6 text-center">
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-gold">Full disclosure</p>
+          <h2 className="font-display text-3xl font-bold text-parchment">{invention.honestCatch.heading}</h2>
+          <p className="mt-6 text-lg leading-relaxed text-parchment/75">{invention.honestCatch.body}</p>
         </div>
       </section>
 
