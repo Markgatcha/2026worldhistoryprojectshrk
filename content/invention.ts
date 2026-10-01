@@ -1,9 +1,10 @@
 /**
- * All site copy lives here, so the whole pitch can be edited in one place.
+ * Research and pitch copy lives here so it can be edited in one place.
  *
- * SOURCE RULE: every fact below comes ONLY from Mark's research paper
+ * SOURCE RULE: historical claims below come ONLY from Mark's research paper
  * ("The Caravel: The Ship That Made the Age of Exploration Possible",
- * World History, 23 Sept 2026). No outside facts were added.
+ * World History, 23 Sept 2026). No outside historical facts were added.
+ * The investment amount and equity are fictional classroom pitch terms.
  */
 
 export const invention = {
@@ -11,7 +12,7 @@ export const invention = {
   tagline: "The ship that made the Age of Exploration possible.",
   eyebrow: "Shark Tank · Exploration Inventions",
   heroPitch:
-    "Sharks, this is your chance to get in on the ground floor of the biggest business opportunity in history: discovering the rest of the planet. Europe's sailors can't get past their own shoreline — we built the small, fast Portuguese ship that changes that. Invest in the caravel.",
+    "Sharks, this is your chance to get in on the ground floor of the biggest business opportunity in history: discovering the rest of the planet. Europe's sailors can't get past their own shoreline — I'm pitching the small, fast Portuguese ship that changes that. Invest in the caravel.",
 
   stats: [
     { value: "20°", label: "how close she can point to the wind and still move" },
@@ -93,7 +94,7 @@ export const invention = {
       },
     ],
     comparison: {
-      heading: "Old way vs. our way",
+      heading: "Old ships vs. the caravel",
       rows: [
         { old: "Barge and barinel — one square sail, overwhelmed by winds and currents", ours: "Lateen sails — beat 20° into the wind" },
         { old: "Overlapping planks, heavy drag in the water", ours: "Carvel-built hull — planks edge to edge, less drag, more speed" },
@@ -111,7 +112,9 @@ export const invention = {
     heading: "The ask",
     amount: "50,000 gold cruzados",
     equity: "10% equity",
-    body: "We are selling the ship of discovery. Fund the expeditions, and the trade routes — and the spice fortunes — follow.",
+    body: "I'm pitching the ship of discovery. Fund the expeditions, and the trade routes — and the spice fortunes — follow.",
+    disclaimer: "Fictional investment proposal for this classroom pitch; the amount and equity are not historical figures.",
+    closing: "So, sharks… who wants to help chart the next trade route?",
     funding: [
       "Build a fleet of caravels — small means cheap to build and crew",
       "Fund the expedition down the West African coast",
@@ -120,19 +123,23 @@ export const invention = {
   },
 
   crew: {
-    heading: "Meet the crew",
-    body: "Replace these cards with your real group members and their roles.",
+    heading: "Meet the presenter",
+    body: "A solo World History project by Mark Gatcha. This website is the promotional material supporting my caravel pitch.",
     members: [
-      { name: "Crew Member 1", role: "Lead presenter" },
-      { name: "Crew Member 2", role: "Research & script" },
-      { name: "Crew Member 3", role: "Design & visuals" },
-      { name: "Crew Member 4", role: "Demo & Q&A" },
+      { name: "Mark Gatcha", role: "Solo student · Research, website & presentation" },
     ],
   },
 
   footer: {
-    note: "Built as a class project for the Exploration Inventions Shark Tank assignment.",
-    sources:
-      "Sources: “The Caravel” (Science, Civilization and Society) · “Caravel/History” (Rise of Nations Wiki) · “Caravels Definition for AP US History” (Fiveable) · “Overview of the Caravel Ship” (Scribd) · “The Portuguese Caravel” (Love Portugal) · “The Ships of Christopher Columbus” (History.com).",
+    note: "Created by Mark Gatcha for the Exploration Inventions Shark Tank assignment · World History.",
+    sourcesNote: "Works cited in my research paper, “The Caravel: The Ship That Made the Age of Exploration Possible” (23 September 2026). Accessed 23 September 2026.",
+    sources: [
+      { title: "The Caravel", publisher: "Science, Civilization and Society", url: "https://www.physocean.icm.csic.es/science+society/lectures/illustrations/lecture17/caravel.html" },
+      { title: "Caravel/History", publisher: "Rise of Nations Wiki · Fandom", url: "https://riseofnations.fandom.com/wiki/Caravel/History" },
+      { title: "Caravels Definition for AP US History", publisher: "Fiveable · 2025", url: "https://fiveable.me/key-terms/apush/caravels" },
+      { title: "Overview of the Caravel Ship", publisher: "Scribd", url: "https://www.scribd.com/document/318275026/Caravel" },
+      { title: "The Portuguese Caravel: Pioneering the Age of Exploration", publisher: "Love Portugal", url: "https://loveportugal.net/the-portuguese-caravel/" },
+      { title: "The Ships of Christopher Columbus Were Sleek, Fast—and Cramped", publisher: "History.com", url: "https://www.history.com/articles/christopher-columbus-ships-caravels" },
+    ],
   },
 };

@@ -1,6 +1,6 @@
 # 2026worldhistoryprojectshrk
 
-A Shark Tank–style pitch website for our Exploration Inventions world history project.
+Mark Gatcha's solo Shark Tank–style caravel pitch website for the Exploration Inventions world history project.
 Built with **Next.js 16**, **React 19**, **TypeScript**, and **Tailwind CSS v4** — deployed free on **Vercel**.
 
 ## Run it locally
@@ -22,8 +22,17 @@ pnpm lint     # oxlint (fast, no config needed beyond .oxlintrc.json)
 
 ## Editing the pitch content
 
-Every word on the site lives in one file: [`content/invention.ts`](content/invention.ts).
-Swap the invention, copy, stats, and crew there — no component changes needed.
+Research and pitch content lives in [`content/invention.ts`](content/invention.ts).
+Edit the invention, copy, stats, presenter, and source links there. Interface labels live in the page and navigation components.
+
+## Assignment checklist (solo project)
+
+- Record the mandatory **2-minute video presentation pitch** separately; the website does not replace it.
+- Submit **one promotional item** in addition to the video. This website is intended as that item, but confirm teacher approval because the directions specify Google Sites.
+- Submit the video and promotional item through Schoology as accessible links or attachments.
+- Confirm the current deadline with the teachers: the supplied 2025 assignment sheet lists Sunday 9/21, while the research paper is dated September 2026.
+
+Historical claims are drawn from Mark's supplied research paper, not independently fact-checked. The **50,000 gold cruzados / 10% equity** offer is a fictional classroom proposal, not a historical cost or valuation.
 
 ## Deploying to Vercel (free)
 

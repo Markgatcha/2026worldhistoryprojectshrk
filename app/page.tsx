@@ -1,204 +1,99 @@
 import CaravelShip from "@/components/CaravelShip";
 import SectionHeading from "@/components/SectionHeading";
+import VoyageEffects from "@/components/VoyageEffects";
 import { invention } from "@/content/invention";
 
 export default function Home() {
   return (
-    <main id="top" className="bg-ink text-parchment">
-      {/* ---------- HERO ---------- */}
-      <section className="relative overflow-hidden pt-32 pb-20">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,#0d2240_0%,#081426_65%)]" />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-6 md:grid-cols-2">
-          <div>
-            <p className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-gold">
-              {invention.eyebrow}
-            </p>
-            <h1 className="font-display text-5xl font-black leading-tight text-parchment md:text-6xl">
-              {invention.name}
-            </h1>
-            <p className="mt-3 font-display text-2xl italic text-goldlight">{invention.tagline}</p>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-parchment/80">
-              {invention.heroPitch}
-            </p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <a
-                href="#ask"
-                className="rounded-full bg-gold px-7 py-3 font-bold text-ink transition-colors hover:bg-goldlight"
-              >
-                Hear our ask
-              </a>
-              <a
-                href="#how"
-                className="rounded-full border border-gold/50 px-7 py-3 font-bold text-goldlight transition-colors hover:border-goldlight hover:text-parchment"
-              >
-                How it works
-              </a>
+    <main id="top">
+      <VoyageEffects />
+      <section className="hero atlas-grid">
+        <div className="hero-coordinate" aria-hidden="true">PORTUGAL / ATLANTIC OCEAN / XV CENTURY</div>
+        <div className="page-width hero-layout">
+          <div className="hero-copy">
+            <p className="eyebrow entrance">A new age of exploration</p>
+            <h1 className="entrance entrance-two">Small ship.<br /> <em>World-changing</em><br /> possibilities.</h1>
+            <p className="hero-intro entrance entrance-three">Meet <strong>{invention.name}</strong>. {invention.tagline}</p>
+            <p className="hero-description entrance entrance-three">{invention.heroPitch}</p>
+            <div className="button-row entrance entrance-three">
+              <a className="button button-gold" href="#how">Explore the invention <span aria-hidden="true">↗</span></a>
+              <a className="text-link" href="#ask">See my pitch <span aria-hidden="true">→</span></a>
             </div>
+            <p className="hero-credit">MARK GATCHA <span> / </span> SOLO WORLD HISTORY PROJECT</p>
           </div>
-          <div className="flex justify-center">
-            <CaravelShip className="w-full max-w-md drop-shadow-[0_0_60px_rgba(201,162,39,0.25)]" />
-          </div>
+          <figure className="ship-scene entrance entrance-two">
+            <div className="compass-orbit" aria-hidden="true"><span>N</span><span>E</span><span>S</span><span>W</span></div>
+            <div className="route-line" aria-hidden="true" />
+            <CaravelShip className="hero-ship" />
+            <div className="ship-caption"><span className="status-dot" /> THE CARAVEL <span> / </span> BUILT FOR DISCOVERY</div>
+            <figcaption>Small in size. Boundless in ambition.</figcaption>
+          </figure>
         </div>
-        <div className="relative mx-auto mt-16 grid max-w-6xl grid-cols-1 gap-6 px-6 sm:grid-cols-3">
-          {invention.stats.map((s) => (
-            <div key={s.label} className="rounded-2xl border border-gold/20 bg-deep/60 p-6 text-center">
-              <p className="font-display text-4xl font-black text-goldlight">{s.value}</p>
-              <p className="mt-2 text-sm text-parchment/70">{s.label}</p>
-            </div>
-          ))}
+        <div className="page-width stat-strip">
+          {invention.stats.map((stat, i) => <div key={stat.label} className="stat"><span className="stat-index">0{i + 1}</span><strong>{stat.value}</strong><p>{stat.label}</p></div>)}
         </div>
+        <a className="scroll-cue" href="#problem">The voyage begins <span aria-hidden="true">↓</span></a>
       </section>
 
-      {/* ---------- PROBLEM ---------- */}
-      <section id="problem" className="scroll-mt-20 bg-parchment py-24 text-ink">
-        <div className="mx-auto max-w-6xl px-6">
-          <SectionHeading
-            eyebrow="Act I — The Problem"
-            title={invention.problem.heading}
-            body={invention.problem.body}
-          />
-          <div className="grid gap-6 md:grid-cols-3">
-            {invention.problem.cards.map((c) => (
-              <article key={c.title} className="rounded-2xl border border-ink/10 bg-white/60 p-8 shadow-sm">
-                <h3 className="font-display text-xl font-bold">{c.title}</h3>
-                <p className="mt-3 leading-relaxed text-ink/70">{c.body}</p>
-              </article>
-            ))}
+      <div className="voyage-strip" aria-hidden="true"><span>THE SHIP OF DISCOVERY</span><span>✦</span><span>NOT THE SHIP OF DELIVERY</span><span>✦</span><span>THE CARAVEL</span></div>
+
+      <section id="problem" className="chapter light-chapter">
+        <div className="page-width">
+          <SectionHeading eyebrow="01 / The challenge" title={invention.problem.heading} body={invention.problem.body} />
+          <div className="problem-grid">
+            {invention.problem.cards.map((card, i) => <article className="editorial-card" data-reveal key={card.title}><span className="card-number">0{i + 1}</span><h3>{card.title}</h3><p>{card.body}</p></article>)}
           </div>
         </div>
       </section>
 
-      {/* ---------- HOW IT WORKS ---------- */}
-      <section id="how" className="scroll-mt-20 py-24">
-        <div className="mx-auto max-w-6xl px-6">
-          <SectionHeading
-            eyebrow="Act II — The Invention"
-            title={invention.howItWorks.heading}
-            body={invention.howItWorks.body}
-          />
-          <ol className="grid gap-6 md:grid-cols-2">
-            {invention.howItWorks.steps.map((s, i) => (
-              <li key={s.title} className="relative rounded-2xl border border-gold/20 bg-deep/60 p-8 pl-20">
-                <span className="absolute left-6 top-7 font-display text-4xl font-black text-gold/60">
-                  {i + 1}
-                </span>
-                <h3 className="font-display text-xl font-bold text-goldlight">{s.title}</h3>
-                <p className="mt-3 leading-relaxed text-parchment/75">{s.body}</p>
-              </li>
-            ))}
-          </ol>
-          <p className="mx-auto mt-10 max-w-4xl rounded-2xl border border-gold/20 bg-deep/60 p-6 text-sm leading-relaxed text-parchment/70">
-            {invention.howItWorks.footnote}
-          </p>
+      <section id="how" className="chapter blueprint-chapter atlas-grid">
+        <div className="page-width">
+          <SectionHeading eyebrow="02 / The breakthrough" title={invention.howItWorks.heading} body={invention.howItWorks.body} />
+          <div className="blueprint-layout">
+            <figure className="blueprint-figure" data-reveal>
+              <p className="eyebrow">Design study / Caravel</p>
+              <CaravelShip className="blueprint-ship" />
+              <figcaption>SAIL PLAN · HULL · STEERING<br /><span>Stylized illustration, not to scale</span></figcaption>
+            </figure>
+            <ol className="feature-list">
+              {invention.howItWorks.steps.map((step, i) => <li key={step.title} data-reveal><span className="feature-number">0{i + 1}</span><div><h3>{step.title}</h3><p>{step.body}</p></div></li>)}
+            </ol>
+          </div>
+          <aside className="field-note" data-reveal><p className="eyebrow">From the shipbuilder's notebook</p><p>{invention.howItWorks.footnote}</p></aside>
         </div>
       </section>
 
-      {/* ---------- WHY IT WINS ---------- */}
-      <section id="why" className="scroll-mt-20 bg-parchment py-24 text-ink">
-        <div className="mx-auto max-w-6xl px-6">
-          <SectionHeading
-            eyebrow="Act III — The Payoff"
-            title={invention.whyItWins.heading}
-            body={invention.whyItWins.body}
-          />
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {invention.whyItWins.benefits.map((b) => (
-              <article key={b.title} className="rounded-2xl bg-ink p-8 text-parchment shadow-md">
-                <h3 className="font-display text-lg font-bold text-goldlight">{b.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-parchment/75">{b.body}</p>
-              </article>
-            ))}
+      <section id="why" className="chapter light-chapter">
+        <div className="page-width">
+          <SectionHeading eyebrow="03 / The opportunity" title={invention.whyItWins.heading} body={invention.whyItWins.body} />
+          <div className="benefit-grid">
+            {invention.whyItWins.benefits.map((benefit, i) => <article className="benefit-card" key={benefit.title} data-reveal><span className="benefit-mark" aria-hidden="true">{["↗", "✦", "◇", "≈", "➶", "✧"][i]}</span><h3>{benefit.title}</h3><p>{benefit.body}</p></article>)}
           </div>
-
-          <div className="mx-auto mt-16 max-w-4xl">
-            <h3 className="mb-6 text-center font-display text-2xl font-bold">
-              {invention.whyItWins.comparison.heading}
-            </h3>
-            <div className="overflow-hidden rounded-2xl border border-ink/10">
-              {invention.whyItWins.comparison.rows.map((r, i) => (
-                <div
-                  key={r.ours}
-                  className={`grid md:grid-cols-2 ${i % 2 === 0 ? "bg-white/60" : "bg-sand/60"}`}
-                >
-                  <p className="border-b border-ink/10 p-5 text-ink/60 line-through decoration-red-800/50 md:border-b-0 md:border-r">
-                    {r.old}
-                  </p>
-                  <p className="p-5 font-semibold text-ink">{r.ours}</p>
-                </div>
-              ))}
-            </div>
+          <div className="comparison" data-reveal>
+            <h3>{invention.whyItWins.comparison.heading}</h3>
+            <div className="comparison-labels" aria-hidden="true"><span>THE OLD WAY</span><span>THE CARAVEL WAY</span></div>
+            {invention.whyItWins.comparison.rows.map(row => <div className="comparison-row" key={row.ours}><p><span className="mobile-label">The old way</span>{row.old}</p><p><span className="mobile-label">The caravel way</span><span className="comparison-arrow" aria-hidden="true">↗ </span>{row.ours}</p></div>)}
           </div>
         </div>
       </section>
 
-      {/* ---------- HONEST CATCH ---------- */}
-      <section className="scroll-mt-20 border-t border-gold/10 py-20">
-        <div className="mx-auto max-w-3xl px-6 text-center">
-          <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-gold">Full disclosure</p>
-          <h2 className="font-display text-3xl font-bold text-parchment">{invention.honestCatch.heading}</h2>
-          <p className="mt-6 text-lg leading-relaxed text-parchment/75">{invention.honestCatch.body}</p>
+      <section className="chapter honest-chapter">
+        <div className="page-width honest-layout" data-reveal><div><p className="eyebrow">04 / Full disclosure</p><h2>{invention.honestCatch.heading}<span className="gold-period">.</span></h2></div><p>{invention.honestCatch.body}</p></div>
+      </section>
+
+      <section id="ask" className="chapter ask-chapter atlas-grid">
+        <div className="page-width ask-layout">
+          <div data-reveal><p className="eyebrow">05 / Your next investment</p><h2>Back the ship.<br /><em>Open the horizon.</em></h2><p className="ask-body">{invention.theAsk.body}</p><ul className="funding-list">{invention.theAsk.funding.map(item => <li key={item}><span aria-hidden="true">↗</span>{item}</li>)}</ul></div>
+          <div className="investment-card" data-reveal><p className="eyebrow">The proposal / I am seeking</p><p className="investment-amount">{invention.theAsk.amount.split(" ")[0]}</p><p className="investment-unit">{invention.theAsk.amount.split(" ").slice(1).join(" ")}</p><div className="investment-equity">for <strong>{invention.theAsk.equity}</strong></div><p className="investment-disclaimer">{invention.theAsk.disclaimer}</p><p className="investment-closing">{invention.theAsk.closing}</p></div>
         </div>
       </section>
 
-      {/* ---------- THE ASK ---------- */}
-      <section id="ask" className="scroll-mt-20 py-24">
-        <div className="mx-auto max-w-4xl px-6">
-          <SectionHeading eyebrow="The Moment of Truth" title={invention.theAsk.heading} />
-          <div className="rounded-3xl border border-gold/30 bg-gradient-to-b from-deep to-ink p-10 text-center shadow-2xl md:p-14">
-            <p className="text-sm uppercase tracking-[0.3em] text-gold">We are seeking</p>
-            <p className="mt-2 font-display text-5xl font-black text-parchment">
-              {invention.theAsk.amount}
-            </p>
-            <p className="mt-2 font-display text-2xl italic text-goldlight">
-              for {invention.theAsk.equity}
-            </p>
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-parchment/80">
-              {invention.theAsk.body}
-            </p>
-            <ul className="mx-auto mt-8 max-w-xl space-y-3 text-left">
-              {invention.theAsk.funding.map((u) => (
-                <li key={u} className="flex gap-3 text-parchment/85">
-                  <span className="font-bold text-gold">✓</span>
-                  <span>{u}</span>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-10 font-display text-xl italic text-parchment/70">
-              So, sharks… who wants to never get lost again?
-            </p>
-          </div>
-        </div>
+      <section id="crew" className="chapter presenter-chapter">
+        <div className="page-width presenter-layout" data-reveal><div className="presenter-monogram" aria-hidden="true">MG</div><div><p className="eyebrow">The person behind the pitch</p><h2>{invention.crew.members[0].name}</h2><p>{invention.crew.body}</p><p className="presenter-role">{invention.crew.members[0].role}</p></div><a className="text-link" href="#sources">Read my sources ↗</a></div>
       </section>
 
-      {/* ---------- CREW ---------- */}
-      <section id="crew" className="scroll-mt-20 border-t border-gold/10 py-24">
-        <div className="mx-auto max-w-6xl px-6">
-          <SectionHeading
-            eyebrow="The Team"
-            title={invention.crew.heading}
-            body={invention.crew.body}
-          />
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {invention.crew.members.map((m) => (
-              <div key={m.name} className="rounded-2xl border border-gold/20 bg-deep/60 p-8 text-center">
-                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gold/15 font-display text-2xl font-bold text-goldlight">
-                  {m.name.charAt(0)}
-                </div>
-                <h3 className="font-bold text-parchment">{m.name}</h3>
-                <p className="mt-1 text-sm text-parchment/60">{m.role}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ---------- FOOTER ---------- */}
-      <footer className="border-t border-gold/10 py-10">
-        <div className="mx-auto max-w-6xl px-6 text-center text-sm text-parchment/50">
-          <p className="font-display text-lg text-goldlight">{invention.name}</p>
-          <p className="mt-2">{invention.footer.note}</p>
-          <p className="mt-1 text-xs">{invention.footer.sources}</p>
-        </div>
+      <footer id="sources" className="sources-footer">
+        <div className="page-width"><div className="footer-heading"><h2>Research log<span className="gold-period">.</span></h2><p>{invention.footer.sourcesNote}</p></div><ul className="source-list">{invention.footer.sources.map((source, i) => <li key={source.url}><span>0{i + 1}</span><a href={source.url}>{source.title}<small>{source.publisher}</small></a><span aria-hidden="true">↗</span></li>)}</ul><div className="footer-bottom"><p>{invention.footer.note}</p><a href="#top">Back to the horizon ↑</a></div></div>
       </footer>
     </main>
   );
