@@ -83,28 +83,46 @@ Fonts are self-hosted from `app/fonts/` so the build stays offline-safe and
 deterministic. Only the three faces above are shipped; unused faces are removed
 rather than left in the tree.
 
-No type is set below **12px**, except the plate numerals leading each nav entry,
-which are set at 10px beside a 12.5px label.
+No type is set below **12px**, except the figures on the particulars band,
+which are set at 11px. Labels and captions use the 12px floor with wide tracking
+rather than going smaller — small letter-spaced caps are what make a poster read
+as a poster, and 9px destroys them.
 
 **Arrows are not used as wayfinding.** A 1900s poster never reached for `→` or
-`↗`. Calls to action are plain set type; the tour entries draw a short rule on
-hover instead; source entries carry a printed arrowhead drawn in CSS borders.
-The one surviving arrow is the scroll cue's `↓`, which is a genuine affordance
-rather than decoration. Labels and captions use the 12px floor with wide
-tracking rather than going smaller — small letter-spaced caps are what make a
-poster read as a poster, and 9px destroys them.
+`↗`. The tour entries draw a short rule on hover; source entries carry a printed
+arrowhead drawn in CSS borders. Nothing on the site points anywhere.
 
 **Nothing is a card.** The tour entries and the six benefits are ruled columns
 under a heavy bar — a contents page, not a grid of interface tiles. Boxed cards
 with hairline borders were the most web-native objects left on the site.
 
+## The poster
+
+The home page is a **Plakatstil** poster — the German "object poster" style that
+Lucian Bernhard opened in 1905, when he won a match-company competition with two
+matches on a flat field, the brand name above them, and no other copy at all.
+The hero is built to that rule and holds five elements: an eyebrow, the name,
+one line, the plate, and the printed frame.
+
+Everything a poster does not need has been taken off the sheet. It once carried
+twelve stacked elements — a coordinate line, a running-head banner, a second
+credit line, a caption under the drawing, compass letters, and a pair of
+call-to-action buttons. The masthead is the navigation; a poster does not argue
+its case in the margin.
+
+The hero is sized to `100svh` and centred, so the plate lands above the fold on
+a laptop and the margins grow rather than the type on a tall monitor. The three
+figures sit on their own printed band immediately below, the way a poster put
+its particulars along the bottom edge.
+
 ## The header
 
-One masthead, not two stacked bars. The wordmark row and the credit strip sit
-inside a single fixed header, separated by a gold hairline. Two stacked fixed
-bars read as app chrome; one masthead reads as a printed page. Every fixed
-offset (`scroll-padding-top`, the hero and page-hero padding, the sticky plate)
-is derived from that single header height.
+One masthead row: wordmark left, section index right. It used to be two stacked
+bands — the wordmark and then a credit strip — which read as app chrome above a
+poster that had only just stopped being a web page. The plate numbers that led
+each nav entry went too; five numerals in a row is an index, and the poster has
+room for one idea at a time. Every fixed offset (`scroll-padding-top`, the hero
+and page-hero padding, the sticky plate) is derived from that single row.
 
 ## The colophon
 

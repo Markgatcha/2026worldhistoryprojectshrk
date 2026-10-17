@@ -10,13 +10,20 @@ export const invention = {
   name: "The Caravel",
   tagline: "The ship that made the Age of Exploration possible.",
   eyebrow: "Shark Tank · Exploration Inventions",
+  // No longer rendered: the hero was cut back to a Plakatstil poster of a
+  // name, one line and one plate, and this paragraph was the third restatement
+  // of the same pitch. Kept because it is Mark's own copy and reads better
+  // than the trimmed /pitch body if he ever wants it back on that page.
   heroPitch:
     "For my Shark Tank project, I chose the caravel. It's a small, fast Portuguese sailing ship from the 1400s. What makes it worth investing in? Its sails, hull, and steering made exploring new coastlines a lot easier. Here's why I think the sharks should buy it.",
 
+  // The hero is a Plakatstil poster: three figures under a hairline, set as
+  // the sheet's small print. Labels are kept to three or four words there —
+  // the full sentence for each one is in the research pages.
   stats: [
-    { value: "20°", label: "how close to the wind it could sail, according to my research" },
-    { value: "1451", label: "about when shipbuilders working for Henry the Navigator redesigned it" },
-    { value: "1488", label: "Dias rounded the Cape of Good Hope in a caravel" },
+    { value: "20°", label: "off the wind" },
+    { value: "1451", label: "the redesign" },
+    { value: "1488", label: "rounding the Cape" },
   ],
 
   specifications: {

@@ -2,14 +2,17 @@ import Link from "next/link";
 import { Lozenge } from "@/components/Ornament";
 import { invention } from "@/content/invention";
 
-// Set as a numbered index, the way a periodical's contents page lists its
-// sections. The folio is the plate number carried by each route.
+// One masthead row, not two. The credit strip that used to sit under it was a
+// second band of small caps stacked above the poster's own eyebrow; with the
+// hero reduced to five elements it was the first thing to go. The plate
+// numbers that led each entry went with it — five numerals in a row is an
+// index, and the poster only has room for one idea at a time.
 const links = [
-  { href: "/problem", label: "The Problem", folio: "01" },
-  { href: "/how-it-works", label: "How It Works", folio: "02" },
-  { href: "/why-invest", label: "Why Invest", folio: "03" },
-  { href: "/pitch", label: "The Ask", folio: "04" },
-  { href: "/sources", label: "Sources", folio: "05" },
+  { href: "/problem", label: "The Problem" },
+  { href: "/how-it-works", label: "How It Works" },
+  { href: "/why-invest", label: "Why Invest" },
+  { href: "/pitch", label: "The Ask" },
+  { href: "/sources", label: "Sources" },
 ];
 
 export default function Navbar() {
@@ -23,7 +26,6 @@ export default function Navbar() {
         <div className="nav-links">
           {links.map((link) => (
             <Link key={link.href} href={link.href}>
-              <span className="nav-folio">{link.folio}</span>
               {link.label}
             </Link>
           ))}
@@ -33,23 +35,13 @@ export default function Navbar() {
           <div>
             <Link href="/">Home</Link>
             {links.map((link) => (
-              <Link href={link.href} key={link.href}>
-                <span className="nav-folio">{link.folio}</span>
+              <Link key={link.href} href={link.href}>
                 {link.label}
               </Link>
             ))}
           </div>
         </details>
       </nav>
-      {/* The periodical's running head, set INSIDE the header rather than as a
-          second fixed bar below it. Two stacked bars read as app chrome; one
-          masthead with a gold rule under the wordmark reads as a printed page. */}
-      <div className="masthead-strip">
-        <div className="page-width masthead-row">
-          <span>Mark Gatcha &middot; World History &middot; Shark Tank Project</span>
-          <span aria-hidden="true">{invention.tagline}</span>
-        </div>
-      </div>
     </header>
   );
 }

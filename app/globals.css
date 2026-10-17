@@ -94,7 +94,7 @@
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; scroll-padding-top: 144px; }
+html { scroll-behavior: smooth; scroll-padding-top: 104px; }
 
 body {
   margin: 0;
@@ -201,11 +201,8 @@ em { font-style: italic; }
 .dark-chapter .page-hero-body,
 .dark-chapter .section-heading > p:last-child:not(.eyebrow),
 .ink-bg .page-hero-body { color: var(--text-body); }
-.dark-chapter a:not(.button):not(.nav-cta),
-.ink-bg a:not(.button):not(.nav-cta) { color: var(--text-accent); }
-.dark-chapter .text-link,
-.ink-bg .text-link { color: var(--text-accent); border-bottom-color: var(--rule-on-dark); }
-.dark-chapter .text-link:hover { border-bottom-color: var(--text-accent); }
+.dark-chapter a,
+.ink-bg a { color: var(--text-accent); }
 
 /* ── POSTER STOCK & PRESS SURFACES ────────────────────────────────────────
    A lithographic sheet: uncoated fibre, a faint dot screen, and two barely
@@ -329,27 +326,7 @@ em { font-style: italic; }
 }
 .page-hero .eyebrow { margin-top: 14px; position: relative; z-index: 1; }
 
-/* The masthead — the poster's title block. */
-.masthead {
-  border-block: 1px solid var(--color-ink);
-  padding-block: 20px;
-  margin-bottom: 36px;
-  text-align: center;
-}
-.masthead h2 {
-  font-size: clamp(32px, 5vw, 60px);
-  letter-spacing: -.02em;
-  line-height: 1;
-}
-.masthead p {
-  margin-top: 10px;
-  font-family: var(--font-nouveau);
-  font-size: 13px;
-  letter-spacing: .3em;
-  text-transform: uppercase;
-  color: var(--muted);
-  font-weight: 400;
-}
+
 
 /* A pull quote — flat cream plate, rule above and below, no shadow. */
 .pull-quote {
@@ -443,7 +420,7 @@ em { font-style: italic; }
   border-bottom: 2px solid var(--gold);
 }
 .navbar {
-  min-height: 68px;
+  min-height: 78px;
   display: flex;
   align-items: center;
   gap: 26px;
@@ -478,13 +455,6 @@ em { font-style: italic; }
   display: inline-flex;
   align-items: baseline;
   gap: 7px;
-}
-/* The plate number leading each entry, set smaller and in the accent ink so
-   the index reads as a contents list rather than a row of buttons. */
-.nav-folio {
-  font-size: 10px;
-  letter-spacing: .08em;
-  color: rgba(238, 203, 98, .6);
 }
 .nav-links a:hover,
 .mobile-navigation a:hover { color: var(--color-gold-light); }
@@ -612,7 +582,14 @@ em { font-style: italic; }
    so it carries the whole period change.
    ══════════════════════════════════════════════════════════════════════════ */
 .hero {
-  padding: 162px 0 0;
+  /* The poster is a sheet, so it is sized to the sheet: full viewport height,
+     content centred in what is left after the masthead. On a short laptop the
+     plate still lands above the fold; on a tall monitor the margins grow
+     rather than the type. */
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: 92px 0 28px;
   position: relative;
   overflow: hidden;
   background-color: var(--color-prussian);
@@ -630,16 +607,17 @@ em { font-style: italic; }
   pointer-events: none;
   overflow: hidden;
   opacity: .5;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 26%, #000 52%, #000 100%);
-  mask-image: linear-gradient(to right, transparent 0%, transparent 26%, #000 52%, #000 100%);
+  /* Centred, because the poster is: the chart fades up out of the field
+     behind the plate instead of sitting in the right-hand column. */
+  -webkit-mask-image: radial-gradient(ellipse 72% 68% at 50% 54%, #000 0%, transparent 76%);
+  mask-image: radial-gradient(ellipse 72% 68% at 50% 54%, #000 0%, transparent 76%);
 }
 .chart-canvas { display: block; width: 100%; height: 100%; }
-/* Only flow-positioned children get a z-index here. `.hero-coordinate` is
-   absolutely placed and carries its own, so it must stay out of this list —
-   `.hero > .hero-coordinate` outranks the single-class rule that positions it. */
-.hero > .page-width,
-.hero > .hero-frame,
-.hero > .scroll-cue { position: relative; z-index: 1; }
+/* Only the flow-positioned child gets a stacking level here. The frame is
+   absolutely positioned and carries its own z-index — adding it to this rule
+   would reset it to `relative`, collapse it to zero height, and stack all
+   four corners on one point. */
+.hero > .page-width { position: relative; z-index: 1; }
 
 /* The printed border. Four whiplash corners sit just inside the hero's edges,
    inset enough to clear the type at every breakpoint. Above the stat strip,
@@ -662,263 +640,90 @@ em { font-style: italic; }
 .hero-frame > svg:nth-child(3) { bottom: 0; right: 0; }
 .hero-frame > svg:nth-child(4) { bottom: 0; left: 0; }
 
-/* The headline is the poster's one indulgence: very large, tight, cream on
-   prussian, with the vermillion doing the work on the emphasis line. */
-.hero-copy { position: relative; }
-.hero h1 {
-  overflow-wrap: break-word;
-  font-size: clamp(44px, 6.2vw, 82px);
-  line-height: .96;
-  letter-spacing: -.025em;
-  color: var(--text-strong);
-  margin-top: 22px;
-}
-.hero h1 em,
-.ask-layout h2 em,
-.page-hero h1 em {
-  color: var(--color-gold-light);
-  font-style: normal;
-}
-.hero-intro {
-  font-size: 18px;
-  margin-top: 26px;
-  max-width: 420px;
-  color: var(--text-strong);
-}
-.hero-intro strong { color: var(--color-gold-light); font-weight: 600; }
-.hero-description { margin-top: 16px; max-width: 470px; font-size: 16px; color: var(--text-body); }
+/* ── THE POSTER ───────────────────────────────────────────────────────────
+   Plakatstil. Lucian Bernhard's 1905 Priester match poster put two matches on
+   a flat field with the brand name above them and no other copy at all. The
+   hero is built to that rule: one name, one line, one plate.
 
-.button-row { display: flex; align-items: center; flex-wrap: wrap; gap: 20px; margin-top: 32px; }
-.button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 14px 22px;
-  font-family: var(--font-nouveau);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  transition: background .2s, color .2s;
-}
-.button-gold { background: var(--color-vermillion); color: #fff6ea; }
-.button:hover { background: var(--gold); color: var(--color-prussian-deep); }
-.button:active { background: var(--color-vermillion-deep); color: #fff6ea; }
-
-.text-link {
-  font-family: var(--font-nouveau);
-  font-size: 12px;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--color-gold-light);
-  padding-bottom: 5px;
-  border-bottom: 1px solid rgba(238, 203, 98, .45);
-  font-weight: 500;
-}
-.text-link:hover { border-bottom-color: var(--color-gold-light); }
-
-.hero-credit {
-  font-family: var(--font-nouveau);
-  font-size: 12.5px;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-  margin-top: 34px;
-  font-weight: 400;
-}
-.hero-credit span { color: var(--color-vermillion); margin-inline: 8px; }
-
-.hero-coordinate {
-  position: absolute;
-  right: 40px;
-  top: 116px;
-  z-index: 1;
-  font-family: var(--font-nouveau);
-  font-size: 12px;
-  color: rgba(238, 203, 98, .85);   /* was .5 -> 3.11:1; raised to pass AA */
-  letter-spacing: .3em;
-  text-transform: uppercase;
-}
-
-/* The poster's running head — a printed banner across the top of the sheet,
-   ruled above and below. A travel poster of the period always named its
-   subject and its sponsor before it showed the picture. This is also what
-   stops the hero reading as a modern split-screen landing page. */
-.hero-banner {
+   What came off the sheet, and why:
+     · the coordinate line in the corner — a second label doing the same job
+       as the eyebrow
+     · the running-head banner — it was my own addition, and it made five
+       stacked strips above the headline
+     · the "Meet the Caravel" line — it repeated the tagline
+     · the credit line — the masthead already says who made this
+     · the compass letters and the caption under the plate — decoration
+       standing between the eye and the drawing
+     · the call-to-action buttons — the masthead is the navigation, and a
+       poster does not argue its case in the margin
+   That is twelve stacked elements reduced to five. */
+.hero-poster {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 20px;
-  border-block: 1px solid rgba(238, 203, 98, .42);
-  padding-block: 11px;
-  margin-bottom: 42px;
-  font-family: var(--font-nouveau);
-  font-size: 13px;
-  letter-spacing: .32em;
-  text-transform: uppercase;
-  color: rgba(238, 203, 98, .92);
   text-align: center;
 }
-.hero-banner-mark { width: 9px; height: 9px; color: var(--color-gold-light); flex: none; }
-
-.hero-layout {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1.05fr 1fr;
-  align-items: center;
-  gap: 44px;
+.hero h1 {
+  overflow-wrap: break-word;
+  font-size: clamp(44px, 8.6vw, 112px);
+  line-height: .86;
+  letter-spacing: -.035em;
+  color: var(--text-strong);
+  margin-top: 14px;
 }
-
-.ship-scene {
-  position: relative;
-  min-height: 460px;
-  display: grid;
-  place-items: center;
-}
-/* A printed lozenge behind the ship — flat gold, no glow. */
-.ship-scene::before {
-  content: "";
-  position: absolute;
-  inset: 8% 4%;
-  border: 1px solid rgba(238, 203, 98, .22);
-  transform: rotate(45deg);
-  pointer-events: none;
-}
-.compass-orbit {
-  position: absolute;
-  top: 20px;
-  width: 360px;
-  height: 360px;
-  border: 1px solid rgba(238, 203, 98, .16);
-  border-radius: 50%;
-}
-.compass-orbit::before,
-.compass-orbit::after {
-  content: "";
-  position: absolute;
-  inset: 50% -20px auto;
-  border-top: 1px solid rgba(238, 203, 98, .12);
-}
-.compass-orbit::after { transform: rotate(90deg); }
-.compass-orbit span {
-  position: absolute;
-  color: rgba(238, 203, 98, .85);
-  font-family: var(--font-nouveau);
-  font-size: 12px;
-  letter-spacing: .2em;
-}
-.compass-orbit span:nth-child(1) { top: -6px; left: 48%; }
-.compass-orbit span:nth-child(2) { right: -4px; top: 48%; }
-.compass-orbit span:nth-child(3) { bottom: -6px; left: 48%; }
-.compass-orbit span:nth-child(4) { left: -5px; top: 48%; }
-.route-line {
-  position: absolute;
-  width: 60%;
-  height: 160px;
-  border-top: 1px dashed rgba(238, 203, 98, .16);
-  border-radius: 50%;
-  transform: rotate(-22deg);
-  top: 100px;
-}
-.hero-ship { position: relative; width: 100%; max-width: 460px; z-index: 1; }
-
-.ship-caption {
-  font-family: var(--font-nouveau);
-  font-size: 12.5px;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  font-weight: 400;
-  color: rgba(238, 203, 98, .85);   /* was .75; raised for AA at 9px */
-}
-/* A turned diamond, not a status light. The old 5px square sat beside the
-   caption like a system indicator; rotated it reads as a printer's mark. */
-.status-dot { width: 5px; height: 5px; background: var(--color-vermillion); transform: rotate(45deg); }
-.ship-scene figcaption {
-  margin-top: 12px;
-  font-family: var(--font-body);
+.hero-tagline {
+  margin-top: 22px;
+  font-size: clamp(17px, 1.5vw, 21px);
   font-style: italic;
-  color: rgba(247, 241, 230, .78);   /* was .6 -> 3.0:1; raised for AA at 15px */
-  font-size: 15px;
+  color: var(--text-body);
+  letter-spacing: .01em;
 }
+.hero-tagline em { color: var(--color-gold-light); }
 
-/* The stat strip — three flat ink blocks under the hero, like the data band
-   along the foot of a poster. */
+/* The plate: the object, set as large as the sheet allows. */
+.hero-plate { width: min(540px, 68vw); margin-top: 12px; }
+.hero-ship { display: block; width: 100%; height: auto; }
+
+/* The particulars. A poster put its figures along the bottom edge; this one
+   puts them on a printed band immediately under the sheet, where they read as
+   a caption to the plate rather than as three more things stacked inside it. */
+.stat-band {
+  background: var(--color-stock-dark);
+  border-top: 2px solid var(--color-ink);
+  border-bottom: 1px solid var(--rule-ink);
+}
 .stat-strip {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  margin-top: 56px;
-  border-top: 2px solid var(--gold);
-  position: relative;
-  z-index: 2;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
-.stat {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  gap: 8px 14px;
-  padding: 26px 26px 30px;
-  border-right: 1px solid rgba(238, 203, 98, .22);
-}
-.stat:first-child { padding-left: 0; }
-.stat:last-child { border-right: 0; }
-.stat-index {
-  color: rgba(238, 203, 98, .85);
-  font-family: var(--font-nouveau);
-  font-size: 12.5px;
-  font-weight: 500;
-  align-self: start;
-  padding-top: 6px;
-}
+.stat { padding: 24px 18px 26px; text-align: center; }
+.stat + .stat { border-left: 1px solid var(--rule-ink); }
 .stat strong {
+  display: block;
   font-family: var(--font-display);
-  font-size: 38px;
+  font-size: 30px;
   font-weight: 400;
-  color: var(--color-gold-light);
+  color: var(--color-ink);
   letter-spacing: -.02em;
 }
-.stat p { grid-column: 2; font-size: 13px; color: var(--text-body); line-height: 1.55; }
+.stat span {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-nouveau);
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
 
-.scroll-cue {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  padding-block: 20px;
-  font-family: var(--font-nouveau);
-  text-transform: uppercase;
-  font-size: 13px;
-  letter-spacing: .24em;
-  color: rgba(238, 203, 98, .85);
-  font-weight: 400;
-}
-.scroll-cue span { font-size: 15px; animation: cue 2s ease-in-out infinite; }
-/* The flat vermillion band between the hero and the body. */
-.voyage-strip {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 30px;
-  background: var(--color-vermillion);
-  color: #fff2e6;
-  padding: 13px 20px;
-  font-family: var(--font-nouveau);
-  font-size: 13px;
-  letter-spacing: .26em;
-  text-transform: uppercase;
-  font-weight: 400;
-}
-/* The turned diamond that separates the three phrases. */
-.voyage-mark { width: 11px; height: 11px; color: rgba(255, 242, 230, .7); flex: none; }
+/* Emphasis in the two remaining display headings that keep an accent line. */
+.ask-layout h2 em,
+.page-hero h1 em { color: var(--color-gold-light); font-style: normal; }
 
 /* ══════════════════════════════════════════════════════════════════════════
    CHAPTERS — alternating flat ink fields
    ══════════════════════════════════════════════════════════════════════════ */
-.chapter { padding-block: 84px; scroll-margin-top: 84px; }
+.chapter { padding-block: 72px; scroll-margin-top: 84px; }
 .light-chapter { background-color: var(--color-stock); color: var(--color-ink); }
 .dark-chapter {
   background: var(--color-prussian-deep);
@@ -1083,16 +888,15 @@ em { font-style: italic; }
 .honest-layout h2 { font-size: 40px; margin-top: 12px; line-height: 1.1; }
 .honest-layout > p { font-size: 17px; color: var(--color-ink-light); }
 
-.ask-layout { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: 60px; }
+.ask-layout { display: grid; grid-template-columns: 1.1fr 1fr; align-items: start; gap: 60px; }
 .ask-layout h2 { font-size: clamp(30px, 3.6vw, 46px); line-height: 1.08; margin: 16px 0; letter-spacing: -.02em; }
-.ask-body { max-width: 440px; color: var(--muted); font-size: 16px; }
 .funding-list { list-style: none; padding: 0; margin-top: 26px; }
 .funding-list li {
   display: flex;
   gap: 12px;
   border-bottom: 1px solid var(--rule-ink);
   padding: 13px 0;
-  font-size: 14px;
+  font-size: 15px;
   color: var(--color-ink-light);
 }
 
@@ -1114,7 +918,6 @@ em { font-style: italic; }
   font-size: clamp(52px, 6vw, 74px);
   line-height: .95;
   letter-spacing: -.03em;
-  margin-top: 18px;
   color: #f7f1e6;
 }
 .investment-unit {
@@ -1135,7 +938,7 @@ em { font-style: italic; }
 .investment-equity strong { color: #f7f1e6; font-weight: 600; }
 /* Reads --text-faint from the card's own scope rather than hardcoding a hex,
    so the disclaimer keeps contrast on the prussian plate. */
-.investment-disclaimer { font-size: 12px; color: var(--text-faint, #a89c87); }
+.investment-disclaimer { font-size: 12.5px; line-height: 1.55; color: var(--text-faint, #a89c87); }
 .investment-closing {
   font-family: var(--font-body);
   font-size: 18px;
@@ -1161,8 +964,6 @@ em { font-style: italic; }
 .presenter-layout h2 { font-size: 30px; margin: 4px 0; }
 .presenter-layout p:not(.eyebrow) { font-size: 15px; color: var(--color-ink-faint); max-width: 560px; }
 .presenter-role { margin-top: 4px; }
-.presenter-layout .text-link { margin-left: auto; white-space: nowrap; }
-.presenter-layout .text-link { color: var(--color-vermillion); border-bottom-color: var(--rule-ink-strong); }
 
 /* ── FOOTER ─────────────────────────────────────────────────────────────── */
 .sources-footer { padding: 56px 0 30px; scroll-margin-top: 84px; }
@@ -1218,7 +1019,7 @@ em { font-style: italic; }
 .heading-continues { margin-top: 60px; }
 
 /* ── SUB-PAGE HERO ──────────────────────────────────────────────────────── */
-.page-hero { padding: 218px 0 58px; }
+.page-hero { padding: 176px 0 58px; }
 .page-hero h1 {
   overflow-wrap: break-word;
   font-size: clamp(38px, 5vw, 62px);
@@ -1266,50 +1067,27 @@ em { font-style: italic; }
 
 /* ── FUN FACT ───────────────────────────────────────────────────────────── */
 .fun-fact {
-  border-left: 3px solid var(--color-vermillion);
-  padding: 20px 24px;
-  background: var(--color-stock-dark);
-  max-width: 720px;
+  max-width: 700px;
+  padding-top: 22px;
+  border-top: 1px solid var(--rule-ink);
 }
-.fun-fact-text { font-size: 18px; color: var(--color-ink); margin-top: 10px; line-height: 1.65; }
+.fun-fact-text { font-size: 20px; color: var(--color-ink); line-height: 1.6; }
+/* Set as a printed footnote, not a button: a rule underneath, no box. */
 .fun-fact-button {
-  margin-top: 14px;
-  padding: 9px 16px;
-  border: 1px solid var(--color-ink);
-  background: var(--color-ink);
-  color: var(--color-gold-light);
+  margin-top: 16px;
+  padding: 0 0 4px;
+  border: 0;
+  border-bottom: 1px solid var(--rule-ink-strong);
+  background: none;
+  color: var(--color-vermillion);
   font-family: var(--font-nouveau);
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: .18em;
   text-transform: uppercase;
 }
-.fun-fact-button:hover { background: var(--color-vermillion); border-color: var(--color-vermillion); color: #fff2e6; }
+.fun-fact-button:hover { border-bottom-color: var(--color-vermillion); }
 
-/* ── MASTHEAD STRIP ──────────────────────────────────────────────────────
-   The periodical's running head, set INSIDE the header rather than as a
-   second fixed bar below it. Two stacked fixed bars read as app chrome; one
-   masthead with a gold hairline under it reads as a printed page. The strip
-   is part of the header's own box, so it scrolls away with it and adds
-   nothing to the fixed-height offset below. */
-.masthead-strip {
-  border-top: 1px solid rgba(238, 203, 98, .28);
-  background: var(--color-prussian-deep);
-}
-.masthead-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  padding-block: 9px;
-  font-family: var(--font-nouveau);
-  font-size: 12.5px;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: rgba(238, 203, 98, .85);
-  font-weight: 400;
-}
-.masthead-row span:last-child { color: rgba(238, 203, 98, .55); }
 .folio { font-family: var(--font-display); font-size: 13px; color: rgba(238, 203, 98, .85); letter-spacing: .06em; }
 
 /* ── ANIMATION ──────────────────────────────────────────────────────────── */
@@ -1447,9 +1225,6 @@ em { font-style: italic; }
   .tour-grid { grid-template-columns: repeat(2, 1fr); }
   .nav-links { gap: 14px; }
   .navbar { gap: 18px; }
-  .hero-layout { gap: 20px; }
-  .compass-orbit { width: 290px; height: 290px; top: 60px; }
-  .stat { padding-inline: 16px; }
   .blueprint-layout, .ask-layout { gap: 34px; }
   .investment-card { padding: 26px; }
   .benefit-card { padding: 22px; }
@@ -1462,38 +1237,24 @@ em { font-style: italic; }
   .brand { font-size: 18px; }
   .nav-links { display: none; }
   .mobile-navigation { display: block; }
-  /* The credit line is dropped on phones; the tagline alone reads as the
-     running head and keeps the strip to one line. */
-  .masthead-row > span:first-child { display: none; }
-  .masthead-row { justify-content: flex-end; }
-  .masthead-row span:last-child { color: rgba(238, 203, 98, .85); }
-
-  .hero { padding-top: 132px; }
-  .hero-coordinate { display: none; }
-  /* The printed border is dropped on phones: at this width the hero copy runs
-     edge to edge, so the corner ornaments sit straight on top of the headline
+  /* Symmetric padding: with the corners hidden on phones there is no frame
+     to explain a heavier margin at the top. */
+  .hero { padding: 96px 0; }
+  /* The printed border is dropped on phones: at this width the poster runs
+     edge to edge, so the corner ornaments sit straight on top of the title
      instead of framing it. */
   .hero-frame { display: none; }
-  .hero-layout { grid-template-columns: 1fr; gap: 16px; }
-  /* Both display sizes are set against the measure, not the viewport: at
-     11vw the headline "for exploration." ran wider than the phone and
-     pushed the whole document into a horizontal scroll. */
-  .hero h1 { font-size: clamp(32px, 9.2vw, 50px); }
+  .hero h1 { font-size: clamp(42px, 13vw, 62px); }
+  .hero-plate { width: min(420px, 84vw); }
   .page-hero h1 { font-size: clamp(29px, 8.4vw, 42px); }
-  .ship-scene { min-height: 330px; max-width: 380px; width: 100%; margin-inline: auto; }
-  .hero-ship { max-width: 320px; }
-  .compass-orbit { width: 250px; height: 250px; top: 26px; }
 
-  .stat-strip { margin-top: 34px; grid-template-columns: 1fr; }
-  .stat { grid-template-columns: auto 1fr; padding: 16px 0; border-right: 0; border-bottom: 1px solid rgba(238, 203, 98, .18); }
-  .stat:last-child { border-bottom: 0; }
-  .stat strong { font-size: 28px; }
-  .stat p { grid-column: 2; font-size: 12px; }
+  /* The figures stay in one row — stacked, they read as a list of features
+     rather than as the particulars along the bottom of a sheet. */
+  .stat { padding: 18px 8px 20px; }
+  .stat strong { font-size: 24px; }
+  .stat span { font-size: 9.5px; letter-spacing: .1em; }
 
-  .voyage-strip { gap: 14px; font-size: 12px; letter-spacing: .1em; }
-  .voyage-strip span:nth-last-child(-n+2) { display: none; }
-
-  .chapter { padding-block: 54px; }
+  .chapter { padding-block: 46px; }
   .section-heading { margin-bottom: 28px; }
   .section-heading > p:last-child:not(.eyebrow) { font-size: 14px; }
 
@@ -1511,14 +1272,9 @@ em { font-style: italic; }
   .presenter-layout { flex-wrap: wrap; gap: 16px; }
   .presenter-monogram { width: 54px; height: 54px; font-size: 20px; }
   .presenter-layout > div:nth-child(2) { flex: 1; min-width: 200px; }
-  .presenter-layout .text-link { margin-left: 0; }
   .footer-heading { grid-template-columns: 1fr; gap: 16px; }
   .page-hero { padding: 158px 0 44px; }
   .newspaper-columns { font-size: 16px; }
-
-  /* One phrase survives on a phone; two would wrap into a stack of rules. */
-  .hero-banner { font-size: 11px; letter-spacing: .18em; gap: 12px; margin-bottom: 28px; }
-  .hero-banner span:last-child { display: none; }
 
   .colophon-mark { font-size: 19px; }
   .colophon-top { padding-block: 18px 14px; gap: 14px; }
@@ -1530,9 +1286,6 @@ em { font-style: italic; }
 }
 
 @media (max-width: 440px) {
-  .button-row { gap: 16px; }
-  .button { padding: 13px 17px; font-size: 12px; }
-  .hero-intro { font-size: 16px; }
   .benefit-grid, .source-list { grid-template-columns: 1fr; }
   .comparison-labels { display: none; }
   .comparison-row { grid-template-columns: 1fr; }

@@ -21,7 +21,6 @@ export default function FunFact() {
 
   return (
     <div className="fun-fact" data-reveal>
-      <p className="eyebrow">From my research</p>
       <p className="fun-fact-text">{facts[index]}</p>
       <button type="button" className="fun-fact-button" onClick={() => setIndex((index + 1) % facts.length)}>
         Another one

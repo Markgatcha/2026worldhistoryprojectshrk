@@ -23,9 +23,10 @@ export default function PitchPage() {
       <section className="chapter ask-chapter chapter-flush">
         <div className="page-width ask-layout">
           <div data-reveal>
-            <p className="eyebrow">The ask</p>
-            <h2>Sharks, I'm asking for <em>{invention.theAsk.amount.split(" ")[0]}</em> {invention.theAsk.amount.split(" ").slice(1).join(" ")}</h2>
-            <p className="ask-body">{invention.theAsk.body}</p>
+            {/* This block used to restate the ask in a headline and repeat the
+                hero's paragraph word for word. The card opposite already says
+                the number; this column now says only what the money buys. */}
+            <h2>What the money does</h2>
             <ul className="funding-list">
               {invention.theAsk.funding.map((item) => (
                 <li key={item}>{item}</li>
@@ -33,7 +34,6 @@ export default function PitchPage() {
             </ul>
           </div>
           <div className="investment-card" data-reveal>
-            <p className="eyebrow">For my pitch, I'm asking for</p>
             <p className="investment-amount">{invention.theAsk.amount.split(" ")[0]}</p>
             <p className="investment-unit">{invention.theAsk.amount.split(" ").slice(1).join(" ")}</p>
             <div className="investment-equity">for <strong>{invention.theAsk.equity}</strong></div>

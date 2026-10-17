@@ -4,7 +4,7 @@ import NauticalChart from "@/components/NauticalChart";
 import SectionHeading from "@/components/SectionHeading";
 import VoyageEffects from "@/components/VoyageEffects";
 import FunFact from "@/components/FunFact";
-import { CornerOrnament, Lozenge } from "@/components/Ornament";
+import { CornerOrnament } from "@/components/Ornament";
 import { invention } from "@/content/invention";
 
 export default function Home() {
@@ -15,7 +15,7 @@ export default function Home() {
 
       {/* ── HERO ── the poster ── */}
       <section className="hero ink-bg">
-        {/* The engraved chart, drawn behind the hero copy. */}
+        {/* The engraved chart, drawn behind the plate. */}
         <div className="chart-layer">
           <NauticalChart className="chart-canvas" />
         </div>
@@ -28,84 +28,43 @@ export default function Home() {
           <CornerOrnament corner="bl" />
         </div>
 
-        <div className="hero-coordinate" aria-hidden="true">Portugal / Atlantic Ocean / XV Century</div>
+        {/* Plakatstil, the German object poster of 1905: a flat field, the
+            object, its name, one line. Bernhard's Priester poster carried two
+            matches, the brand name and nothing else, and it is the reason a
+            poster can hold a whole argument in five elements. Everything this
+            sheet does not need — coordinates, a second credit line, a caption
+            under the drawing, a pair of call-to-action buttons — has been
+            taken off it. */}
+        <div className="page-width hero-poster">
+          <p className="eyebrow entrance">A Shark Tank proposition</p>
+          <h1 className="entrance entrance-two">{invention.name}</h1>
+          <p className="hero-tagline entrance entrance-three">
+            A small ship. <em>A big deal</em> for exploration.
+          </p>
 
-        {/* The running head: the poster names its subject and its occasion
-            before it shows the picture. */}
-        <div className="page-width hero-banner">
-          <span>Exploration Inventions</span>
-          <Lozenge className="hero-banner-mark" />
-          <span>Shark Tank &middot; World History</span>
-        </div>
-
-        <div className="page-width hero-layout">
-          <div className="hero-copy">
-            <p className="eyebrow entrance">Est. 1451 &middot; Portugal</p>
-            <h1 className="entrance entrance-two">
-              A small ship.<br />
-              <em>A big deal</em><br />
-              for exploration.
-            </h1>
-            <p className="hero-intro entrance entrance-three">
-              Meet <strong>{invention.name}</strong>. {invention.tagline}
-            </p>
-            <p className="hero-description entrance entrance-three">{invention.heroPitch}</p>
-            <div className="button-row entrance entrance-three">
-              <Link className="button button-gold" href="/how-it-works">
-                Explore the invention
-              </Link>
-              <Link className="text-link" href="/pitch">
-                See my pitch
-              </Link>
-            </div>
-            <p className="hero-credit">
-              Mark Gatcha <span>/</span> Solo World History Project <span>/</span> 10th Grade
-            </p>
-          </div>
-
-          <figure className="ship-scene entrance entrance-two">
-            <div className="compass-orbit" aria-hidden="true">
-              <span>N</span><span>E</span><span>S</span><span>W</span>
-            </div>
-            <div className="route-line" aria-hidden="true" />
+          <figure className="hero-plate entrance entrance-two">
             <CaravelShip className="hero-ship" variant="poster" />
-            <div className="ship-caption">
-              <span className="status-dot" /> The Caravel <span>/</span> Built for discovery
-            </div>
-            <figcaption>It was small, but it could do a lot.</figcaption>
           </figure>
         </div>
+      </section>
 
+      {/* The particulars: three figures on a printed band, the way a poster
+          carried its small print along the bottom edge. They used to sit
+          inside the hero, which is what pushed the plate off a laptop screen. */}
+      <section className="stat-band" aria-label="Key figures">
         <div className="page-width stat-strip">
-          {invention.stats.map((stat, i) => (
-            <div key={stat.label} className="stat" data-reveal>
-              <span className="stat-index">0{i + 1}</span>
+          {invention.stats.map((stat) => (
+            <div key={stat.label} className="stat">
               <strong>{stat.value}</strong>
-              <p>{stat.label}</p>
+              <span>{stat.label}</span>
             </div>
           ))}
         </div>
-
-        <a className="scroll-cue" href="#quick-tour">
-          Quick tour <span aria-hidden="true">&darr;</span>
-        </a>
       </section>
 
-      <div className="voyage-strip" aria-hidden="true">
-        <span>The ship of discovery</span>
-        <Lozenge className="voyage-mark" />
-        <span>Not the ship of delivery</span>
-        <Lozenge className="voyage-mark" />
-        <span>The Caravel</span>
-      </div>
-
-      {/* ── QUICK TOUR CARDS ── */}
+      {/* ── QUICK TOUR ── */}
       <section id="quick-tour" className="chapter light-chapter stock-bg">
         <div className="page-width">
-          <div className="masthead" data-reveal>
-            <h2>The Caravel</h2>
-            <p>The ship that made the Age of Exploration possible</p>
-          </div>
           <SectionHeading
             eyebrow="The quick tour"
             title="What's on this site"
