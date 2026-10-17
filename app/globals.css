@@ -408,18 +408,63 @@ em { font-style: italic; }
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   HEADER
-   A flat prussian bar with a gold hairline under it — the poster's printed
-   border. No shadow, no blur; the bar is simply printed.
-   ══════════════════════════════════════════════════════════════════════════ */
+   MASTHEAD
+   Frosted rather than painted. The bar takes the colour of whatever is
+   scrolling under it, so it stays glassy over the deep hero and warms up over
+   the cream chapters. Three things keep it from reading as a UI panel: square
+   corners, the press grain the sheet itself carries, and a gold rule whose
+   alpha wanders a little instead of sitting at a constant value. */
 .site-header {
   position: fixed;
   inset: 0 0 auto;
   z-index: 50;
-  background: var(--color-prussian-deep);
-  border-bottom: 2px solid var(--gold);
+  background:
+    linear-gradient(
+      177deg,
+      rgba(17, 47, 62, .91) 0%,
+      rgba(11, 36, 49, .85) 52%,
+      rgba(8, 28, 40, .91) 100%
+    );
+  -webkit-backdrop-filter: blur(26px) saturate(135%);
+  backdrop-filter: blur(26px) saturate(135%);
+}
+/* The tooth of the glass. Without a grain layer the blur lays down a
+   flawless gradient, which is exactly what makes a bar look synthetic. */
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .55;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='h'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23h)' opacity='0.32'/%3E%3C/svg%3E");
+}
+/* The rule under the masthead, inked rather than printed: the opacity moves
+   across the width the way a hand-ruled border does. */
+.site-header::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -2px;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(216, 165, 32, .78) 0%,
+    rgba(216, 165, 32, .97) 16%,
+    rgba(216, 165, 32, .85) 44%,
+    rgba(216, 165, 32, .99) 71%,
+    rgba(216, 165, 32, .82) 100%
+  );
+}
+
+/* Where the blur is unavailable the bar falls back to the flat ink it was
+   printed with, which is still correct — just not frosted. */
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .site-header { background: var(--color-prussian-deep); }
 }
 .navbar {
+  /* Above the grain layer, or the noise sits on top of the links. */
+  position: relative;
+  z-index: 1;
   min-height: 78px;
   display: flex;
   align-items: center;
