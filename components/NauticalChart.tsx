@@ -25,6 +25,9 @@ const SPACING = 26; // px between dot centres
 const INFLUENCE = 150; // cursor radius of effect
 const RESTING_ALPHA = 0.16; // dot opacity at rest
 const LIFTED_ALPHA = 0.5; // dot opacity under the cursor
+// Below this per-frame step a dot is visually at its target; we snap and use
+// it to detect when the whole field has settled and the rAF loop can park.
+const LIFT_EPSILON = 0.002;
 // Drawn in gold rather than black: the chart sits on the hero's deep prussian
 // field, and near-black ink would simply vanish against it.
 const INK = "216, 165, 32"; // poster gold
@@ -137,7 +140,9 @@ export default function NauticalChart({ className = "" }: { className?: string }
       drawRhumbLines(cx, cy, Math.hypot(width, height));
       drawCompassRose(cx, cy, radius);
 
-      // The dot field, lifted inside the pointer's influence.
+      // The dot field, lifted inside the pointer's influence. `settled` is
+      // false while any dot still has distance to travel this frame.
+      let settled = true;
       for (const dot of dots) {
         let target = 0;
         if (pointer.active) {
@@ -150,14 +155,29 @@ export default function NauticalChart({ className = "" }: { className?: string }
           }
         }
         // Ease toward the target so the field trails the cursor rather than
-        // snapping to it.
-        dot.lift += (target - dot.lift) * (target > dot.lift ? 0.18 : 0.08);
+        // snapping to it. Past the epsilon the dot is visually there, so snap
+        // exactly — that both kills the asymptotic crawl and lets the loop
+        // below detect a fully settled field.
+        const delta = (target - dot.lift) * (target > dot.lift ? 0.18 : 0.08);
+        if (Math.abs(delta) > LIFT_EPSILON) settled = false;
+        dot.lift = Math.abs(delta) > LIFT_EPSILON ? dot.lift + delta : target;
 
         const alpha = RESTING_ALPHA + (LIFTED_ALPHA - RESTING_ALPHA) * dot.lift;
         const size = 1 + dot.lift * 1.1;
 
         ctx.fillStyle = `rgba(${INK}, ${alpha.toFixed(3)})`;
         ctx.fillRect(dot.x - size / 2, dot.y - size / 2, size, size);
+      }
+
+      // Park the loop once nothing is animating. render() reschedules itself,
+      // so without this the rAF chain runs forever after the first pointermove
+      // — the only other stops are window blur and unmount — redrawing an
+      // unchanged canvas at 60fps for the rest of the session. Every
+      // pointermove calls start() again, so parking costs no responsiveness.
+      if (settled) {
+        running = false;
+        frame = 0;
+        return;
       }
 
       frame = window.requestAnimationFrame(render);
