@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="The Caravel">
+  <!-- The favicon, reduced to the poster's two inks: prussian field with the
+       lateen sail and hull in gold. Same lozenge as the wordmark. -->
+  <rect width="64" height="64" fill="#0b2431" />
+  <path d="M32 10 L52 30 L32 30 Z" fill="#eecb62" />
+  <path d="M32 30 L12 50 L32 50 Z" fill="#d8a520" />
+  <path d="M30 24 h4 v26 h-4 Z" fill="#f7f1e6" />
+  <path d="M14 54 q18 7 36 0 l-3 5 q-15 5 -30 0 Z" fill="#cf3b1e" />
+</svg>
