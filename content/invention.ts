@@ -1,25 +1,14 @@
-/**
- * Research and pitch copy lives here so it can be edited in one place.
- *
- * SOURCE RULE: historical claims below come ONLY from Mark's research paper
- * ("The Caravel: The Ship That Made the Age of Exploration Possible",
- * World History, 23 Sept 2026). No outside historical facts were added.
- * The investment amount and equity are fictional classroom pitch terms.
- */
+// All the writing for the site. The history comes from my research paper.
+// The investment amount and equity are made up for the pitch.
 export const invention = {
   name: "The Caravel",
   tagline: "The ship that made the Age of Exploration possible.",
   eyebrow: "Shark Tank · Exploration Inventions",
-  // No longer rendered: the hero was cut back to a Plakatstil poster of a
-  // name, one line and one plate, and this paragraph was the third restatement
-  // of the same pitch. Kept because it is Mark's own copy and reads better
-  // than the trimmed /pitch body if he ever wants it back on that page.
+  // Kept in case I want it back on the pitch page.
   heroPitch:
     "For my Shark Tank project, I chose the caravel. It's a small, fast Portuguese sailing ship from the 1400s. What makes it worth investing in? Its sails, hull, and steering made exploring new coastlines a lot easier. Here's why I think the sharks should buy it.",
 
-  // The hero is a Plakatstil poster: three figures under a hairline, set as
-  // the sheet's small print. Labels are kept to three or four words there —
-  // the full sentence for each one is in the research pages.
+  // Three numbers for the cover.
   stats: [
     { value: "20°", label: "off the wind" },
     { value: "1451", label: "the redesign" },
@@ -114,7 +103,7 @@ export const invention = {
     comparison: {
       heading: "Old ships vs. the caravel",
       rows: [
-        { old: "Barge and barinel — one square sail, overwhelmed by winds and currents", ours: "Lateen sails — beat 20° into the wind" },
+        { old: "Barge and barinel — one square sail, beaten by winds and currents", ours: "Lateen sails — beat 20° into the wind" },
         { old: "Overlapping planks, heavy drag in the water", ours: "Carvel-built hull — planks edge to edge, less drag, more speed" },
         { old: "Side rudders, clumsy steering", ours: "Centerline rudder — precise control" },
       ],
@@ -123,12 +112,12 @@ export const invention = {
 
   honestCatch: {
     heading: "What are the downsides?",
-    body: "The caravel was not perfect. Being small meant it couldn't carry much cargo or a large crew. Once the exploring was done and it was time to ship spices back and forth, the Portuguese replaced the caravel with the bigger carrack, also called a nau, which was more profitable for trade. That's why my pitch is about exploration. The caravel was the ship of discovery, not the ship of delivery.",
+    body: "The caravel was not perfect. Being small meant it couldn't carry much cargo or a large crew. Once the exploring was done and it was time to ship spices back and forth, the Portuguese replaced the caravel with the bigger carrack, also called a nau, which made more money in trade. That's why my pitch is about exploration. The caravel was the ship of discovery, not the ship of delivery.",
   },
 
   theAsk: {
     heading: "The ask",
-    amount: "50,000 gold cruzados",
+    amount: "50,000 gold coins",
     equity: "10% equity",
     body: "Sharks, I'm asking you to invest in a fleet of caravels. I'd use the money to build the ships and fund exploration along the West African coast. The goal would be to find new sea routes for trade.",
     disclaimer: "I made up this investment amount and percentage for my Shark Tank pitch. They aren't actual historical prices.",
@@ -142,7 +131,7 @@ export const invention = {
 
   footer: {
     note: "My Exploration Inventions Shark Tank project · Mark Gatcha · World History",
-    sourcesNote: "These are the sources I used for my research paper, “The Caravel: The Ship That Made the Age of Exploration Possible.” My paper and source access dates are September 23, 2026.",
+    sourcesNote: "These are the sources I used for my research paper, “The Caravel: The Ship That Made the Age of Exploration Possible.” I looked at them on September 23, 2026.",
     sources: [
       { title: "The Caravel", publisher: "Science, Civilization and Society", url: "https://www.physocean.icm.csic.es/science+society/lectures/illustrations/lecture17/caravel.html" },
       { title: "Caravel/History", publisher: "Rise of Nations Wiki · Fandom", url: "https://riseofnations.fandom.com/wiki/Caravel/History" },

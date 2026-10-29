@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import VoyageEffects from "@/components/VoyageEffects";
+import Link from "next/link";
+import PageMasthead from "@/components/PageMasthead";
 import { invention } from "@/content/invention";
 
 export const metadata: Metadata = {
@@ -10,30 +11,47 @@ export const metadata: Metadata = {
 export default function SourcesPage() {
   return (
     <main id="main">
-      <VoyageEffects />
-      <section id="sources" className="sources-footer page-hero">
+      <PageMasthead
+        number="05"
+        kicker="Sources · what I used"
+        title="Where I got this."
+        deck={invention.footer.sourcesNote}
+        variant="folio"
+      />
+
+      <section id="sources" className="sources-backmatter light-chapter">
         <div className="page-width">
-          <p className="eyebrow entrance">Works cited &middot; accessed 23 September 2026</p>
-          {/* This route's h1. Every other route opens with an h1 in its page
-              hero; this one opened straight into an h2, which left the page
-              with no top-level heading at all. */}
-          <h1 className="entrance entrance-two">My sources</h1>
-          <p className="page-hero-body entrance entrance-three">{invention.footer.sourcesNote}</p>
-          <div className="footer-heading footer-heading-flush">
-            <p className="folio">05</p>
+          <div className="sources-column">
+            <div className="sources-heading">
+              <p className="eyebrow">Sources I used</p>
+              <h2>My sources</h2>
+              <p className="folio">I looked at these on 23 September 2026</p>
+            </div>
+
+            <ol className="works-list">
+              {invention.footer.sources.map((source) => (
+                <li key={source.url}>
+                  <a href={source.url} target="_blank" rel="noopener noreferrer">
+                    {source.title}
+                    <small>{source.publisher}</small>
+                  </a>
+                  <span aria-hidden="true" className="source-mark" />
+                </li>
+              ))}
+            </ol>
+
+            <aside className="sources-note">
+              <p className="eyebrow">How I used these</p>
+              <p>
+                I used these for the ship details and the voyages. If a fact was not in my
+                paper, I did not put it on the site.
+              </p>
+            </aside>
+
+            <p className="sources-return">
+              <Link href="/pitch" className="pencil">Back to the ask</Link>
+            </p>
           </div>
-          <ul className="source-list">
-            {invention.footer.sources.map((source, i) => (
-              <li key={source.url}>
-                <span>0{i + 1}</span>
-                <a href={source.url} target="_blank" rel="noopener noreferrer">
-                  {source.title}
-                  <small>{source.publisher}</small>
-                </a>
-                <span aria-hidden="true" className="source-mark" />
-              </li>
-            ))}
-          </ul>
         </div>
       </section>
     </main>

@@ -1,31 +1,8 @@
 @import "tailwindcss";
 
-/* ══════════════════════════════════════════════════════════════════════════
-   THE CARAVEL — 1900s lithographic poster system
+/* The look: flat chart inks on old paper. */
 
-   The visual brief: an ocean-liner travel poster from the first decade of the
-   1900s. That means a limited ink palette printed in flat, unmodulated areas;
-   fat Didone poster lettering; geometric Jugendstil capitals for the labels;
-   and Art Nouveau ornament — thin double rules, whiplash curves, almond
-   leaves. Nothing here is shaded, nothing has a soft drop shadow, and nothing
-   fades into a gradient. A poster is flat because the press could not do
-   otherwise, and flatness is what makes it read as printed.
-
-   Type
-     Abril Fatface → the headline. Fat Didone, cut for display, unmissable.
-     Goudy Bookletter 1911 → labels and navigation. Frederic Goudy drew the
-                      original in 1911, so the label register is the one
-                      printers were actually setting in the poster's own year.
-     EB Garamond   → reading text. Old-style serif, holds up at 16px.
-
-   Colour is a five-ink palette: ink black-blue, prussian, vermillion, ochre
-   gold, teal, on aged poster stock.
-   ══════════════════════════════════════════════════════════════════════════ */
-
-/* ── TYPEFACES ────────────────────────────────────────────────────────────
-   Self-hosted from app/fonts, latin subset, so the build stays offline-safe
-   and deterministic. Poiret One and EB Garamond ship as variable fonts, so
-   each is declared once with a weight range rather than per weight. */
+/* Fonts, kept local so the site works offline. */
 @font-face {
   font-family: "Abril Fatface";
   src: url("./fonts/abrilfatface-400-roman.woff2") format("woff2");
@@ -62,15 +39,15 @@
 
   --color-ink: #141a20;
   --color-ink-light: #3b444d;
-  --color-ink-faint: #4f5760;      /* was #6f7883: 2.84:1 on stock-deep (WCAG AA fail) */
+  --color-ink-faint: #4f5760;
 
-  /* Poster stock — the paper itself. */
+  /* Paper. */
   --color-stock: #f4ece0;
   --color-stock-dark: #e9dcc6;
-  --color-stock-deep: #e7dac2;     /* was #dcccb0: darkened every faint ink below 4.5:1 */
+  --color-stock-deep: #e7dac2;
 
-  /* The inks. */
-  --color-vermillion: #a3270f;     /* was #cf3b1e: 3.10:1 on stock-deep (WCAG AA fail) */
+  /* Inks. */
+  --color-vermillion: #a3270f;
   --color-vermillion-deep: #8a2009;
   --color-prussian: #14384a;
   --color-prussian-deep: #0b2431;
@@ -78,23 +55,21 @@
   --color-gold-light: #eecb62;
   --color-sea: #2b8079;
 
-  /* Shorthand alias for the gold ink.
-     `var(--gold)` is referenced in ten rules below; without this declaration
-     Tailwind v4 strips the property entirely, which made every gold rule
-     resolve to nothing — including `.button:hover { background: var(--gold) }`,
-     so the hero button went transparent on hover. */
   --gold: var(--color-gold);
 }
 
 :root {
-  --rule-ink: #8a7650;        /* hairline rules; >=3:1 on every stock so they stay visible */
+  --rule-ink: #8a7650;
   --rule-ink-strong: #7a6844;
-  --muted: #565140;           /* secondary text on light stock; was #6f6a5c (3.42:1 on deep) */
+  --muted: #565140;
 }
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; scroll-padding-top: 104px; }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 24px;
+}
 
 body {
   margin: 0;
@@ -102,15 +77,23 @@ body {
   color: var(--color-ink);
   font-family: var(--font-body);
   font-size: 16px;
-  /* Scroll-driven entrances slide rows in from the right, which would give a
-     phone a momentary horizontal scrollbar. `clip` rather than `hidden`:
-     hidden would make the body a scroll container and break the sticky
-     specification plate. */
   overflow-x: clip;
 }
 
+/* A little tooth over the whole sheet so the inks do not look like a screen. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  background: url("/grain.png") repeat;
+  background-size: 160px 160px;
+  opacity: .5;
+}
+
 a { text-decoration: none; }
-button, a { -webkit-tap-highlight-color: transparent; }
+button, a, summary { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 button { font: inherit; cursor: pointer; }
 
 a:focus-visible,
@@ -122,16 +105,18 @@ summary:focus-visible {
 
 ::selection { background: var(--color-gold); color: var(--color-ink); }
 
-h1, h2, h3, p, figure { margin: 0; }
-h1, h2, h3 { font-family: var(--font-display); font-weight: 400; }
+h1, h2, h3, p, figure, dl, dd { margin: 0; }
+blockquote { margin-inline: 0; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 400; text-wrap: balance; }
 p { line-height: 1.7; }
 em { font-style: italic; }
 
 .page-width { width: min(1180px, calc(100% - 80px)); margin-inline: auto; }
 
-/* The skip link — the first tab stop on every page. Visually hidden until
-   focused, then pinned under the fixed header so keyboard users can bypass
-   the navigation. Without it, every route starts with five nav links. */
+/* Narrower text column for the inside pages. */
+.sheet { width: min(940px, 100%); margin-inline: auto; }
+
+/* Skip link. */
 .skip-link {
   position: fixed;
   top: 8px;
@@ -144,7 +129,6 @@ em { font-style: italic; }
   padding: 10px 18px;
   font-family: var(--font-nouveau);
   font-size: 12px;
-  font-weight: 500;
   letter-spacing: .18em;
   text-transform: uppercase;
   transition: transform .2s;
@@ -154,8 +138,6 @@ em { font-style: italic; }
   outline-offset: 2px;
 }
 
-/* Screen-reader-only text: available to assistive tech, absent visually.
-   Used to label the comparison table's two columns on narrow viewports. */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -168,235 +150,79 @@ em { font-style: italic; }
   border: 0;
 }
 
-/* The label face. Poiret One at wide tracking is the poster's small-cap
-   register — used for every eyebrow, nav item and caption on the site. */
+/* Small caps label. */
 .eyebrow {
   font-family: var(--font-nouveau);
   font-size: 13px;
-  font-weight: 400;
-  letter-spacing: .28em;
+  letter-spacing: .24em;
   text-transform: uppercase;
   color: var(--color-vermillion);
 }
 
-/* ── INVERTED TEXT TOKENS ────────────────────────────────────────────────
-   Deep fields need their own text colours. The light-stock ink is
-   unreadable on prussian, and the vermillion is too dark to sit on it, so
-   every dark surface re-declares the set below. */
-.dark-chapter,
-.ink-bg,
-.site-header {
-  --text-strong: #f7f1e6;
-  --text-body: #cdc0aa;
-  --text-faint: #a89c87;      /* was #9b8f7c: 3.90:1 on prussian (WCAG AA fail) */
-  --text-accent: var(--color-gold-light);
-  --rule-on-dark: rgba(238, 203, 98, .3);
-  color: var(--text-body);
-}
-.dark-chapter h1, .dark-chapter h2, .dark-chapter h3,
-.ink-bg h1, .ink-bg h2, .ink-bg h3 { color: var(--text-strong); }
-.dark-chapter .eyebrow, .ink-bg .eyebrow, .site-header .eyebrow {
-  color: var(--text-accent);
-}
-.dark-chapter .page-hero-body,
-.dark-chapter .section-heading > p:last-child:not(.eyebrow),
-.ink-bg .page-hero-body { color: var(--text-body); }
-.dark-chapter a,
-.ink-bg a { color: var(--text-accent); }
-
-/* ── POSTER STOCK & PRESS SURFACES ────────────────────────────────────────
-   A lithographic sheet: uncoated fibre, a faint dot screen, and two barely
-   there bloom marks where the ink spread. Kept under 5% so it reads as paper
-   rather than as a filter applied over the design. */
-.stock-bg {
-  background-color: var(--color-stock);
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E"),
-    radial-gradient(ellipse at 12% 4%, #ffffff50 0%, transparent 55%),
-    radial-gradient(ellipse at 88% 96%, #c9b48f28 0%, transparent 55%);
-}
-.stock-bg-dark {
-  background-color: var(--color-stock-dark);
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-}
-
-/* The deep field. Flat prussian with a faint screen, the way a poster's
-   background ink actually lays down. */
+/* Flat paper and ink fields. */
+.stock-bg { background-color: var(--color-stock); }
 .ink-bg {
   background-color: var(--color-prussian);
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.14'/%3E%3C/svg%3E");
+  color: #cdc0aa;
+  --text-strong: #f7f1e6;
+  --text-body: #cdc0aa;
+  --text-accent: var(--color-gold-light);
 }
+.ink-bg h1, .ink-bg h2, .ink-bg h3 { color: #f7f1e6; }
+.ink-bg .eyebrow { color: var(--color-gold-light); }
+.ink-bg a { color: var(--color-gold-light); }
 
-/* ── THE GRAIN OVERLAY ───────────────────────────────────────────────────
-   A halftone screen over the whole page, the way a period poster would have
-   been printed for a mass audience. Fixed, non-interactive, multiply-blended
-   so it darkens without tinting. */
-.print-grain {
-  position: fixed;
-  inset: 0;
-  z-index: 30;
-  pointer-events: none;
-  opacity: .55;
-  mix-blend-mode: multiply;
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='0.04'/%3E%3C/svg%3E"),
-    radial-gradient(circle at 50% 50%, #0000000a 0.5px, transparent 0.7px);
-  background-size: 140px 140px, 3px 3px;
-}
-/* Edge wear. A sheet that has been on a wall since 1900 is not evenly toned:
-   it browns at the margins where the light reached it. Kept at roughly 7%
-   after the overlay's own opacity, so it reads as age, not as a vignette
-   filter. */
-.print-grain::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 76% 60% at 50% 40%, transparent 55%, #6b4a2420 100%);
-}
+/* ═══ RULES AND FRAMES ═══ */
 
-/* ══════════════════════════════════════════════════════════════════════════
-   ART NOUVEAU ORNAMENT
+.rule-double {
+  border-top: 3px solid var(--color-ink);
+  border-bottom: 1px solid var(--color-ink);
+  height: 8px;
+}
+.rule-single { border-top: 1px solid var(--rule-ink); }
+.rule-bottom { border-bottom: 1px solid var(--rule-ink); }
 
-   The furniture of a 1900s poster: thin double rules, a turned diamond, and
-   whiplash curves that bracket the type instead of sitting behind it.
-   ══════════════════════════════════════════════════════════════════════════ */
-
-/* The turned-diamond divider — the single most Art Nouveau device. */
-.ornament-rule {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-block: 44px;
-  color: var(--rule-ink-strong);
-}
-.ornament-rule::before,
-.ornament-rule::after {
-  content: "";
-  flex: 1;
-  height: 4px;
-  border-top: 1px solid currentColor;
-  border-bottom: 1px solid currentColor;
-  opacity: .45;
-}
-.ornament-rule span {
-  font-family: var(--font-nouveau);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: .3em;
-  text-transform: uppercase;
-  color: var(--color-vermillion);
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-/* The lozenge either side of the label. */
-.ornament-rule span::before,
-.ornament-rule span::after {
-  content: "";
-  width: 7px;
-  height: 7px;
-  border: 1px solid currentColor;
-  transform: rotate(45deg);
-  flex: none;
-}
-
-/* A double-rule frame for plates — the compositor's printed border. */
+/* A printed box: one line, then a second line inside it. */
 .plate-frame {
   border: 1px solid var(--rule-ink-strong);
   outline: 1px solid var(--rule-ink-strong);
   outline-offset: 4px;
 }
 
-/* Section numeral, set as a poster plate number.
-   Abril Fatface has a tall cap height and a tight line box, so the numeral
-   needs its own margin rather than being tucked up under the label: any
-   negative pull drops the label straight into the digits. */
-.section-number {
-  display: block;
-  font-family: var(--font-display);
-  font-size: clamp(52px, 8vw, 96px);
-  line-height: .82;
+.notice-box {
+  border: 1px solid var(--color-ink);
+  outline: 1px solid var(--color-ink);
+  outline-offset: 4px;
+  background: var(--color-stock);
+  padding: 34px;
+}
+
+/* A little rotated stamp. */
+.stamp {
+  display: inline-block;
+  border: 2px solid var(--color-vermillion);
   color: var(--color-vermillion);
-  margin-bottom: 0;
-  letter-spacing: -.03em;
-  user-select: none;
-}
-.page-hero .eyebrow { margin-top: 14px; position: relative; z-index: 1; }
-
-
-
-/* A pull quote — flat cream plate, rule above and below, no shadow. */
-.pull-quote {
-  border-block: 1px solid var(--color-vermillion);
-  padding-block: 28px;
-  margin-block: 44px;
-  font-family: var(--font-display);
-  font-size: clamp(21px, 2.6vw, 32px);
-  line-height: 1.35;
-  color: var(--color-ink);
-  text-align: center;
-  text-wrap: balance;
-}
-.pull-quote cite {
-  display: block;
-  margin-top: 16px;
+  padding: 6px 10px 4px;
   font-family: var(--font-nouveau);
-  font-size: 12px;
-  font-style: normal;
-  letter-spacing: .28em;
+  font-size: 11px;
+  letter-spacing: .18em;
   text-transform: uppercase;
-  color: var(--color-vermillion);
-  font-weight: 400;
+  transform: rotate(-2deg);
+  line-height: 1.3;
+}
+.stamp-gold {
+  border-color: var(--color-gold-light);
+  color: var(--color-gold-light);
 }
 
-/* The marginal note, set in the outer column. */
-.margin-note {
-  font-family: var(--font-nouveau);
-  font-size: 12px;
-  letter-spacing: .08em;
-  line-height: 1.7;
-  color: var(--muted);
-  border-left: 1px solid var(--color-vermillion);
-  padding-left: 14px;
-  margin-top: 18px;
-}
-/* ── TWO-COLUMN SETTING ──────────────────────────────────────────────────
-   Also a readability fix: one wide column of body text runs well past the
-   45–75 character measure that reads comfortably, so long passages are set in
-   two columns instead. column-rule draws the divider inside the gap and takes
-   up no layout space. */
-.newspaper-columns {
-  columns: 2 320px;
-  column-gap: 46px;
-  column-rule: 1px solid var(--rule-ink);
-  orphans: 3;
-  widows: 3;
-  font-size: 16px;
-}
-.newspaper-columns p + p { margin-top: 1em; }
-.newspaper-columns figure,
-.newspaper-columns blockquote,
-.newspaper-columns li { break-inside: avoid; }
-.column-span-all { column-span: all; margin-bottom: 26px; }
-.newspaper-columns-wide {
-  columns: 3 260px;
-  column-gap: 40px;
-  column-rule: 1px solid var(--rule-ink);
-  orphans: 3;
-  widows: 3;
+/* Underline that looks pencilled in. */
+.pencil {
+  text-decoration: underline;
+  text-decoration-color: var(--color-vermillion);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 5px;
 }
 
-/* ── RULES ────────────────────────────────────────────────────────────────
-   The double rule is the poster's structural signature: a heavy bar over a
-   hairline, or the reverse, never a single 1px line on its own. */
-.rule-double { border-top: 3px solid var(--color-ink); border-bottom: 1px solid var(--color-ink); }
-.rule-single { border-top: 1px solid var(--rule-ink); }
-.rule-bottom { border-bottom: 1px solid var(--rule-ink); }
-
-/* A raised initial, set in the poster face. */
 .drop-cap::first-letter {
   float: left;
   font-family: var(--font-display);
@@ -407,65 +233,17 @@ em { font-style: italic; }
   padding-top: 6px;
 }
 
-/* ══════════════════════════════════════════════════════════════════════════
-   MASTHEAD
-   Frosted rather than painted. The bar takes the colour of whatever is
-   scrolling under it, so it stays glassy over the deep hero and warms up over
-   the cream chapters. Three things keep it from reading as a UI panel: square
-   corners, the press grain the sheet itself carries, and a gold rule whose
-   alpha wanders a little instead of sitting at a constant value. */
-.site-header {
-  position: fixed;
-  inset: 0 0 auto;
-  z-index: 50;
-  background:
-    linear-gradient(
-      177deg,
-      rgba(17, 47, 62, .91) 0%,
-      rgba(11, 36, 49, .85) 52%,
-      rgba(8, 28, 40, .91) 100%
-    );
-  -webkit-backdrop-filter: blur(26px) saturate(135%);
-  backdrop-filter: blur(26px) saturate(135%);
-}
-/* The tooth of the glass. Without a grain layer the blur lays down a
-   flawless gradient, which is exactly what makes a bar look synthetic. */
-.site-header::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: .55;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='h'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23h)' opacity='0.32'/%3E%3C/svg%3E");
-}
-/* The rule under the masthead, inked rather than printed: the opacity moves
-   across the width the way a hand-ruled border does. */
-.site-header::after {
-  content: "";
-  position: absolute;
-  inset: auto 0 -2px;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    rgba(216, 165, 32, .78) 0%,
-    rgba(216, 165, 32, .97) 16%,
-    rgba(216, 165, 32, .85) 44%,
-    rgba(216, 165, 32, .99) 71%,
-    rgba(216, 165, 32, .82) 100%
-  );
-}
+/* ═══ MASTHEAD ═══ */
 
-/* Where the blur is unavailable the bar falls back to the flat ink it was
-   printed with, which is still correct — just not frosted. */
-@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-  .site-header { background: var(--color-prussian-deep); }
+.site-header {
+  position: relative;
+  z-index: 20;
+  background: var(--color-stock);
+  border-top: 1px solid var(--rule-ink);
+  border-bottom: 3px double var(--color-ink);
 }
 .navbar {
-  /* Above the grain layer, or the noise sits on top of the links. */
-  position: relative;
-  z-index: 1;
-  min-height: 78px;
+  min-height: 68px;
   display: flex;
   align-items: center;
   gap: 26px;
@@ -476,14 +254,13 @@ em { font-style: italic; }
   gap: 10px;
   font-family: var(--font-display);
   font-size: 21px;
-  color: #f7f1e6;
+  color: var(--color-ink);
   letter-spacing: -.01em;
 }
-/* A small turned diamond leading the wordmark. */
 .brand-mark {
   width: 11px;
   height: 11px;
-  color: var(--color-gold-light);
+  color: var(--color-vermillion);
   flex: none;
   align-self: center;
 }
@@ -491,51 +268,1028 @@ em { font-style: italic; }
 .nav-links a,
 .mobile-navigation a {
   font-family: var(--font-nouveau);
-  font-size: 12.5px;
-  font-weight: 400;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: #b9ae99;
+  font-size: 14px;
+  letter-spacing: .02em;
+  color: var(--color-ink-light);
   transition: color .2s;
   display: inline-flex;
   align-items: baseline;
   gap: 7px;
 }
 .nav-links a:hover,
-.mobile-navigation a:hover { color: var(--color-gold-light); }
+.mobile-navigation a:hover { color: var(--color-vermillion); }
+.nav-links a { position: relative; }
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 4px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='4'%3E%3Cpath d='M0 3Q2.5 0 5 3T10 3' fill='none' stroke='%23a3270f' stroke-width='1'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 10px 4px;
+  opacity: 0;
+  transform: translateY(2px);
+  transition: opacity .2s, transform .2s;
+}
+.nav-links a:hover::after,
+.nav-links a:focus-visible::after { opacity: 1; transform: translateY(0); }
 .mobile-navigation { display: none; margin-left: auto; position: relative; }
 .mobile-navigation summary {
   list-style: none;
   font-family: var(--font-nouveau);
-  font-size: 12px;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  padding: 9px 14px;
-  border: 1px solid var(--gold);
+  font-size: 13px;
+  letter-spacing: .04em;
+  padding: 7px 12px;
+  border: 1px solid var(--color-ink);
   cursor: pointer;
-  color: var(--color-gold-light);
+  color: var(--color-ink);
 }
 .mobile-navigation summary::-webkit-details-marker { display: none; }
 .mobile-navigation div {
   position: absolute;
   right: 0;
-  top: 44px;
-  background: var(--color-prussian-deep);
-  border: 1px solid var(--gold);
+  top: 42px;
+  background: var(--color-stock);
+  border: 1px solid var(--color-ink);
   padding: 16px;
   width: 190px;
   display: grid;
   gap: 14px;
 }
 
-/* ── COLOPHON ────────────────────────────────────────────────────────────
-   Every printed sheet ends with the printer's imprint, and so does every
-   route here. Before this, interior pages simply stopped mid-scroll with no
-   closing mark at all — the one place the design broke its own metaphor. */
+/* ═══ HOME HERO ═══ */
+
+.hero {
+  min-height: calc(100svh - 72px);
+  display: flex;
+  align-items: center;
+  padding: 28px 0 44px;
+  position: relative;
+  overflow: hidden;
+  background: var(--color-prussian);
+  color: #cdc0aa;
+}
+.hero > .page-width { position: relative; z-index: 2; }
+
+/* The chart under the drawing: bearings and rings behind the compass. */
+.hero-chart {
+  position: absolute;
+  width: min(1120px, 132vw);
+  height: min(1120px, 132vw);
+  left: 50%;
+  top: 52%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  color: rgba(238, 203, 98, .16);
+  pointer-events: none;
+}
+.hero-chart svg { display: block; width: 100%; height: 100%; }
+.hero-chart-web { opacity: .55; }
+
+.hero-compass {
+  position: absolute;
+  width: min(680px, 88vw);
+  height: min(680px, 88vw);
+  left: 50%;
+  top: 52%;
+  transform: translate(-50%, -50%);
+  color: rgba(238, 203, 98, .16);
+  z-index: 0;
+  pointer-events: none;
+}
+.hero-compass svg { width: 100%; height: 100%; display: block; }
+.hero-bezel {
+  position: absolute;
+  inset: 0;
+  /* A separate layer, so only the ring turns. */
+  animation: bezel-drift 240s linear infinite;
+}
+
+.hero-frame {
+  position: absolute;
+  inset: 18px 20px 20px;
+  z-index: 3;
+  pointer-events: none;
+  color: rgba(238, 203, 98, .5);
+  /* A small printed scale along the top and bottom of the frame. */
+  background-image:
+    repeating-linear-gradient(90deg, rgba(238, 203, 98, .18) 0 1px, transparent 1px 22px),
+    repeating-linear-gradient(90deg, rgba(238, 203, 98, .18) 0 1px, transparent 1px 22px);
+  background-size: 100% 4px, 100% 4px;
+  background-position: 0 2px, 0 100%;
+  background-repeat: no-repeat;
+}
+.hero-frame > svg {
+  position: absolute;
+  width: 58px;
+  height: 58px;
+}
+.hero-frame > svg:nth-child(1) { top: 0; left: 0; }
+.hero-frame > svg:nth-child(2) { top: 0; right: 0; }
+.hero-frame > svg:nth-child(3) { bottom: 0; right: 0; }
+.hero-frame > svg:nth-child(4) { bottom: 0; left: 0; }
+
+.hero-poster {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.hero h1 {
+  overflow-wrap: break-word;
+  font-size: clamp(44px, 8.6vw, 112px);
+  line-height: .86;
+  letter-spacing: -.035em;
+  color: #f7f1e6;
+  margin-top: 14px;
+}
+.hero-tagline {
+  margin-top: 20px;
+  font-size: clamp(17px, 1.5vw, 21px);
+  font-style: italic;
+  color: #cdc0aa;
+}
+.hero-tagline em { color: var(--color-gold-light); }
+.hero-plate {
+  width: min(540px, 68vw);
+  margin-top: 8px;
+  transform-origin: 50% 88%;
+  /* The whole plate floats a little; compositing only, no repaint. */
+  animation: plate-float 11s ease-in-out infinite;
+}
+.hero-ship {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.hero-smallprint {
+  margin-top: 6px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-style: italic;
+  letter-spacing: .01em;
+  color: #b7aa92;
+  transform: rotate(-.8deg);
+}
+
+/* Slow enough that you notice it only after a while. */
+@keyframes bezel-drift {
+  to { transform: rotate(360deg); }
+}
+@keyframes plate-float {
+  0%, 100% { transform: translate3d(-2px, 0, 0) rotate(-.14deg); }
+  50% { transform: translate3d(2px, -6px, 0) rotate(.3deg); }
+}
+
+/* The particulars sit in the contents margin. */
+.home-particulars {
+  margin-top: 74px;
+  padding-inline: 18px;
+  background: var(--color-stock-dark);
+  border-top: 3px solid var(--color-ink);
+  border-bottom: 1px solid var(--rule-ink);
+}
+.stat { padding: 20px 0 22px; text-align: left; }
+.stat + .stat { border-top: 1px solid var(--rule-ink); }
+.stat strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 400;
+  color: var(--color-ink);
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+}
+.stat:first-child strong { font-size: 42px; }
+.stat span {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-nouveau);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ═══ CHAPTERS ═══ */
+
+.chapter { padding-block: 68px; scroll-margin-top: 24px; }
+.light-chapter { background-color: var(--color-stock); color: var(--color-ink); }
+.paper-chapter { background-color: var(--color-stock-dark); color: var(--color-ink); }
+.deep-chapter { background-color: var(--color-stock-deep); color: var(--color-ink); }
+.dark-chapter {
+  background: var(--color-prussian-deep);
+  color: #cdc0aa;
+  border-bottom: 2px solid var(--color-gold);
+}
+.dark-chapter h1, .dark-chapter h2, .dark-chapter h3 { color: #f7f1e6; }
+.dark-chapter .eyebrow { color: var(--color-gold-light); }
+.dark-chapter a { color: var(--color-gold-light); }
+.chapter-flush { padding-top: 0; }
+
+.section-heading { max-width: 720px; margin-bottom: 38px; }
+.section-heading h2 {
+  font-size: clamp(28px, 3.4vw, 44px);
+  line-height: 1.08;
+  letter-spacing: -.02em;
+  margin-top: 12px;
+}
+.section-heading > p:last-child:not(.eyebrow) {
+  margin-top: 14px;
+  font-size: 16px;
+  color: var(--color-ink-faint);
+  max-width: 620px;
+}
+
+/* Contents head on the home page. */
+.contents-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  border-top: 3px solid var(--color-ink);
+  border-bottom: 1px solid var(--color-ink);
+  padding: 12px 0 14px;
+  margin-bottom: 26px;
+}
+.contents-head h2 { font-size: 28px; line-height: 1; }
+.contents-head p { font-size: 15px; color: var(--color-ink-faint); }
+
+/* ═══ INSIDE PAGE MASTHEAD ═══ */
+
+.page-masthead {
+  padding: 56px 0 48px;
+  background: var(--color-stock);
+  border-bottom: 1px solid var(--rule-ink);
+}
+.masthead-inner { max-width: 940px; }
+.masthead-run {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  font-family: var(--font-nouveau);
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-bottom: 10px;
+  white-space: nowrap;
+}
+.masthead-run span:last-child { color: var(--color-vermillion); }
+.page-masthead .rule-double { margin-bottom: 34px; }
+.page-masthead h1 {
+  font-size: clamp(38px, 5.6vw, 72px);
+  line-height: .98;
+  letter-spacing: -.025em;
+  margin-top: 16px;
+  text-wrap: balance;
+}
+.page-masthead h1 em { color: var(--color-vermillion); font-style: normal; }
+.page-hero-body {
+  font-size: 18px;
+  line-height: 1.65;
+  color: var(--color-ink-faint);
+  max-width: 650px;
+  margin-top: 18px;
+}
+.masthead-wave {
+  display: block;
+  width: 100%;
+  height: 18px;
+  margin-top: 30px;
+  color: var(--color-sea);
+}
+
+.masthead-broadside .masthead-inner,
+.masthead-diagram .masthead-inner,
+.masthead-folio .masthead-inner { max-width: 1180px; }
+.masthead-broadside .masthead-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr);
+  column-gap: 56px;
+  align-items: end;
+}
+.masthead-broadside .eyebrow,
+.masthead-broadside h1 { grid-column: 1; }
+.masthead-broadside h1 { font-size: clamp(52px, 7.5vw, 96px); }
+.masthead-broadside .page-hero-body {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  margin: 0 0 4px;
+  font-size: 17px;
+}
+
+.masthead-diagram h1 { max-width: 1000px; font-size: clamp(38px, 5vw, 64px); }
+.masthead-diagram .page-hero-body {
+  max-width: 680px;
+  margin-left: clamp(60px, 14vw, 190px);
+}
+.masthead-diagram .masthead-wave { width: 46%; margin-left: auto; }
+
+.masthead-advert .masthead-heading { text-align: center; }
+.masthead-advert h1 { max-width: 900px; margin-inline: auto; font-size: clamp(38px, 5vw, 64px); }
+.masthead-advert .page-hero-body { max-width: 700px; margin-inline: auto; }
+.masthead-advert .masthead-wave { width: min(360px, 70%); margin-inline: auto; }
+
+.masthead-notice { padding-bottom: 38px; border-bottom: 3px double var(--color-ink); }
+.masthead-notice .masthead-heading { max-width: 860px; }
+.masthead-notice h1 {
+  color: var(--color-vermillion);
+  font-size: clamp(44px, 6.4vw, 78px);
+}
+.masthead-notice .page-hero-body { max-width: 720px; }
+
+.masthead-folio { padding: 34px 0 30px; }
+.masthead-folio .rule-double { margin-bottom: 24px; }
+.masthead-folio .masthead-heading { max-width: 720px; }
+.masthead-folio h1 { font-size: clamp(30px, 3.5vw, 44px); margin-top: 10px; }
+.masthead-folio .page-hero-body { max-width: 640px; margin-top: 12px; font-size: 15px; }
+
+/* ═══ PROBLEM PAGE ═══ */
+
+.problem-broadside-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(260px, .7fr);
+  gap: 30px 64px;
+  align-items: start;
+}
+.problem-intro { grid-column: 1; grid-row: 1; }
+.problem-intro .spec-intro { margin-bottom: 0; }
+.problem-note {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
+  border-top: 1px solid var(--rule-ink-strong);
+  padding-top: 16px;
+}
+.problem-note > p:last-child { margin-top: 8px; color: var(--color-ink-light); }
+.problem-grid { display: contents; }
+.problem-grid .editorial-card:nth-child(1) { grid-column: 1; grid-row: 2; }
+.problem-grid .editorial-card:nth-child(2) { grid-column: 2; grid-row: 2; }
+.problem-grid .editorial-card:nth-child(3) { grid-column: 2; grid-row: 3; }
+.editorial-card {
+  border-top: 3px solid var(--color-ink);
+  border-bottom: 1px solid var(--rule-ink);
+  padding: 18px 0 22px;
+}
+.card-number {
+  font-family: var(--font-nouveau);
+  font-size: 12px;
+  color: var(--color-vermillion);
+  letter-spacing: .2em;
+}
+.editorial-card h3 { font-size: 21px; line-height: 1.2; margin: 10px 0 8px; }
+.editorial-card p { font-size: 15px; color: var(--color-ink-light); }
+.problem-grid .editorial-card:first-child h3 { font-size: 30px; }
+.problem-grid .editorial-card:first-child p { font-size: 17px; }
+
+.paper-extract {
+  grid-column: 1;
+  grid-row: 3;
+  border-block: 1px solid var(--color-ink);
+  padding: 26px 0;
+  margin: 0;
+}
+.paper-extract p {
+  font-family: var(--font-body);
+  font-size: clamp(20px, 2.4vw, 28px);
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--color-ink);
+}
+.paper-extract p::first-letter {
+  float: left;
+  font-family: var(--font-display);
+  font-style: normal;
+  font-size: 3em;
+  line-height: .8;
+  padding-right: 10px;
+  color: var(--color-vermillion);
+}
+.paper-extract cite {
+  display: block;
+  margin-top: 16px;
+  font-family: var(--font-nouveau);
+  font-size: 11px;
+  font-style: normal;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--color-vermillion);
+}
+.problem-conclusion {
+  grid-column: 1 / -1;
+  grid-row: 4;
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 32px;
+  margin-top: 10px;
+  padding-top: 22px;
+  border-top: 1px solid var(--rule-ink-strong);
+}
+.problem-conclusion > p:last-child { max-width: 700px; color: var(--color-ink-light); }
+.problem-research-layout {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: 54px;
+  align-items: start;
+}
+.problem-research-layout .feature-heading { margin: 0; }
+.problem-research .newspaper-columns { font-size: 15px; }
+
+/* ═══ HOW IT WORKS PAGE ═══ */
+
+.blueprint-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(320px, .88fr);
+  gap: 64px;
+  align-items: start;
+}
+.plate-figure {
+  background: var(--color-stock);
+  padding: 18px 18px 16px;
+  position: sticky;
+  top: 108px;
+}
+.plate-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--color-ink);
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  font-family: var(--font-nouveau);
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+.plate-head span:last-child { color: var(--color-vermillion); }
+.plate-drawing {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 90px;
+  gap: 10px;
+  align-items: center;
+}
+.blueprint-ship { width: 100%; display: block; }
+.plate-figure figcaption {
+  border-top: 1px solid var(--color-vermillion);
+  padding-top: 12px;
+  margin-top: 8px;
+  font-family: var(--font-nouveau);
+  font-size: 11px;
+  color: var(--color-vermillion);
+  letter-spacing: .14em;
+  line-height: 1.8;
+  text-transform: uppercase;
+}
+.plate-figure figcaption span {
+  color: var(--muted);
+  letter-spacing: .04em;
+  text-transform: none;
+  font-family: var(--font-body);
+  font-size: 14px;
+}
+.plate-key {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-ink-light);
+}
+.plate-key div { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 7px; }
+.plate-key dt {
+  font-family: var(--font-nouveau);
+  font-size: 12px;
+  color: var(--color-vermillion);
+}
+.plate-key dd { font-size: 13px; line-height: 1.35; }
+
+.blueprint-notes { min-width: 0; }
+.feature-list { list-style: none; margin: 0; padding: 0; }
+.feature-heading { font-size: 28px; line-height: 1.1; margin-bottom: 18px; }
+.feature-list li {
+  padding: 24px 0;
+  border-top: 1px solid var(--rule-ink);
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 16px;
+}
+.feature-list li:first-child { padding-top: 4px; border-top: 0; }
+.feature-number {
+  font-family: var(--font-display);
+  font-size: 30px;
+  line-height: 1;
+  color: var(--color-vermillion);
+  margin-top: 1px;
+}
+.feature-list h3 { font-size: 21px; line-height: 1.2; }
+.feature-list p { font-size: 15px; color: var(--muted); margin-top: 7px; }
+.blueprint-footnote { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--rule-ink-strong); }
+.blueprint-footnote > p:last-child { margin-top: 8px; font-size: 14px; color: var(--muted); }
+.blueprint-appendix {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(220px, .55fr);
+  gap: 52px;
+  align-items: start;
+  margin-top: 64px;
+  padding-top: 28px;
+  border-top: 3px solid var(--color-ink);
+}
+.blueprint-memory { padding-top: 42px; }
+.blueprint-memory > p:last-child { margin-top: 8px; font-size: 15px; color: var(--muted); }
+
+/* Specification table. */
+.spec-block {
+  display: grid;
+  grid-template-columns: minmax(220px, .7fr) minmax(0, 1.3fr);
+  gap: 56px;
+  align-items: start;
+  margin-top: 54px;
+  padding-top: 28px;
+  border-top: 1px solid var(--rule-ink-strong);
+}
+.spec-heading .feature-heading { margin-top: 12px; }
+.spec-intro { font-size: 16px; color: var(--color-ink-light); max-width: 640px; margin-bottom: 22px; }
+.spec-heading .spec-intro { margin-bottom: 0; }
+.spec-table { margin: 0; border-top: 3px solid var(--color-ink); }
+.spec-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--rule-ink);
+}
+.spec-row dt {
+  font-family: var(--font-nouveau);
+  font-size: 12px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+.spec-row dd { font-family: var(--font-display); font-size: 18px; font-variant-numeric: tabular-nums; }
+
+/* ═══ WHY INVEST PAGE ═══ */
+
+.invest-page { max-width: 1080px; }
+.advert {
+  border: 3px double var(--color-ink);
+  padding: 30px 30px 26px;
+  background: var(--color-stock);
+}
+.advert-top {
+  text-align: center;
+  border-bottom: 1px solid var(--color-ink);
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
+.advert-top .eyebrow { color: var(--color-vermillion); }
+.advert-top h2 {
+  font-size: clamp(28px, 4vw, 46px);
+  line-height: 1;
+  margin-top: 8px;
+}
+.advert-top .stamp { margin-top: 14px; }
+.advert-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 34px;
+  align-items: start;
+}
+.advert-column + .advert-column { border-left: 1px solid var(--rule-ink); padding-left: 34px; }
+.benefit-card {
+  padding: 20px 0 22px;
+  border-bottom: 1px solid var(--rule-ink);
+}
+.benefit-card:first-child { padding-top: 0; }
+.benefit-card:last-child { padding-bottom: 0; border-bottom: 0; }
+.benefit-mark {
+  display: block;
+  margin-bottom: 8px;
+  font-family: var(--font-nouveau);
+  color: var(--color-vermillion);
+  font-size: 12px;
+  letter-spacing: .1em;
+}
+.benefit-card h3 { font-size: 20px; line-height: 1.25; margin-bottom: 6px; }
+.benefit-card p { font-size: 15px; color: var(--color-ink-light); }
+
+.advert-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--color-ink);
+  margin-top: 18px;
+  padding-top: 14px;
+  font-size: 15px;
+  color: var(--muted);
+}
+.advert-footer a {
+  font-family: var(--font-nouveau);
+  font-size: 12px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--color-vermillion);
+  border-bottom: 1px solid var(--color-vermillion);
+  padding-bottom: 2px;
+}
+
+.pull-quote {
+  border-block: 1px solid var(--color-vermillion);
+  padding-block: 24px;
+  margin-block: 44px;
+  font-family: var(--font-display);
+  font-size: clamp(21px, 2.6vw, 30px);
+  line-height: 1.35;
+  color: var(--color-ink);
+  text-align: center;
+  text-wrap: balance;
+}
+.pull-quote cite {
+  display: block;
+  margin-top: 14px;
+  font-family: var(--font-nouveau);
+  font-size: 11px;
+  font-style: normal;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--color-vermillion);
+}
+.invest-dispatch {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 56px;
+  align-items: start;
+  margin-top: 56px;
+  padding-top: 28px;
+  border-top: 3px solid var(--color-ink);
+}
+.invest-note { padding-top: 16px; border-top: 1px solid var(--rule-ink-strong); }
+.invest-note > p:last-child { margin-top: 8px; font-size: 15px; color: var(--color-ink-light); }
+.invest-margin .pull-quote { margin: 24px 0 0; padding-block: 20px; font-size: 24px; text-align: left; }
+.voyage-story .feature-heading { margin-bottom: 20px; }
+
+/* Printed comparison table. */
+.comparison { margin-top: 50px; }
+.comparison h3 { font-size: 26px; margin-bottom: 16px; }
+.comparison-labels, .comparison-row { display: grid; grid-template-columns: 1fr 1fr; }
+.comparison-labels {
+  background: var(--color-ink);
+  color: var(--color-stock);
+  font-family: var(--font-nouveau);
+  font-size: 11px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+.comparison-labels span { padding: 11px 18px; }
+.comparison-labels span:last-child { color: var(--color-gold-light); }
+.comparison-row { border-bottom: 1px solid var(--rule-ink); }
+.comparison-row p { padding: 16px 18px; font-size: 15px; }
+.comparison-row p:first-child { color: var(--color-ink-faint); }
+.comparison-row p:last-child { background: var(--color-stock-dark); font-weight: 500; }
+.mobile-label { display: none; }
+
+/* ═══ PITCH PAGE ═══ */
+
+.notice-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 44px;
+  align-items: start;
+}
+.notice-title {
+  font-size: clamp(52px, 9vw, 96px);
+  line-height: .9;
+  letter-spacing: .01em;
+  color: var(--color-vermillion);
+}
+.notice-box .notice-title {
+  font-size: clamp(52px, 9vw, 96px);
+  letter-spacing: .01em;
+}
+.notice-sub {
+  font-family: var(--font-nouveau);
+  font-size: 13px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  margin-top: 12px;
+  color: var(--color-ink);
+}
+.notice-copy { font-size: 17px; color: var(--color-ink-light); margin-top: 18px; }
+.funding-list { list-style: none; padding: 0; margin-top: 22px; counter-reset: term; }
+.funding-list li {
+  display: flex;
+  gap: 12px;
+  border-bottom: 1px solid var(--rule-ink);
+  padding: 12px 0;
+  font-size: 15px;
+  color: var(--color-ink-light);
+}
+.funding-list li::before {
+  counter-increment: term;
+  content: counter(term) ".";
+  font-family: var(--font-nouveau);
+  font-size: 11px;
+  color: var(--color-vermillion);
+  padding-top: 3px;
+}
+.investment-card {
+  border-block: 1px solid var(--color-ink);
+  padding: 24px 0;
+  color: var(--color-ink-light);
+}
+.investment-card .eyebrow { color: var(--color-vermillion); }
+.investment-amount {
+  font-family: var(--font-display);
+  font-size: clamp(52px, 6vw, 74px);
+  line-height: .95;
+  letter-spacing: -.03em;
+  color: var(--color-prussian);
+  margin-top: 10px;
+}
+.investment-unit {
+  font-family: var(--font-nouveau);
+  font-size: 12px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--color-vermillion);
+  margin-top: 8px;
+}
+.investment-equity {
+  margin: 20px 0 14px;
+  padding-block: 14px;
+  border-block: 1px solid var(--rule-ink);
+  font-size: 17px;
+  color: var(--color-ink-light);
+}
+.investment-equity strong { color: var(--color-prussian); font-weight: 600; }
+.investment-disclaimer { font-size: 12.5px; line-height: 1.55; color: var(--muted); }
+.investment-closing {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-style: italic;
+  margin-top: 20px;
+  color: var(--color-vermillion);
+}
+.signature {
+  margin-top: 22px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule-ink-strong);
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 20px;
+  color: var(--color-ink);
+}
+.signature span {
+  display: block;
+  font-family: var(--font-nouveau);
+  font-size: 10px;
+  font-style: normal;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.pitch-honest { padding: 34px 0 40px; }
+.pitch-honest-note {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  gap: 32px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule-ink-strong);
+}
+.pitch-honest-note > p:last-child { color: var(--color-ink-light); }
+
+/* The cut-out coupon. Decorative, not a real form. */
+.coupon {
+  margin-top: 34px;
+  border: 1px dashed var(--rule-ink-strong);
+  padding: 20px 22px;
+  background: var(--color-stock);
+  transform: rotate(.4deg);
+}
+.coupon .eyebrow { color: var(--color-vermillion); }
+.coupon p { font-size: 15px; color: var(--color-ink-light); margin-top: 8px; }
+.coupon-lines {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 18px;
+  font-family: var(--font-nouveau);
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.coupon-lines span { border-bottom: 1px solid var(--rule-ink); padding-bottom: 22px; }
+
+/* ═══ SOURCES PAGE ═══ */
+
+.sources-backmatter { padding: 36px 0 56px; }
+.sources-column { width: min(700px, 100%); margin-left: 0; }
+.sources-heading { padding-top: 14px; margin-bottom: 18px; border-top: 1px solid var(--color-ink); }
+.sources-heading h2 { margin-top: 6px; font-size: 24px; }
+.folio {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--color-vermillion);
+  letter-spacing: .06em;
+}
+.sources-heading .folio { margin-top: 10px; font-family: var(--font-nouveau); font-size: 11px; line-height: 1.5; }
+.works-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid var(--rule-ink-strong);
+  counter-reset: work;
+}
+.works-list li {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 12px;
+  gap: 10px;
+  align-items: start;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--rule-ink);
+}
+.works-list li::before {
+  counter-increment: work;
+  content: counter(work, decimal-leading-zero);
+  font-family: var(--font-nouveau);
+  font-size: 10px;
+  color: var(--color-vermillion);
+  letter-spacing: .12em;
+  padding-top: 4px;
+}
+.works-list a { color: var(--color-ink); font-size: 15px; line-height: 1.45; overflow-wrap: break-word; }
+.works-list a:hover { color: var(--color-vermillion); text-decoration: underline; text-underline-offset: 3px; }
+.works-list small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 3px;
+  font-family: var(--font-nouveau);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.source-mark {
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid var(--color-vermillion);
+  border-right: 1px solid var(--color-vermillion);
+  transform: rotate(45deg);
+  margin-top: 7px;
+}
+.sources-note { max-width: 580px; margin-top: 26px; padding-top: 16px; border-top: 1px solid var(--rule-ink); }
+.sources-note > p:last-child { margin-top: 6px; font-size: 14px; color: var(--muted); }
+.sources-return { margin-top: 30px; font-size: 14px; }
+
+/* ═══ HOME TOUR ═══ */
+
+.home-contents-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 210px;
+  gap: 64px;
+  align-items: start;
+}
+.home-index { min-width: 0; }
+.tour-list { border-bottom: 1px solid var(--color-ink); }
+.tour-entry {
+  display: grid;
+  grid-template-columns: 36px minmax(150px, .75fr) minmax(180px, 1fr) 24px;
+  gap: 18px;
+  align-items: baseline;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--rule-ink);
+  color: var(--color-ink);
+  transition: border-color .2s;
+}
+.tour-entry:last-child { border-bottom: 0; }
+.tour-entry:nth-child(2) { margin-left: 32px; }
+.tour-entry:nth-child(3) { margin-left: 12px; margin-right: 28px; }
+.tour-entry:nth-child(4) { margin-left: 54px; }
+.tour-entry:hover { border-bottom-color: var(--color-vermillion); }
+.tour-num {
+  font-family: var(--font-nouveau);
+  font-size: 12px;
+  color: var(--color-vermillion);
+  letter-spacing: .2em;
+}
+.tour-entry h3 { font-size: 28px; line-height: 1.1; transition: transform .22s ease; }
+.tour-entry:nth-child(2) h3 { font-size: 23px; }
+.tour-entry:nth-child(3) h3 { font-size: 26px; }
+.tour-entry:nth-child(4) h3 { font-size: 30px; }
+.tour-entry p { font-size: 14px; color: var(--color-ink-faint); line-height: 1.6; }
+.tour-entry:hover h3 { transform: translateX(3px); }
+.tour-arrow {
+  position: relative;
+  width: 22px;
+  height: 1px;
+  align-self: center;
+  justify-self: end;
+  background: var(--color-vermillion);
+  transition: width .25s ease;
+}
+.tour-arrow::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  border-top: 1px solid var(--color-vermillion);
+  border-right: 1px solid var(--color-vermillion);
+  transform: translateY(-50%) rotate(45deg) scale(.5);
+  opacity: 0;
+  transition: opacity .2s, transform .25s ease;
+}
+.tour-entry:hover .tour-arrow { width: 26px; }
+.tour-entry:hover .tour-arrow::after {
+  opacity: 1;
+  transform: translateY(-50%) rotate(45deg) scale(1);
+}
+
+/* Fun fact. */
+.fun-fact {
+  max-width: 700px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule-ink);
+}
+.fun-fact-text { font-size: 20px; color: var(--color-ink); line-height: 1.6; }
+.fun-fact-text p { animation: fact-in .38s ease both; }
+@keyframes fact-in {
+  from { opacity: 0; transform: translateY(3px); }
+  to { opacity: 1; transform: none; }
+}
+.fun-fact-button {
+  margin-top: 14px;
+  padding: 0 0 4px;
+  border: 0;
+  border-bottom: 1px solid var(--rule-ink-strong);
+  background: none;
+  color: var(--color-vermillion);
+  font-family: var(--font-nouveau);
+  font-size: 12px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.fun-fact-button:hover { border-bottom-color: var(--color-vermillion); }
+
+/* The personal note and surprising facts share one notebook spread. */
+.home-notebook-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
+  gap: 72px;
+  align-items: start;
+}
+.home-about h2 { font-size: clamp(30px, 3.6vw, 44px); line-height: 1.05; margin-top: 12px; }
+.home-about .eyebrow {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-style: italic;
+  letter-spacing: .02em;
+  text-transform: none;
+  transform: rotate(-.8deg);
+  transform-origin: left center;
+}
+.about-copy { margin-top: 28px; max-width: 600px; }
+.about-copy p { font-size: 17px; color: var(--color-ink-light); }
+.about-copy p + p { margin-top: 14px; }
+.home-surprises { margin-top: 100px; }
+.home-surprises .contents-head {
+  display: block;
+  border-top: 1px solid var(--color-ink);
+  border-bottom: 0;
+  padding: 14px 0 0;
+  margin-bottom: 18px;
+}
+.home-surprises .contents-head h2 { font-size: 28px; line-height: 1.1; }
+.home-surprises .contents-head p { margin-top: 8px; }
+.home-surprises .fun-fact { border-top: 0; padding-top: 0; }
+
+/* Honest teaser. */
+.home-honest { padding: 42px 0 50px; }
+.honest-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, .55fr) minmax(0, 1.45fr);
+  gap: 64px;
+  align-items: start;
+}
+.honest-layout h2 { font-size: 40px; margin-top: 12px; line-height: 1.1; }
+.honest-layout > p { max-width: 760px; font-size: 17px; color: var(--color-ink-light); }
+
+/* ═══ COLOPHON ═══ */
+
 .colophon {
   background: var(--color-stock-dark);
   padding-bottom: 40px;
-  scroll-margin-top: 84px;
+  scroll-margin-top: 24px;
 }
 .colophon-rule {
   border-top: 3px solid var(--color-ink);
@@ -548,7 +1302,7 @@ em { font-style: italic; }
   justify-content: space-between;
   gap: 22px 26px;
   flex-wrap: wrap;
-  padding-block: 26px 22px;
+  padding-block: 24px 20px;
 }
 .colophon-mark {
   display: inline-flex;
@@ -559,25 +1313,17 @@ em { font-style: italic; }
   color: var(--color-ink);
   letter-spacing: -.01em;
 }
-/* The wordmark's lozenge is set in vermillion here: on stock, the hero's
-   pale gold would disappear. */
 .colophon-mark .brand-mark { width: 9px; height: 9px; color: var(--color-vermillion); }
 .colophon-nav { display: flex; flex-wrap: wrap; gap: 18px; }
 .colophon-nav a {
   font-family: var(--font-nouveau);
   font-size: 12px;
-  letter-spacing: .18em;
+  letter-spacing: .16em;
   text-transform: uppercase;
   color: var(--muted);
   transition: color .2s;
 }
 .colophon-nav a:hover { color: var(--color-vermillion); }
-.colophon-folio {
-  font-family: var(--font-display);
-  font-size: 13px;
-  letter-spacing: .2em;
-  color: var(--color-vermillion);
-}
 .colophon-base {
   display: flex;
   justify-content: space-between;
@@ -589,691 +1335,58 @@ em { font-style: italic; }
 }
 .colophon-imprint {
   display: grid;
-  gap: 2px;
-  font-family: var(--font-nouveau);
-  font-size: 12px;
-  letter-spacing: .15em;
-  text-transform: uppercase;
-  color: var(--muted);
-  line-height: 1.95;
-}
-
-/* The motion control, set as a printed note rather than a floating app
-   button. It reads as part of the imprint because that is where a printer
-   would have put it. */
-.motion-toggle {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 10px;
-  background: none;
-  border: 0;
-  padding: 0 0 3px;
-  border-bottom: 1px solid var(--rule-ink);
-  font-family: var(--font-nouveau);
-  font-size: 12px;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--muted);
-  transition: color .2s, border-color .2s;
-}
-.motion-toggle:hover { color: var(--color-vermillion); border-bottom-color: var(--color-vermillion); }
-.motion-toggle-state { color: var(--color-vermillion); }
-
-/* ══════════════════════════════════════════════════════════════════════════
-   HERO — the poster itself
-
-   A flat prussian field with fat cream lettering, a gold rule system, and the
-   ship printed as flat spot colour. This is the image a teacher sees first,
-   so it carries the whole period change.
-   ══════════════════════════════════════════════════════════════════════════ */
-.hero {
-  /* The poster is a sheet, so it is sized to the sheet: full viewport height,
-     content centred in what is left after the masthead. On a short laptop the
-     plate still lands above the fold; on a tall monitor the margins grow
-     rather than the type. */
-  min-height: 100svh;
-  display: flex;
-  align-items: center;
-  padding: 92px 0 28px;
-  position: relative;
-  overflow: hidden;
-  background-color: var(--color-prussian);
-  color: var(--text-body, #cdc0aa);
-  --text-strong: #f7f1e6;
-  --text-body: #cdc0aa;
-  --text-accent: var(--color-gold-light);
-}
-
-/* The engraved chart sits behind the hero, drawn in gold on the dark field. */
-.chart-layer {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-  opacity: .5;
-  /* Centred, because the poster is: the chart fades up out of the field
-     behind the plate instead of sitting in the right-hand column. */
-  -webkit-mask-image: radial-gradient(ellipse 72% 68% at 50% 54%, #000 0%, transparent 76%);
-  mask-image: radial-gradient(ellipse 72% 68% at 50% 54%, #000 0%, transparent 76%);
-}
-.chart-canvas { display: block; width: 100%; height: 100%; }
-/* Only the flow-positioned child gets a stacking level here. The frame is
-   absolutely positioned and carries its own z-index — adding it to this rule
-   would reset it to `relative`, collapse it to zero height, and stack all
-   four corners on one point. */
-.hero > .page-width { position: relative; z-index: 1; }
-
-/* The printed border. Four whiplash corners sit just inside the hero's edges,
-   inset enough to clear the type at every breakpoint. Above the stat strip,
-   which shares the hero's stacking level and would otherwise clip the bottom
-   pair. */
-.hero-frame {
-  position: absolute;
-  inset: 96px 22px 22px;
-  z-index: 3;
-  pointer-events: none;
-  color: rgba(238, 203, 98, .5);
-}
-.hero-frame > svg {
-  position: absolute;
-  width: 62px;
-  height: 62px;
-}
-.hero-frame > svg:nth-child(1) { top: 0; left: 0; }
-.hero-frame > svg:nth-child(2) { top: 0; right: 0; }
-.hero-frame > svg:nth-child(3) { bottom: 0; right: 0; }
-.hero-frame > svg:nth-child(4) { bottom: 0; left: 0; }
-
-/* ── THE POSTER ───────────────────────────────────────────────────────────
-   Plakatstil. Lucian Bernhard's 1905 Priester match poster put two matches on
-   a flat field with the brand name above them and no other copy at all. The
-   hero is built to that rule: one name, one line, one plate.
-
-   What came off the sheet, and why:
-     · the coordinate line in the corner — a second label doing the same job
-       as the eyebrow
-     · the running-head banner — it was my own addition, and it made five
-       stacked strips above the headline
-     · the "Meet the Caravel" line — it repeated the tagline
-     · the credit line — the masthead already says who made this
-     · the compass letters and the caption under the plate — decoration
-       standing between the eye and the drawing
-     · the call-to-action buttons — the masthead is the navigation, and a
-       poster does not argue its case in the margin
-   That is twelve stacked elements reduced to five. */
-.hero-poster {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-.hero h1 {
-  overflow-wrap: break-word;
-  font-size: clamp(44px, 8.6vw, 112px);
-  line-height: .86;
-  letter-spacing: -.035em;
-  color: var(--text-strong);
-  margin-top: 14px;
-}
-.hero-tagline {
-  margin-top: 22px;
-  font-size: clamp(17px, 1.5vw, 21px);
-  font-style: italic;
-  color: var(--text-body);
-  letter-spacing: .01em;
-}
-.hero-tagline em { color: var(--color-gold-light); }
-
-/* The plate: the object, set as large as the sheet allows. */
-.hero-plate { width: min(540px, 68vw); margin-top: 12px; }
-.hero-ship { display: block; width: 100%; height: auto; }
-
-/* The particulars. A poster put its figures along the bottom edge; this one
-   puts them on a printed band immediately under the sheet, where they read as
-   a caption to the plate rather than as three more things stacked inside it. */
-.stat-band {
-  background: var(--color-stock-dark);
-  border-top: 2px solid var(--color-ink);
-  border-bottom: 1px solid var(--rule-ink);
-}
-.stat-strip {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-.stat { padding: 24px 18px 26px; text-align: center; }
-.stat + .stat { border-left: 1px solid var(--rule-ink); }
-.stat strong {
-  display: block;
-  font-family: var(--font-display);
-  font-size: 30px;
-  font-weight: 400;
-  color: var(--color-ink);
-  letter-spacing: -.02em;
-}
-.stat span {
-  display: block;
-  margin-top: 4px;
+  gap: 3px;
   font-family: var(--font-nouveau);
   font-size: 11px;
-  letter-spacing: .18em;
+  letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--muted);
+  line-height: 1.8;
 }
-
-/* Emphasis in the two remaining display headings that keep an accent line. */
-.ask-layout h2 em,
-.page-hero h1 em { color: var(--color-gold-light); font-style: normal; }
-
-/* ══════════════════════════════════════════════════════════════════════════
-   CHAPTERS — alternating flat ink fields
-   ══════════════════════════════════════════════════════════════════════════ */
-.chapter { padding-block: 72px; scroll-margin-top: 84px; }
-.light-chapter { background-color: var(--color-stock); color: var(--color-ink); }
-.dark-chapter {
-  background: var(--color-prussian-deep);
-  border-bottom: 2px solid var(--gold);
-}
-.blueprint-chapter { background-color: var(--color-stock-dark); }
-.honest-chapter { background-color: var(--color-stock-deep); }
-.ask-chapter { background-color: var(--color-stock); }
-.presenter-chapter { padding-block: 54px; background: var(--color-stock-dark); }
-
-.section-heading { max-width: 720px; margin-bottom: 46px; }
-.section-heading h2 {
-  font-size: clamp(28px, 3.4vw, 44px);
-  line-height: 1.08;
-  letter-spacing: -.02em;
-  margin-top: 12px;
-}
-.section-heading > p:last-child:not(.eyebrow) {
-  margin-top: 16px;
-  font-size: 15px;
-  color: var(--muted);
-  max-width: 620px;
-}
-.light-chapter .section-heading > p:last-child:not(.eyebrow) { color: var(--color-ink-faint); }
-
-/* ── PROBLEM CARDS ───────────────────────────────────────────────────────
-   Flat cards with a heavy top rule — no shadow, no radius. The rule carries
-   the structure instead of a border box. */
-.problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
-.editorial-card { border-top: 3px solid var(--color-ink); padding-top: 18px; }
-.card-number {
-  font-family: var(--font-nouveau);
-  font-size: 12px;
-  color: var(--color-vermillion);
-  font-weight: 500;
-  letter-spacing: .2em;
-}
-.editorial-card h3 { font-size: 21px; line-height: 1.2; margin: 12px 0 10px; }
-.editorial-card p, .benefit-card p { font-size: 15px; color: var(--color-ink-light); }
-
-/* ── THE PLATE ────────────────────────────────────────────────────────────
-   The ship drawing, presented as an inset printed plate. */
-.blueprint-layout { display: grid; grid-template-columns: .9fr 1.1fr; gap: 56px; align-items: start; }
-.blueprint-figure {
-  position: sticky;
-  top: 156px;
-  padding: 22px;
-  background: var(--color-stock);
-}
-.blueprint-ship { width: 100%; }
-.blueprint-figure figcaption {
-  border-top: 1px solid var(--color-vermillion);
-  padding-top: 14px;
-  margin-top: 16px;
-  font-family: var(--font-nouveau);
-  font-size: 12px;
-  color: var(--color-vermillion);
-  letter-spacing: .2em;
-  line-height: 1.9;
-  text-transform: uppercase;
-  font-weight: 400;
-}
-.blueprint-figure figcaption span { color: var(--muted); letter-spacing: .04em; text-transform: none; }
-
-.feature-list { list-style: none; margin: 0; padding: 0; }
-/* The h2 that introduces the numbered feature list. Set tighter than a
-   chapter heading because it sits beside the sticky plate, not above it. */
-.feature-heading { font-size: 28px; line-height: 1.1; margin-bottom: 22px; }
-.feature-list li {
-  padding: 24px 0;
-  border-top: 1px solid var(--rule-ink);
-  display: flex;
-  gap: 20px;
-}
-.feature-list li:first-child { padding-top: 0; border-top: 0; }
-.feature-number {
-  font-family: var(--font-nouveau);
-  font-size: 12px;
-  color: var(--color-vermillion);
-  font-weight: 500;
-  padding-top: 4px;
-  letter-spacing: .1em;
-}
-.feature-list h3 { font-size: 22px; line-height: 1.2; }
-.feature-list p { font-size: 15px; color: var(--muted); margin-top: 10px; }
-
-.field-note {
-  margin-top: 44px;
-  padding: 24px 28px;
-  border-left: 3px solid var(--color-vermillion);
-  background: var(--color-stock);
-}
-.field-note > p:last-child { font-size: 16px; color: var(--color-ink-light); margin-top: 10px; }
-
-/* ── SPECIFICATION PLATE ────────────────────────────────────────────────── */
-.spec-block { margin-top: 52px; }
-.spec-intro { font-size: 16px; color: var(--color-ink-light); max-width: 640px; margin-bottom: 26px; }
-.spec-table { margin: 0; border-top: 3px solid var(--color-ink); }
-.spec-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--rule-ink);
-}
-.spec-row dt {
-  font-family: var(--font-nouveau);
-  font-size: 12px;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--color-ink-faint);
-  font-weight: 400;
-}
-.spec-row dd { margin: 0; font-family: var(--font-display); font-size: 18px; }
-
-/* ── BENEFIT LIST ────────────────────────────────────────────────────────
-   Six benefits set as a printed index rather than a grid of cards: one
-   heavy rule opens the list, each entry closes with a hairline, and the
-   columns are separated by white space alone. The boxed-card grid was the
-   most web-native object left on the site. */
-.benefit-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  column-gap: 38px;
-  border-top: 3px solid var(--color-ink);
-}
-.benefit-card { padding: 22px 0 24px; border-bottom: 1px solid var(--rule-ink); }
-.benefit-mark {
-  font-family: var(--font-nouveau);
-  color: var(--color-vermillion);
+.colophon-note {
+  max-width: 420px;
   font-size: 13px;
-  font-weight: 500;
-  letter-spacing: .18em;
-}
-.benefit-card h3 { font-size: 19px; margin: 12px 0 10px; line-height: 1.25; }
-
-/* ── COMPARISON ───────────────────────────────────────────────────────────
-   Two flat fields: the old way printed in ink, the caravel way printed in
-   vermillion. The comparison is made by ink, not by description. */
-.comparison { margin-top: 52px; }
-.comparison h3 { font-size: 26px; margin-bottom: 22px; }
-.comparison-labels, .comparison-row { display: grid; grid-template-columns: 1fr 1fr; }
-.comparison-labels {
-  background: var(--color-ink);
-  color: var(--color-stock);
-  font-family: var(--font-nouveau);
-  font-size: 12px;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  font-weight: 500;
-}
-.comparison-labels span { padding: 12px 20px; }
-.comparison-labels span:last-child { color: var(--color-gold-light); }
-.comparison-row { border-bottom: 1px solid var(--rule-ink); }
-.comparison-row p { padding: 18px 20px; font-size: 15px; }
-.comparison-row p:first-child { color: var(--color-ink-faint); }
-.comparison-row p:last-child { background: var(--color-stock); font-weight: 500; }
-.mobile-label { display: none; }
-
-/* ── THE ASK ────────────────────────────────────────────────────────────── */
-.honest-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 60px; }
-.honest-layout h2 { font-size: 40px; margin-top: 12px; line-height: 1.1; }
-.honest-layout > p { font-size: 17px; color: var(--color-ink-light); }
-
-.ask-layout { display: grid; grid-template-columns: 1.1fr 1fr; align-items: start; gap: 60px; }
-.ask-layout h2 { font-size: clamp(30px, 3.6vw, 46px); line-height: 1.08; margin: 16px 0; letter-spacing: -.02em; }
-.funding-list { list-style: none; padding: 0; margin-top: 26px; }
-.funding-list li {
-  display: flex;
-  gap: 12px;
-  border-bottom: 1px solid var(--rule-ink);
-  padding: 13px 0;
-  font-size: 15px;
-  color: var(--color-ink-light);
+  color: var(--muted);
+  line-height: 1.5;
 }
 
-/* The investment card — a flat prussian plate, the loudest object on the
-   page, because it holds the number that matters. */
-.investment-card {
-  border: 1px solid var(--color-ink);
-  border-top: 6px solid var(--gold);
-  padding: 34px;
-  position: relative;
-  background: var(--color-prussian);
-  --text-strong: #f7f1e6;
-  --text-accent: var(--color-gold-light);
-  color: #cdc0aa;
-}
-.investment-card .eyebrow { color: var(--color-gold-light); }
-.investment-amount {
-  font-family: var(--font-display);
-  font-size: clamp(52px, 6vw, 74px);
-  line-height: .95;
-  letter-spacing: -.03em;
-  color: #f7f1e6;
-}
-.investment-unit {
-  font-family: var(--font-nouveau);
-  font-size: 12px;
-  letter-spacing: .24em;
-  text-transform: uppercase;
-  color: var(--color-gold-light);
-  margin-top: 8px;
-}
-.investment-equity {
-  margin: 22px 0 14px;
-  padding-block: 15px;
-  border-block: 1px solid rgba(238, 203, 98, .3);
-  font-size: 17px;
-  color: #cdc0aa;
-}
-.investment-equity strong { color: #f7f1e6; font-weight: 600; }
-/* Reads --text-faint from the card's own scope rather than hardcoding a hex,
-   so the disclaimer keeps contrast on the prussian plate. */
-.investment-disclaimer { font-size: 12.5px; line-height: 1.55; color: var(--text-faint, #a89c87); }
-.investment-closing {
-  font-family: var(--font-body);
-  font-size: 18px;
-  font-style: italic;
-  margin-top: 22px;
-  color: var(--color-gold-light);
-}
+/* ═══ COLUMNS ═══ */
 
-/* ── PRESENTER ──────────────────────────────────────────────────────────── */
-.presenter-layout { display: flex; align-items: center; gap: 24px; }
-.presenter-monogram {
-  width: 74px;
-  height: 74px;
-  flex-shrink: 0;
-  border: 1px solid var(--color-vermillion);
-  display: grid;
-  place-items: center;
-  font-family: var(--font-display);
-  font-size: 26px;
-  color: #fff2e6;
-  background: var(--color-vermillion);
+.newspaper-columns {
+  columns: 2 320px;
+  column-gap: 42px;
+  column-rule: 1px solid var(--rule-ink);
+  orphans: 3;
+  widows: 3;
+  font-size: 16px;
 }
-.presenter-layout h2 { font-size: 30px; margin: 4px 0; }
-.presenter-layout p:not(.eyebrow) { font-size: 15px; color: var(--color-ink-faint); max-width: 560px; }
-.presenter-role { margin-top: 4px; }
+.newspaper-columns p + p { margin-top: 1em; }
+.newspaper-columns figure,
+.newspaper-columns blockquote,
+.newspaper-columns li { break-inside: avoid; }
+.column-span-all { column-span: all; margin-bottom: 20px; }
 
-/* ── FOOTER ─────────────────────────────────────────────────────────────── */
-.sources-footer { padding: 56px 0 30px; scroll-margin-top: 84px; }
-.footer-heading { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
-/* On the sources route the folio follows the hero copy rather than a heading,
-   so it needs less air above it. */
-.footer-heading-flush { margin-top: 40px; }
-.footer-heading h2 { font-size: 34px; }
-.footer-heading p { font-size: 14px; color: var(--muted); }
-.source-list {
-  list-style: none;
-  padding: 0;
-  margin: 32px 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 40px;
-}
-.source-list li {
-  display: flex;
-  align-items: start;
-  gap: 12px;
-  padding: 16px 0;
-  border-top: 1px solid var(--rule-ink);
-}
-.source-list li > span {
-  font-family: var(--font-nouveau);
-  font-size: 12px;
-  color: var(--color-vermillion);
-  font-weight: 500;
-  letter-spacing: .16em;
-  padding-top: 3px;
-}
-.source-list li > span:last-child { margin-left: auto; }
-/* A printed arrowhead rather than a unicode glyph. */
-.source-mark {
-  width: 9px;
-  height: 9px;
-  border-top: 1px solid var(--color-vermillion);
-  border-right: 1px solid var(--color-vermillion);
-  transform: rotate(45deg);
-  flex: none;
-  margin-top: 5px;
-}
-.source-list a { color: var(--color-ink); font-size: 15px; }
-.source-list a:hover { color: var(--color-vermillion); text-decoration: underline; text-underline-offset: 3px; }
-.source-list small { display: block; color: var(--muted); font-size: 12px; margin-top: 4px; }
-/* A chapter that follows a page hero carries no top padding of its own: the
-   hero above it already set the rhythm. Applied as a class rather than an
-   inline style so the rule lives with the rest of the layout system. */
-.chapter-flush { padding-top: 0; }
+/* ═══ RESPONSIVE ═══ */
 
-/* The same idea for a heading that continues a preceding block. */
-.heading-continues { margin-top: 60px; }
-
-/* ── SUB-PAGE HERO ──────────────────────────────────────────────────────── */
-.page-hero { padding: 176px 0 58px; }
-.page-hero h1 {
-  overflow-wrap: break-word;
-  font-size: clamp(38px, 5vw, 62px);
-  line-height: 1.02;
-  letter-spacing: -.025em;
-  margin-top: 20px;
-}
-.page-hero-body { font-size: 18px; color: var(--muted); max-width: 620px; margin-top: 22px; }
-.light-chapter .page-hero-body { color: var(--color-ink-faint); }
-
-/* ── TOUR LIST ────────────────────────────────────────────────────────────
-   Four entries ruled off under a heavy bar, the way a contents page sets
-   its sections. No boxes: the rule carries the structure, so the eye reads
-   a printed index instead of four interface cards. */
-.tour-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-.tour-card {
-  position: relative;
-  display: block;
-  padding: 22px 0 32px;
-  border-top: 3px solid var(--color-ink);
-  transition: border-color .2s;
-}
-.tour-card:hover { border-top-color: var(--color-vermillion); }
-.tour-num {
-  font-family: var(--font-nouveau);
-  font-size: 12px;
-  color: var(--color-vermillion);
-  letter-spacing: .2em;
-  font-weight: 500;
-}
-.tour-card h3 { font-size: 19px; margin: 10px 0 8px; line-height: 1.2; }
-.tour-card p { font-size: 14px; color: var(--color-ink-faint); line-height: 1.6; }
-/* A short rule that draws itself under the card on hover, in place of an
-   arrow glyph. A 1900s poster never used arrows as wayfinding. */
-.tour-arrow {
-  position: absolute;
-  bottom: 16px;
-  right: 0;
-  width: 22px;
-  height: 1px;
-  background: var(--color-vermillion);
-  transition: width .25s ease;
-}
-.tour-card:hover .tour-arrow { width: 34px; }
-
-/* ── FUN FACT ───────────────────────────────────────────────────────────── */
-.fun-fact {
-  max-width: 700px;
-  padding-top: 22px;
-  border-top: 1px solid var(--rule-ink);
-}
-.fun-fact-text { font-size: 20px; color: var(--color-ink); line-height: 1.6; }
-/* Set as a printed footnote, not a button: a rule underneath, no box. */
-.fun-fact-button {
-  margin-top: 16px;
-  padding: 0 0 4px;
-  border: 0;
-  border-bottom: 1px solid var(--rule-ink-strong);
-  background: none;
-  color: var(--color-vermillion);
-  font-family: var(--font-nouveau);
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-}
-.fun-fact-button:hover { border-bottom-color: var(--color-vermillion); }
-
-.folio { font-family: var(--font-display); font-size: 13px; color: rgba(238, 203, 98, .85); letter-spacing: .06em; }
-
-/* ── ANIMATION ──────────────────────────────────────────────────────────── */
-.entrance { animation: arrive .7s both; }
-.entrance-two { animation-delay: .12s; }
-.entrance-three { animation-delay: .24s; }
-.ship-vessel { transform-origin: 200px 260px; animation: float-ship 6s ease-in-out infinite; }
-.ship-sail { transform-box: fill-box; transform-origin: top center; animation: sail-billow 4s ease-in-out infinite; }
-.ship-waves { animation: waves 4s ease-in-out infinite alternate; }
-[data-reveal] { transition: opacity .6s ease, transform .6s ease; }
-[data-reveal="pending"] { opacity: 0; transform: translateY(20px); }
-[data-reveal="visible"] { opacity: 1; transform: translateY(0); }
-[data-motion="paused"] *,
-[data-motion="paused"] *::before,
-[data-motion="paused"] *::after { animation-play-state: paused !important; }
-[data-motion="paused"] [data-reveal] { opacity: 1; transform: none; transition: none; }
-
-@keyframes arrive {
-  from { opacity: 0; transform: translateY(18px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes float-ship {
-  0%, 100% { transform: translateY(0) rotate(-.5deg); }
-  50% { transform: translateY(-6px) rotate(.5deg); }
-}
-@keyframes sail-billow {
-  0%, 100% { transform: skewX(-.5deg); }
-  50% { transform: skewX(1deg); }
-}
-@keyframes waves {
-  from { transform: translateX(-4px); opacity: .55; }
-  to { transform: translateX(4px); opacity: .95; }
-}
-@keyframes cue {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(4px); }
-}
-
-/* ── SCROLL-DRIVEN MOTION ────────────────────────────────────────────────
-   Native CSS scroll timelines. Where they are unsupported the @supports block
-   is skipped entirely and elements sit at their resting state, so there is no
-   fallback work and nothing breaks. */
-@supports (animation-timeline: view()) {
-  .chapter > .page-width {
-    animation: chapter-rise linear both;
-    animation-timeline: view();
-    animation-range: entry 0% entry 40%;
-    will-change: transform, opacity;
-  }
-  .blueprint-figure {
-    animation: plate-drift linear both;
-    animation-timeline: view();
-    animation-range: entry 0% exit 100%;
-    will-change: transform;
-  }
-  .hero-ship {
-    animation: ship-depart linear both;
-    animation-timeline: scroll(root block);
-    animation-range: 0 70vh;
-    will-change: transform, opacity;
-  }
-  .section-heading h2 {
-    animation: rule-draw linear both;
-    animation-timeline: view();
-    animation-range: entry 0% entry 35%;
-  }
-  .tour-card,
-  .editorial-card,
-  .benefit-card {
-    animation: card-settle linear both;
-    animation-timeline: view();
-    animation-range: entry 0% entry 30%;
-    will-change: transform, opacity;
-  }
-  .comparison-row {
-    animation: row-slide linear both;
-    animation-timeline: view();
-    animation-range: entry 0% entry 35%;
-  }
-  .stat {
-    animation: stat-rise linear both;
-    animation-timeline: view();
-    animation-range: entry 0% entry 40%;
-  }
-  .ornament-rule {
-    animation: rule-widen linear both;
-    animation-timeline: view();
-    animation-range: entry 0% entry 50%;
-  }
-  .newspaper-columns,
-  .newspaper-columns-wide {
-    animation: chapter-rise linear both;
-    animation-timeline: view();
-    animation-range: entry 0% entry 35%;
-  }
-}
-
-@keyframes chapter-rise {
-  from { opacity: 0; transform: translateY(48px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes plate-drift {
-  from { transform: translateY(40px); }
-  to { transform: translateY(-40px); }
-}
-@keyframes ship-depart {
-  from { opacity: 1; transform: translateY(0) scale(1); }
-  to { opacity: .1; transform: translateY(-70px) scale(.9); }
-}
-@keyframes rule-draw {
-  from { clip-path: inset(0 100% 0 0); }
-  to { clip-path: inset(0 0 0 0); }
-}
-@keyframes card-settle {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes row-slide {
-  from { opacity: 0; transform: translateX(32px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-@keyframes stat-rise {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes rule-widen {
-  from { opacity: 0; letter-spacing: .55em; }
-  to { opacity: 1; letter-spacing: .3em; }
-}
-
-/* ── RESPONSIVE ─────────────────────────────────────────────────────────── */
-@media (min-width: 1600px) { .hero { padding-top: 156px; } }
+@media (min-width: 1600px) { .hero { padding-top: 44px; } }
 
 @media (max-width: 1050px) {
-  .tour-grid { grid-template-columns: repeat(2, 1fr); }
+  .home-contents-layout { grid-template-columns: minmax(0, 1fr) 190px; gap: 36px; }
+  .tour-entry { grid-template-columns: 28px minmax(110px, .75fr) minmax(110px, 1fr) 20px; gap: 12px; }
+  .tour-entry:nth-child(2) { margin-left: 24px; }
+  .tour-entry:nth-child(3) { margin-left: 8px; margin-right: 16px; }
+  .tour-entry:nth-child(4) { margin-left: 32px; }
+  .home-notebook-layout { gap: 40px; }
+  .problem-broadside-grid { gap: 26px 36px; }
+  .problem-research-layout { grid-template-columns: 200px minmax(0, 1fr); gap: 36px; }
   .nav-links { gap: 14px; }
   .navbar { gap: 18px; }
-  .blueprint-layout, .ask-layout { gap: 34px; }
-  .investment-card { padding: 26px; }
-  .benefit-card { padding: 22px; }
-  .honest-layout { gap: 40px; }
+  .blueprint-layout, .notice-layout { gap: 30px; }
+  .blueprint-appendix, .spec-block, .invest-dispatch { gap: 32px; }
+  .investment-card { padding: 20px 0; }
+  .honest-layout { gap: 36px; }
+  .advert-grid { column-gap: 26px; }
+  .advert-column + .advert-column { padding-left: 26px; }
 }
 
 @media (max-width: 760px) {
@@ -1282,98 +1395,128 @@ em { font-style: italic; }
   .brand { font-size: 18px; }
   .nav-links { display: none; }
   .mobile-navigation { display: block; }
-  /* Symmetric padding: with the corners hidden on phones there is no frame
-     to explain a heavier margin at the top. */
-  .hero { padding: 96px 0; }
-  /* The printed border is dropped on phones: at this width the poster runs
-     edge to edge, so the corner ornaments sit straight on top of the title
-     instead of framing it. */
+  .hero {
+    min-height: calc(100svh - 62px);
+    padding: 24px 0 40px;
+  }
   .hero-frame { display: none; }
   .hero h1 { font-size: clamp(42px, 13vw, 62px); }
   .hero-plate { width: min(420px, 84vw); }
-  .page-hero h1 { font-size: clamp(29px, 8.4vw, 42px); }
+  .page-masthead { padding: 38px 0 34px; }
+  .page-masthead h1 { font-size: clamp(32px, 9.4vw, 48px); }
+  .page-hero-body { font-size: 16px; }
+  .masthead-run { font-size: 10px; letter-spacing: .1em; }
+  .masthead-broadside .masthead-heading { grid-template-columns: 1fr; }
+  .masthead-broadside .page-hero-body { grid-column: 1; grid-row: auto; margin-top: 16px; }
+  .masthead-diagram .page-hero-body { margin-left: 0; }
+  .masthead-diagram .masthead-wave { width: 100%; }
+  .masthead-folio { padding: 28px 0 26px; }
+  .paper-extract p { font-size: 20px; line-height: 1.4; }
 
-  /* The figures stay in one row — stacked, they read as a list of features
-     rather than as the particulars along the bottom of a sheet. */
-  .stat { padding: 18px 8px 20px; }
-  .stat strong { font-size: 24px; }
-  .stat span { font-size: 9.5px; letter-spacing: .1em; }
+  .home-contents-layout, .home-notebook-layout { grid-template-columns: 1fr; }
+  .home-contents-layout { gap: 0; }
+  .home-notebook-layout { gap: 0; }
+  .home-particulars { margin-top: 30px; padding-inline: 0; background: transparent; border-bottom: 0; }
+  .home-stats { border-bottom: 1px solid var(--rule-ink); }
+  .stat { display: grid; grid-template-columns: 90px 1fr; gap: 16px; align-items: baseline; padding: 12px 0; }
+  .stat strong, .stat:first-child strong { font-size: 26px; }
+  .stat span { margin-top: 0; font-size: 9.5px; letter-spacing: .1em; }
+  .home-surprises { margin-top: 44px; }
+  .home-honest { padding: 36px 0 42px; }
+  .tour-entry, .tour-entry:nth-child(n) {
+    grid-template-columns: 30px minmax(0, 1fr) 20px;
+    gap: 8px 12px;
+    margin-inline: 0;
+    padding: 16px 0;
+  }
+  .tour-num { grid-column: 1; grid-row: 1; }
+  .tour-entry:nth-child(n) h3 { grid-column: 2; grid-row: 1; font-size: 23px; }
+  .tour-entry p { grid-column: 2 / 4; grid-row: 2; max-width: 44ch; }
+  .tour-arrow { grid-column: 3; grid-row: 1; }
 
-  .chapter { padding-block: 46px; }
-  .section-heading { margin-bottom: 28px; }
-  .section-heading > p:last-child:not(.eyebrow) { font-size: 14px; }
+  .chapter { padding-block: 44px; }
+  .section-heading { margin-bottom: 26px; }
 
-  .problem-grid { grid-template-columns: 1fr; gap: 26px; }
-  .blueprint-layout { grid-template-columns: 1fr; gap: 30px; }
-  .blueprint-figure { position: static; max-width: 400px; width: 100%; margin-inline: auto; }
-  .blueprint-ship { max-height: 280px; }
-  .benefit-grid { grid-template-columns: repeat(2, 1fr); }
-  .benefit-card { padding: 20px 16px; }
-  .benefit-card h3 { font-size: 17px; }
-  .benefit-card p { font-size: 13px; }
-  .honest-layout, .ask-layout { grid-template-columns: 1fr; gap: 26px; }
+  .problem-broadside-grid { grid-template-columns: 1fr; gap: 24px; }
+  .problem-intro,
+  .problem-note,
+  .problem-grid .editorial-card:nth-child(n),
+  .paper-extract,
+  .problem-conclusion { grid-column: 1; grid-row: auto; }
+  .problem-note { max-width: 380px; }
+  .problem-conclusion { grid-template-columns: 1fr; gap: 8px; }
+  .problem-research-layout { grid-template-columns: 1fr; gap: 22px; }
+  .problem-grid .editorial-card:first-child h3 { font-size: 26px; }
+  .problem-grid .editorial-card:first-child p { font-size: 16px; }
+  .editorial-card { padding-block: 16px; }
+  .paper-extract { padding: 22px 0; margin: 0; }
+
+  .blueprint-layout { grid-template-columns: 1fr; gap: 28px; }
+  .plate-figure { position: static; max-width: 440px; width: 100%; margin-inline: auto; }
+  .blueprint-appendix, .spec-block { grid-template-columns: 1fr; gap: 24px; }
+  .blueprint-appendix { margin-top: 44px; }
+  .blueprint-memory { padding-top: 0; }
+  .spec-block { margin-top: 40px; }
+
+  .notice-layout { grid-template-columns: 1fr; gap: 28px; }
+  .notice-box { padding: 22px; }
+  .pitch-honest-note { grid-template-columns: 1fr; gap: 8px; }
+
+  .advert { padding: 22px 18px 18px; }
+  .advert-grid { grid-template-columns: 1fr; }
+  .advert-column + .advert-column {
+    margin-top: 22px;
+    padding: 22px 0 0;
+    border-left: 0;
+    border-top: 1px solid var(--color-ink);
+  }
+  .advert-column .benefit-card:last-child { padding-bottom: 0; }
+  .invest-dispatch { grid-template-columns: 1fr; gap: 34px; margin-top: 44px; }
+  .sources-backmatter { padding: 30px 0 44px; }
+
+  .honest-layout { grid-template-columns: 1fr; gap: 22px; }
   .honest-layout h2 { font-size: 32px; }
-  .investment-card { padding: 26px; }
-  .presenter-layout { flex-wrap: wrap; gap: 16px; }
-  .presenter-monogram { width: 54px; height: 54px; font-size: 20px; }
-  .presenter-layout > div:nth-child(2) { flex: 1; min-width: 200px; }
-  .footer-heading { grid-template-columns: 1fr; gap: 16px; }
-  .page-hero { padding: 158px 0 44px; }
-  .newspaper-columns { font-size: 16px; }
 
   .colophon-mark { font-size: 19px; }
   .colophon-top { padding-block: 18px 14px; gap: 14px; }
   .colophon-nav { gap: 12px 16px; }
-  /* "Fin." has nothing to sit opposite on a phone, so it would hang off the
-     end of the wrapped index. The imprint already closes the sheet. */
-  .colophon-folio { display: none; }
   .colophon-base { flex-direction: column; align-items: flex-start; }
+  .works-list li { grid-template-columns: 26px minmax(0, 1fr) 12px; }
 }
 
 @media (max-width: 440px) {
-  .benefit-grid, .source-list { grid-template-columns: 1fr; }
   .comparison-labels { display: none; }
   .comparison-row { grid-template-columns: 1fr; }
   .mobile-label {
     display: block;
     font-family: var(--font-nouveau);
-    font-size: 12px;
+    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: .2em;
+    letter-spacing: .18em;
     margin-bottom: 4px;
     color: var(--color-vermillion);
   }
-  .comparison-row p { padding: 14px; }
-  .field-note { padding: 20px; }
-  .investment-card .eyebrow { max-width: 180px; }
-  .stat-strip { margin-top: 26px; }
+  .comparison-row p { padding: 12px 14px; }
+  .coupon-lines { grid-template-columns: 1fr; gap: 10px; }
+  .investment-card { padding: 20px 0; }
+  .plate-figure { padding: 14px 12px; }
+  .plate-drawing { grid-template-columns: minmax(0, 1fr) 76px; gap: 8px; }
+  .plate-key div { grid-template-columns: 14px minmax(0, 1fr); gap: 5px; }
+  .plate-key dd { font-size: 12px; }
+  .contents-head h2 { font-size: 25px; }
 }
 
-/* ── REDUCED MOTION ───────────────────────────────────────────────────────
-   Disabling `animation` alone is not enough for scroll-driven animations:
-   the timeline keeps driving progress with no animation attached, so the
-   element still scrubs as the user scrolls. The timeline has to be detached
-   explicitly and the resting state pinned. */
+/* Keep things still when the reader asks. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *, *::before, *::after { animation: none !important; transition: none !important; }
-  [data-reveal] { opacity: 1 !important; transform: none !important; }
   *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
     animation-timeline: none !important;
-    animation-range: normal !important;
   }
-  .chapter > .page-width,
-  .blueprint-figure,
-  .hero-ship,
-  .section-heading h2,
-  .tour-card,
-  .editorial-card,
-  .benefit-card,
-  .comparison-row,
-  .stat,
-  .ornament-rule {
-    opacity: 1 !important;
-    transform: none !important;
-    clip-path: none !important;
-  }
+}
+
+/* Paper tooth is nice, but not when the reader needs more contrast. */
+@media (prefers-contrast: more) {
+  body::after { display: none; }
 }

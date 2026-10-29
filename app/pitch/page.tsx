@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import VoyageEffects from "@/components/VoyageEffects";
+import PageMasthead from "@/components/PageMasthead";
 import { invention } from "@/content/invention";
 
 export const metadata: Metadata = {
@@ -10,44 +10,77 @@ export const metadata: Metadata = {
 export default function PitchPage() {
   return (
     <main id="main">
-      <VoyageEffects />
-      <section id="ask" className="chapter ask-chapter page-hero">
+      <PageMasthead
+        number="04"
+        kicker="The ask · a notice"
+        title="Wanted: backers for a fleet."
+        deck={invention.theAsk.body}
+        variant="notice"
+      />
+
+      <section id="ask" className="chapter light-chapter pitch-notice-section">
         <div className="page-width">
-          <span className="section-number" aria-hidden="true">04</span>
-          <p className="eyebrow entrance">What I'm asking for</p>
-          <h1 className="entrance entrance-two">Why should you<br /><em>back my pitch?</em></h1>
-          <p className="page-hero-body entrance entrance-three">{invention.theAsk.body}</p>
+          <div className="sheet">
+            <div className="notice-box">
+              <div className="advert-top">
+                <p className="eyebrow">Notice &middot; No. 04</p>
+                <h2 className="notice-title">Wanted</h2>
+                <p className="notice-sub">Backers for a fleet of caravels</p>
+                <p><span className="stamp">For the sharks</span></p>
+              </div>
+
+              <div className="notice-layout">
+                <div>
+                  <p className="eyebrow">What the money does</p>
+                  <ul className="funding-list">
+                    {invention.theAsk.funding.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                  <p className="notice-copy">
+                    I would build the ships first, then send them down the coast. If the route
+                    works, the fleet pays for the next one.
+                  </p>
+                  <p className="signature">
+                    Mark Gatcha
+                    <span>The person asking &middot; World History</span>
+                  </p>
+                </div>
+
+                <div className="investment-card">
+                  <p className="eyebrow">What you get</p>
+                  <p className="investment-amount">{invention.theAsk.amount.split(" ")[0]}</p>
+                  <p className="investment-unit">
+                    {invention.theAsk.amount.split(" ").slice(1).join(" ")}
+                  </p>
+                  <div className="investment-equity">
+                    for <strong>{invention.theAsk.equity}</strong>
+                  </div>
+                  <p className="investment-disclaimer">{invention.theAsk.disclaimer}</p>
+                  <p className="investment-closing">{invention.theAsk.closing}</p>
+                </div>
+              </div>
+
+              <div className="coupon" aria-hidden="true">
+                <p className="eyebrow">Cut here</p>
+                <p>I, the person signing this, would like to back one (1) fleet of caravels.</p>
+                <div className="coupon-lines">
+                  <span>Signed</span>
+                  <span>Shark</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="chapter ask-chapter chapter-flush">
-        <div className="page-width ask-layout">
-          <div data-reveal>
-            {/* This block used to restate the ask in a headline and repeat the
-                hero's paragraph word for word. The card opposite already says
-                the number; this column now says only what the money buys. */}
-            <h2>What the money does</h2>
-            <ul className="funding-list">
-              {invention.theAsk.funding.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="investment-card" data-reveal>
-            <p className="investment-amount">{invention.theAsk.amount.split(" ")[0]}</p>
-            <p className="investment-unit">{invention.theAsk.amount.split(" ").slice(1).join(" ")}</p>
-            <div className="investment-equity">for <strong>{invention.theAsk.equity}</strong></div>
-            <p className="investment-disclaimer">{invention.theAsk.disclaimer}</p>
-            <p className="investment-closing">{invention.theAsk.closing}</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="chapter honest-chapter">
-        <div className="page-width" data-reveal>
-          <div className="field-note">
-            <p className="eyebrow">The honest truth</p>
-            <p>{invention.honestCatch.body}</p>
+      <section className="pitch-honest paper-chapter">
+        <div className="page-width">
+          <div className="sheet">
+            <aside className="pitch-honest-note">
+              <p className="eyebrow">The honest truth</p>
+              <p>{invention.honestCatch.body}</p>
+            </aside>
           </div>
         </div>
       </section>

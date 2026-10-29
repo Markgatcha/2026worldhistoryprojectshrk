@@ -1,43 +1,40 @@
-# 2026worldhistoryprojectshrk
+# My Caravel Shark Tank Project
 
-My Shark Tank project for World History: a pitch for the caravel, built as a
-1900s poster instead of a normal website.
+This is my World History project. I picked the caravel for the Exploration
+Invention Shark Tank, and I made the site look like an old travel poster instead
+of a normal website.
 
-Next.js 16, React 19, TypeScript and Tailwind v4. Pushing to `main` redeploys it.
-
-## Running it
+## Run it
 
 ```sh
 pnpm install
 pnpm dev
 ```
 
-`pnpm build` makes a production build, `pnpm start` serves it, `pnpm lint` runs
-oxlint.
+Then open the local address it prints.
 
-## Editing the pitch
+`pnpm build` makes the production build, `pnpm start` serves it, and `pnpm lint`
+runs oxlint.
 
-All the writing is in [`content/invention.ts`](content/invention.ts): the pitch,
-the stats, the specifications, the funding list and the sources. Page structure
-is in `app/`, shared pieces in `components/`.
+## Where everything is
 
-## The design
+- `content/invention.ts` — all the writing: the pitch, the stats, the
+  specifications, the funding list and the sources.
+- `app/` — the pages. There is one folder for each page.
+- `components/` — the ship drawing, the navigation and the small printed bits.
 
-Five flat inks on aged poster stock. No gradients, no drop shadows, no rounded
-corners, no cards.
+## What I made
 
-Three typefaces, all self-hosted in `app/fonts`:
+The home page is the cover. The other pages are the problem, how the caravel
+works, why it is worth investing in, the ask, and my sources.
 
-- **Abril Fatface** for headlines
-- **Goudy Bookletter 1911** for labels and navigation
-- **EB Garamond** for reading
-
-The home page is a Plakatstil poster, the German object-poster style from 1905:
-one object, its name, and one line of copy. The rest of the argument is in the
-pages behind it.
+I drew the ship myself. The fonts are stored in `app/fonts`, so the site does
+not need to download them.
 
 ## Notes
 
-Historical claims come from my research paper. I did not check them against
-anything else. The 50,000 gold cruzados and 10% equity are made up for the
-pitch and are not historical prices.
+The historical facts come from my research paper, “The Caravel: The Ship That
+Made the Age of Exploration Possible.” I did not add facts from anywhere else.
+
+The 50,000 gold coins and 10% equity are made up for the pitch. They are not
+real historical prices.

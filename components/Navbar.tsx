@@ -2,11 +2,6 @@ import Link from "next/link";
 import { Lozenge } from "@/components/Ornament";
 import { invention } from "@/content/invention";
 
-// One masthead row, not two. The credit strip that used to sit under it was a
-// second band of small caps stacked above the poster's own eyebrow; with the
-// hero reduced to five elements it was the first thing to go. The plate
-// numbers that led each entry went with it — five numerals in a row is an
-// index, and the poster only has room for one idea at a time.
 const links = [
   { href: "/problem", label: "The Problem" },
   { href: "/how-it-works", label: "How It Works" },

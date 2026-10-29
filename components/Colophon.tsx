@@ -1,5 +1,4 @@
 import Link from "next/link";
-import MotionToggle from "@/components/MotionToggle";
 import { Lozenge } from "@/components/Ornament";
 import { invention } from "@/content/invention";
 
@@ -11,15 +10,7 @@ const links = [
   { href: "/sources", label: "Sources" },
 ];
 
-/**
- * The colophon.
- *
- * Every printed sheet of the period ended with the printer's imprint — who
- * it was set for, in what faces, and by whom. Without one the interior pages
- * simply ran out of words and stopped, which is the one place the design
- * dropped its own metaphor. The imprint also gives the motion control a
- * home, so it no longer has to float over the page as app chrome.
- */
+/** The bottom of the sheet. */
 export default function Colophon() {
   return (
     <footer className="colophon" id="colophon">
@@ -38,15 +29,17 @@ export default function Colophon() {
               </Link>
             ))}
           </nav>
-          <p className="colophon-folio" aria-hidden="true">Fin.</p>
         </div>
 
         <div className="colophon-base">
           <p className="colophon-imprint">
-            <span>Set in Abril Fatface, Goudy Bookletter 1911 &amp; EB Garamond</span>
-            <span>Printed for Mark Gatcha &middot; World History &middot; Shark Tank Project &middot; MMXXVI</span>
+            <span>Made by Mark Gatcha for World History.</span>
+            <span>I wrote the paper, drew the ship, and built the pages. 2026.</span>
           </p>
-          <MotionToggle />
+          <p className="colophon-note">
+            The history comes from my research paper. The 50,000 gold coins and 10% equity
+            are made up for the pitch.
+          </p>
         </div>
       </div>
     </footer>

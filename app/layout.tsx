@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Navbar from "@/components/Navbar";
 import Colophon from "@/components/Colophon";
 import { invention } from "@/content/invention";
@@ -6,9 +6,12 @@ import "./globals.css";
 
 const siteUrl = "https://2026worldhistoryprojectshrk.vercel.app";
 
+export const viewport: Viewport = {
+  themeColor: "#0b2431",
+  colorScheme: "light",
+};
+
 export const metadata: Metadata = {
-  // Base metadata. Each page exports its own `metadata`, which Next merges
-  // over this, so the title and description follow the route.
   metadataBase: new URL(siteUrl),
   title: {
     default: `${invention.name} — My Shark Tank Project`,
@@ -30,17 +33,15 @@ export const metadata: Metadata = {
     title: `${invention.name} — My Shark Tank Project`,
     description: invention.tagline,
   },
-  // The poster's own spot colours, so browser chrome matches the print.
   icons: { icon: [{ url: "/icon.svg", type: "image/svg+xml" }] },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <body className="antialiased">
-        {/* First tab stop: lets keyboard users bypass the five nav links. */}
+        {/* First tab stop. */}
         <a className="skip-link" href="#main">Skip to content</a>
-        <div className="print-grain" aria-hidden="true" />
         <Navbar />
         {children}
         <Colophon />

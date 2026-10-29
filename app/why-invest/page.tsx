@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import VoyageEffects from "@/components/VoyageEffects";
+import Link from "next/link";
+import PageMasthead from "@/components/PageMasthead";
 import { invention } from "@/content/invention";
 
 export const metadata: Metadata = {
@@ -7,72 +8,112 @@ export const metadata: Metadata = {
   description: invention.whyItWins.body,
 };
 
+const numerals = ["I", "II", "III", "IV", "V", "VI"];
+const benefitColumns = [
+  { offset: 0, items: invention.whyItWins.benefits.slice(0, 2) },
+  { offset: 2, items: invention.whyItWins.benefits.slice(2) },
+];
+
 export default function WhyInvestPage() {
   return (
     <main id="main">
-      <VoyageEffects />
-      <section className="chapter light-chapter page-hero">
-        <div className="page-width">
-          <span className="section-number" aria-hidden="true">03</span>
-          <p className="eyebrow entrance">Why invest</p>
-          <h1 className="entrance entrance-two">Why I think it's worth investing in.</h1>
-          <p className="page-hero-body entrance entrance-three">{invention.whyItWins.body}</p>
-        </div>
-      </section>
+      <PageMasthead
+        number="03"
+        kicker="Why invest · an ad"
+        title="Why I think it's worth investing in."
+        deck={invention.whyItWins.body}
+        variant="advert"
+      />
 
-      <section className="chapter light-chapter chapter-flush">
-        <div className="page-width">
-          {/* h2 so the six benefit cards below nest at h3. */}
-          <h2 className="column-span-all" data-reveal>Six reasons it worked</h2>
-          <div className="benefit-grid">
-            {invention.whyItWins.benefits.map((benefit, i) => (
-              <article className="benefit-card" key={benefit.title} data-reveal>
-                <span className="benefit-mark" aria-hidden="true">{["I", "II", "III", "IV", "V", "VI"][i]}</span>
-                <h3>{benefit.title}</h3>
-                <p>{benefit.body}</p>
-              </article>
-            ))}
+      <section className="chapter light-chapter invest-chapter">
+        <div className="page-width invest-page">
+          <div className="advert">
+            <div className="advert-top">
+              <p className="eyebrow">An ad</p>
+              <h2>Six reasons to back this ship</h2>
+            </div>
+
+            <div className="advert-grid">
+              {benefitColumns.map((column) => (
+                <div className="advert-column" key={column.offset}>
+                  {column.items.map((benefit, i) => (
+                    <article className="benefit-card" key={benefit.title}>
+                      <span className="benefit-mark" aria-hidden="true">
+                        {numerals[column.offset + i]}
+                      </span>
+                      <div>
+                        <h3>{benefit.title}</h3>
+                        <p>{benefit.body}</p>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              ))}
+            </div>
+
+            <div className="advert-footer">
+              <span>A small ship with a long reach.</span>
+              <Link href="/pitch">The ask is on Page 04 &rarr;</Link>
+            </div>
           </div>
 
-          <blockquote className="pull-quote" data-reveal>
-            It was the ship of discovery, not the ship of delivery.
-            <cite>My conclusion</cite>
-          </blockquote>
+          <div className="invest-dispatch">
+            <div className="invest-margin">
+              <aside className="invest-note">
+                <p className="eyebrow">What I would tell a shark</p>
+                <p>
+                  The small size is a good thing. It could get into places the big ships could
+                  not, and it cost less to send out.
+                </p>
+              </aside>
 
-          {/* The voyages, set in newspaper columns. */}
-          <h2 className="column-span-all" data-reveal>The voyages these ships made</h2>
-          <div className="newspaper-columns" data-reveal>
-            <p>
-              These ships carried Portuguese explorers like Diogo Cão and Bartolomeu Dias
-              down the coast of Africa. Dias rounded the Cape of Good Hope in 1488, which
-              proved you could sail from Europe to Asia around Africa.
-            </p>
-            <p>
-              Vasco da Gama used caravels on the voyage that opened the sea route to India.
-              The exploration done with caravels is what made the Portuguese and Spanish
-              spice trade possible.
-            </p>
-            <p>
-              The caravel was small, which was actually an advantage. It was cheaper to build
-              than a huge ship, it needed a smaller crew, and it could explore rivers and
-              coastlines that no other European ship could reach. It was, in the words of one
-              source, the best sailing vessel of its time.
-            </p>
+              <blockquote className="pull-quote">
+                It was the ship of discovery, not the ship of delivery.
+                <cite>My conclusion</cite>
+              </blockquote>
+            </div>
+
+            <div className="voyage-story">
+              <h2 className="feature-heading">The voyages these ships made</h2>
+              <div className="newspaper-columns">
+                <p>
+                  These ships carried Portuguese explorers like Diogo Cão and Bartolomeu Dias
+                  down the coast of Africa. Dias rounded the Cape of Good Hope in 1488, which
+                  proved you could sail from Europe to Asia around Africa.
+                </p>
+                <p>
+                  Vasco da Gama used caravels on the voyage that opened the sea route to India.
+                  The exploration done with caravels is what made the Portuguese and Spanish
+                  spice trade possible.
+                </p>
+                <p>
+                  The caravel was small, which was actually an advantage. It was cheaper to build
+                  than a huge ship, it needed a smaller crew, and it could explore rivers and
+                  coastlines that no other European ship could reach. One source calls it the
+                  best sailing ship of its time.
+                </p>
+              </div>
+            </div>
           </div>
 
-          <div className="comparison" data-reveal>
+          <div className="comparison">
             <h3>{invention.whyItWins.comparison.heading}</h3>
             <div className="comparison-labels" aria-hidden="true">
-              <span>THE OLD WAY</span>
-              <span>THE CARAVEL WAY</span>
+              <span>The old way</span>
+              <span>The caravel way</span>
             </div>
             {invention.whyItWins.comparison.rows.map((row) => (
               <div className="comparison-row" key={row.ours}>
-                {/* The header row is aria-hidden (it is a visual label only), so
-                    each cell carries its own accessible name for screen
-                    readers and for the narrow layout where the header hides. */}
-                <p><span className="visually-hidden">The old way: </span><span className="mobile-label" aria-hidden="true">The old way</span>{row.old}</p>
-                <p><span className="visually-hidden">The caravel way: </span><span className="mobile-label" aria-hidden="true">The caravel way</span>{row.ours}</p>
+                <p>
+                  <span className="visually-hidden">The old way: </span>
+                  <span className="mobile-label" aria-hidden="true">The old way</span>
+                  {row.old}
+                </p>
+                <p>
+                  <span className="visually-hidden">The caravel way: </span>
+                  <span className="mobile-label" aria-hidden="true">The caravel way</span>
+                  {row.ours}
+                </p>
               </div>
             ))}
           </div>
