@@ -35,7 +35,6 @@ export default function Home() {
           <figure className="hero-plate">
             <CaravelShip className="hero-ship" variant="poster" />
           </figure>
-          <p className="hero-smallprint">Drawn by me &middot; the wobbles are on purpose</p>
         </div>
       </section>
 
@@ -97,33 +96,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* A note in my own voice, with the facts beside it. */}
+      {/* Things my research turned up. */}
       <section className="chapter paper-chapter home-notebook">
-        <div className="page-width home-notebook-layout">
-          <div className="home-about">
-            <div>
-              <p className="eyebrow">About this project</p>
-              <h2>A note from me</h2>
-            </div>
-            <div className="about-copy">
-              <p>
-                Hi, I&apos;m Mark. I picked the caravel for my World History Shark Tank project
-                because it is the ship that made the Age of Exploration possible. I also liked
-                that it is small. Everyone else wants to pitch something huge.
-              </p>
-              <p>
-                I drew the ship myself, so the lines are not perfect. I made the site look like
-                an old travel poster because I thought that would be more fun than another
-                slideshow. The facts are from my research paper. The money numbers are made up
-                for the pitch.
-              </p>
-              <p>
-                If I were really in the tank, I would probably talk too fast. This site is my
-                second try at slowing the pitch down.
-              </p>
-            </div>
-          </div>
-
+        <div className="page-width">
           <div className="home-surprises">
             <div className="contents-head">
               <h2>Things that surprised me</h2>

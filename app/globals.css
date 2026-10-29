@@ -424,15 +424,6 @@ em { font-style: italic; }
   width: 100%;
   height: auto;
 }
-.hero-smallprint {
-  margin-top: 6px;
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-style: italic;
-  letter-spacing: .01em;
-  color: #b7aa92;
-  transform: rotate(-.8deg);
-}
 
 /* Slow enough that you notice it only after a while. */
 @keyframes bezel-drift {
@@ -1240,28 +1231,8 @@ em { font-style: italic; }
 }
 .fun-fact-button:hover { border-bottom-color: var(--color-vermillion); }
 
-/* The personal note and surprising facts share one notebook spread. */
-.home-notebook-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
-  gap: 72px;
-  align-items: start;
-}
-.home-about h2 { font-size: clamp(30px, 3.6vw, 44px); line-height: 1.05; margin-top: 12px; }
-.home-about .eyebrow {
-  display: inline-block;
-  font-family: var(--font-body);
-  font-size: 16px;
-  font-style: italic;
-  letter-spacing: .02em;
-  text-transform: none;
-  transform: rotate(-.8deg);
-  transform-origin: left center;
-}
-.about-copy { margin-top: 28px; max-width: 600px; }
-.about-copy p { font-size: 17px; color: var(--color-ink-light); }
-.about-copy p + p { margin-top: 14px; }
-.home-surprises { margin-top: 100px; }
+/* The surprising facts sit on their own sheet. */
+.home-surprises { max-width: 720px; }
 .home-surprises .contents-head {
   display: block;
   border-top: 1px solid var(--color-ink);
@@ -1376,7 +1347,6 @@ em { font-style: italic; }
   .tour-entry:nth-child(2) { margin-left: 24px; }
   .tour-entry:nth-child(3) { margin-left: 8px; margin-right: 16px; }
   .tour-entry:nth-child(4) { margin-left: 32px; }
-  .home-notebook-layout { gap: 40px; }
   .problem-broadside-grid { gap: 26px 36px; }
   .problem-research-layout { grid-template-columns: 200px minmax(0, 1fr); gap: 36px; }
   .nav-links { gap: 14px; }
@@ -1413,15 +1383,12 @@ em { font-style: italic; }
   .masthead-folio { padding: 28px 0 26px; }
   .paper-extract p { font-size: 20px; line-height: 1.4; }
 
-  .home-contents-layout, .home-notebook-layout { grid-template-columns: 1fr; }
-  .home-contents-layout { gap: 0; }
-  .home-notebook-layout { gap: 0; }
+  .home-contents-layout { grid-template-columns: 1fr; gap: 0; }
   .home-particulars { margin-top: 30px; padding-inline: 0; background: transparent; border-bottom: 0; }
   .home-stats { border-bottom: 1px solid var(--rule-ink); }
   .stat { display: grid; grid-template-columns: 90px 1fr; gap: 16px; align-items: baseline; padding: 12px 0; }
   .stat strong, .stat:first-child strong { font-size: 26px; }
   .stat span { margin-top: 0; font-size: 9.5px; letter-spacing: .1em; }
-  .home-surprises { margin-top: 44px; }
   .home-honest { padding: 36px 0 42px; }
   .tour-entry, .tour-entry:nth-child(n) {
     grid-template-columns: 30px minmax(0, 1fr) 20px;

@@ -34,7 +34,6 @@ export default function Colophon() {
         <div className="colophon-base">
           <p className="colophon-imprint">
             <span>Made by Mark Gatcha for World History.</span>
-            <span>I wrote the paper, drew the ship, and built the pages. 2026.</span>
           </p>
           <p className="colophon-note">
             The history comes from my research paper. The 50,000 gold coins and 10% equity

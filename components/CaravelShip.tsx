@@ -35,7 +35,7 @@ export default function CaravelShip({
 
   return (
     <svg
-      viewBox="0 0 420 350"
+      viewBox="0 0 420 334"
       className={className}
       role="img"
       aria-label={
@@ -166,25 +166,6 @@ export default function CaravelShip({
         <path d="M160 258 L 184 260 L 182 270 L 158 268 Z" strokeWidth=".8" opacity=".8" />
         <path d="M162 263 L 181 265" strokeWidth=".5" opacity=".5" />
         <path d="M112 246 L 122 246 M 200 250 L 210 250 M 296 246 L 306 246" strokeWidth="1" opacity=".6" />
-
-        {/* hand-lettered label */}
-        <g transform="rotate(-2.4 288 330)">
-          <text
-            x="240"
-            y="337"
-            fill={p.line}
-            stroke="none"
-            fontFamily='"EB Garamond", Georgia, serif'
-            fontStyle="italic"
-            fontSize="19"
-            letterSpacing=".4"
-          >
-            the caravel
-          </text>
-          <path d="M239 344 C 266 341, 300 342, 336 339" strokeWidth="1" opacity=".8" />
-          <path d="M228 329 C 220 320, 214 312, 202 304" strokeWidth=".9" opacity=".7" />
-          <path d="M202 304 l 8 1 l -4 7" strokeWidth=".9" opacity=".7" />
-        </g>
 
         {/* key letters for the drawing */}
         {showKey && (
